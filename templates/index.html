@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+{% block content %}
+
+<section class="heroReel" aria-label="Showreel">
+  <video class="heroReel__video" autoplay muted loop playsinline preload="metadata"
+         poster="{{ url_for('static', filename='assets/showreel.jpg') }}">
+    <source src="{{ url_for('static', filename='assets/showreel.webm') }}" type="video/webm">
+    <source src="{{ url_for('static', filename='assets/showreel.mp4') }}" type="video/mp4">
+  </video>
+  <div class="heroReel__overlay" aria-hidden="true"></div>
+</section>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container hero__grid">
+    <div class="hero__wide">
+      <h1 class="h1">{{ brand.tagline }}</h1>
+      <p class="lead">
+        Создаём видео любого формата и сложности: от съёмки мероприятий до рекламных роликов и образовательного контента.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- Блок услуг -->
+<section class="section" id="services">
+  <div class="container">
+    <div class="section__head">
+      <h2 class="h2 h2--bigger">Описание услуг и примеры: съёмка мероприятий, коммерческое видео, образовательный контент.</h2>
+    </div>
+
+    <div class="grid3 cardsCenter">
+      <article class="card">
+        <h3 class="h3 h3--bigger">Ивент-видео</h3>
+        <p class="muted">Живые, эмоциональные фильмы о ваших важных моментах: свадьбах, юбилеях, корпоративах.</p>
+      </article>
+
+      <article class="card">
+        <h3 class="h3 h3--bigger">Коммерческий видеопродакшн</h3>
+        <p class="muted">Рекламные ролики, имиджевые видео, презентации продуктов и услуг, съемка для соцсетей (Reels, TikTok, YouTube).</p>
+      </article>
+
+      <article class="card">
+        <h3 class="h3 h3--bigger">Образовательный контент</h3>
+        <p class="muted">Профессиональная запись лекций, семинаров, мастер-классов и курсов с качественным звуком и графикой.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Работы -->
+<section class="section section--alt" id="works">
+  <div class="container">
+    <div class="section__head">
+      <h2 class="h2">Покажем стиль, динамику и результат</h2>
+    </div>
+
+    <div class="tabs">
+      <button class="tab is-active" data-filter="all">Все</button>
+      {% for c in work_categories %}
+        <button class="tab" data-filter="{{ c.key }}">{{ c.title }}</button>
+      {% endfor %}
+    </div>
+
+    <div class="gridWork" id="workGrid">
+      {% for p in projects %}
+      <a class="workCard" href="{{ p.video_url }}" target="_blank" rel="noreferrer" data-cat="{{ p.cat }}">
+        <div class="workCard__thumb" aria-hidden="true">
+          <div class="workCard__play">▶</div>
+        </div>
+        <div class="workCard__body">
+          <div class="workCard__top">
+            <div class="workCard__title">{{ p.title }}</div>
+            <div class="workCard__dur">{{ p.duration }}</div>
+          </div>
+          <div class="workCard__note">{{ p.note }}</div>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Прайс -->
+<section class="section" id="pricing">
+  <div class="container">
+    <div class="section__head">
+      <h2 class="h2">Три направления — один стандарт качества</h2>
+    </div>
+
+    <div class="serviceCols">
+      {% for key, block in pricing.items() %}
+      <section class="serviceBlock">
+        <div class="serviceBlock__head">
+          <h3 class="h3">{{ block.title }}</h3>
+          <p class="muted">{{ block.subtitle }}</p>
+        </div>
+
+        <div class="priceList">
+          {% for item in block["items"] %}
+          <div class="priceRow">
+            <div>
+              <div class="priceRow__name">{{ item.name }}</div>
+              <div class="priceRow__desc">{{ item.desc }}</div>
+            </div>
+            <div class="priceRow__price">{{ item.price }}</div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <button class="btn btn--ghost btn--block" data-open-modal="leadModal">Запросить расчёт</button>
+      </section>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Процесс -->
+<section class="section section--alt" id="process">
+  <div class="container">
+    <div class="section__head">
+      <h2 class="h2">Понятные шаги. Прозрачная коммуникация</h2>
+    </div>
+
+    <div class="gridProcess">
+      {% for s in process %}
+      <article class="step">
+        <div class="step__num">{{ s.step }}</div>
+        <div class="step__body">
+          <div class="step__title">{{ s.title }}</div>
+          <div class="muted">{{ s.text }}</div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Контакты -->
+<section class="section contactSection" id="contact">
+  <div class="container">
+    <div class="section__head">
+      <h2 class="h2">Контакты</h2>
+    </div>
+
+    <div class="contactSection__inner">
+      <aside class="contactCard">
+        <div class="contactCard__item">
+          <div class="contactCard__label">Телефон</div>
+          <a class="contactCard__value" href="tel:{{ brand.phone|replace(' ', '') }}">{{ brand.phone }}</a>
+        </div>
+
+        <div class="contactCard__item">
+          <div class="contactCard__label">Email</div>
+          <a class="contactCard__value" href="mailto:{{ brand.email }}">{{ brand.email }}</a>
+        </div>
+
+        <div class="contactCard__item">
+          <div class="contactCard__label">Заявка</div>
+          <button class="btn btn--primary btn--block" data-open-modal="leadModal">Написать</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

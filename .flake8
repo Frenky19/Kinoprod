@@ -1,0 +1,6 @@
+[flake8]
+ignore = 
+max-line-length = 150
+paths = 
+max-complexity = 20
+exclude = 

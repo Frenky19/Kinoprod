@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>{{ title if title else (brand.name ~ " — " ~ brand.tagline) }}</title>
+  <meta name="description" content="Видеопродакшн полного цикла: мероприятия, бизнес-видео, образовательный контент." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
+<body>
+  <header class="header">
+    <div class="container header__inner">
+      <a class="logo" href="#top" aria-label="На главную">
+        <span class="logo__mark"></span>
+        <span class="logo__text">{{ brand.name }}</span>
+      </a>
+
+      <button class="btn btn--primary header__cta" data-open-modal="leadModal">Написать</button>
+      <button class="burger" aria-label="Открыть меню" data-burger>
+        <span></span><span></span>
+      </button>
+    </div>
+
+    <div class="mobileNav" data-mobile-nav>
+      <button class="btn btn--primary" data-open-modal="leadModal">Написать</button>
+    </div>
+  </header>
+
+  <main id="top">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer" id="footer">
+    <div class="container footer__grid">
+      <div>
+        <div class="footer__brand">{{ brand.name }}</div>
+        <div class="footer__muted">({{ brand.city }}) © {{ 2025 }}</div>
+      </div>
+
+      <div class="footer__links">
+        <a href="tel:{{ brand.phone|replace(' ', '') }}">{{ brand.phone }}</a>
+        <a href="mailto:{{ brand.email }}">{{ brand.email }}</a>
+      </div>
+
+      <div class="footer__links">
+        <a href="{{ brand.social.telegram }}" target="_blank" rel="noreferrer">Telegram</a>
+      </div>
+
+      <div class="footer__links">
+        <a href="#top">Наверх ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lead Modal (Clapperboard) -->
+  <div class="modal" id="leadModal" aria-hidden="true">
+    <div class="modal__backdrop" data-close-modal></div>
+
+    <div class="modal__panel clapper" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="clapper__top" aria-hidden="true"></div>
+
+      <div class="clapper__header">
+        <div>
+          <div class="kicker">Заявка</div>
+          <h3 id="modalTitle" class="h3">Расскажите про проект</h3>
+        </div>
+        <button class="iconBtn" aria-label="Закрыть" data-close-modal>✕</button>
+      </div>
+
+      <form class="form clapper__form" id="leadForm" action="{{ url_for('lead_form_post') }}" method="post">
+        <!-- anti-spam: honeypot -->
+        <div style="position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden;" aria-hidden="true">
+          <label>
+            Leave empty
+            <input name="website" tabindex="-1" autocomplete="off" />
+          </label>
+        </div>
+
+        <!-- anti-spam: timestamp -->
+        <input type="hidden" name="form_ts" value="{{ form_ts|default('', true) }}" />
+
+        <label class="field">
+          <span>Имя*</span>
+          <input name="name" placeholder="Как к вам обращаться" required />
+        </label>
+
+        <div class="form__row">
+          <label class="field">
+            <span>Телефон</span>
+            <input name="phone" placeholder="+7 ..." inputmode="tel" autocomplete="tel" />
+          </label>
+
+          <label class="field">
+            <span>Email</span>
+            <input name="email" placeholder="you@email.com" type="email" autocomplete="email" />
+          </label>
+
+          <label class="field">
+            <span>Telegram (необязательно)</span>
+            <input name="telegram" placeholder="@username" autocomplete="off" />
+          </label>
+        </div>
+
+        <label class="field">
+          <span>Что нужно снять?</span>
+          <textarea name="message" rows="4" placeholder="Цель, формат, сроки, площадки…"></textarea>
+        </label>
+
+        <div class="form__actions">
+          <button class="btn btn--primary" type="submit">Отправить</button>
+          <div class="form__hint">Нажимая «Отправить», вы соглашаетесь с политикой конфиденциальности.</div>
+        </div>
+
+        <div class="form__status" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+
+  <!-- Floating FAQ button (image) -->
+  <button class="faqFloat" type="button" data-open-modal="faqModal" aria-label="FAQ">
+    <img class="faqFloat__img"
+         src="{{ url_for('static', filename='assets/faq-mouse.png') }}"
+         alt="FAQ"
+         draggable="false">
+  </button>
+
+  <!-- FAQ Modal -->
+  <div class="modal" id="faqModal" aria-hidden="true">
+    <div class="modal__backdrop" data-close-modal></div>
+    <div class="modal__panel faqPanel" role="dialog" aria-modal="true" aria-labelledby="faqTitle">
+      <div class="modal__head">
+        <div>
+          <div class="kicker">FAQ</div>
+          <h3 id="faqTitle" class="h3">Частые вопросы</h3>
+        </div>
+        <button class="iconBtn" aria-label="Закрыть" data-close-modal>✕</button>
+      </div>
+
+      <div class="faqList">
+        <details class="faqItem" open>
+          <summary>Сколько стоит видео?</summary>
+          <div class="faqItem__a muted">
+            Стоимость зависит от задачи, хронометража, локаций, команды, графики и сроков. Для точного расчёта — оставьте заявку, пришлите примеры и требования.
+          </div>
+        </details>
+
+        <details class="faqItem">
+          <summary>Какие сроки производства?</summary>
+          <div class="faqItem__a muted">
+            Обычно: короткие ролики — от 3–7 дней, более сложные проекты — от 1–3 недель. Срочные задачи тоже возможны.
+          </div>
+        </details>
+
+        <details class="faqItem">
+          <summary>Сколько правок входит?</summary>
+          <div class="faqItem__a muted">
+            Обычно 1–2 раунда правок по договорённости. Правки “в рамках ТЗ” — быстро, крупные изменения концепта — отдельно согласуем.
+          </div>
+        </details>
+
+        <details class="faqItem">
+          <summary>Отдаёте исходники?</summary>
+          <div class="faqItem__a muted">
+            По договорённости. Чаще исходники передаются как доп. опция (из-за объёма и подготовки).
+          </div>
+        </details>
+
+        <details class="faqItem">
+          <summary>В каких форматах вы отдаёте финал?</summary>
+          <div class="faqItem__a muted">
+            Под нужные площадки: горизонталь 16:9, вертикаль 9:16, квадрат 1:1, разные длины, титры/субтитры при необходимости.
+          </div>
+        </details>
+
+        <details class="faqItem">
+          <summary>Как быстро можно начать?</summary>
+          <div class="faqItem__a muted">
+            Если материалы/бриф готовы — можем стартовать в ближайшие дни. Напишите — предложим окна по съёмке и монтажу.
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
