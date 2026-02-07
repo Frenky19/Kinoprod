@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>KINO — Видео продакшн полного цикла</title>
-  <meta name="description" content="Видеопродакшн полного цикла: мероприятия, бизнес‑видео, образовательный контент." />
+  <title>KINO — Видеомонтаж и постпродакшн</title>
+  <meta name="description" content="Видеомонтаж и постпродакшн: ритм, цвет, звук, графика. Индивидуально под задачу и стиль бренда." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="static/style.css" />
   <script>document.documentElement.classList.add('js');</script>
 </head>
@@ -20,16 +20,16 @@
       </a>
 
       <nav class="nav">
+        <a href="#suite">Монтажная</a>
         <a href="#services">Услуги</a>
         <a href="#works">Работы</a>
-        <a href="#pricing">Цены</a>
         <a href="#process">Процесс</a>
         <a href="#contact">Контакты</a>
       </nav>
 
       <div class="header__actions">
         <button class="btn btn--ghost" data-open-modal="leadModal">Бриф</button>
-        <button class="btn btn--primary header__cta" data-open-modal="leadModal">Обсудить проект</button>
+        <button class="btn btn--primary" data-open-modal="leadModal">Обсудить проект</button>
       </div>
 
       <button class="burger" aria-label="Открыть меню" aria-expanded="false" data-burger>
@@ -39,9 +39,9 @@
 
     <div class="mobileNav" data-mobile-nav>
       <div class="mobileNav__links">
+        <a href="#suite">Монтажная</a>
         <a href="#services">Услуги</a>
         <a href="#works">Работы</a>
-        <a href="#pricing">Цены</a>
         <a href="#process">Процесс</a>
         <a href="#contact">Контакты</a>
       </div>
@@ -57,66 +57,93 @@
         <source src="static/assets/showreel_720p.mp4" type="video/mp4">
       </video>
       <div class="heroReel__overlay" aria-hidden="true"></div>
+      <div class="heroReel__grain" aria-hidden="true"></div>
 
       <div class="heroReel__content container">
-        <div class="hero__kicker" data-reveal>Креативный видеопродакшн • Москва</div>
-        <h1 class="hero__title" data-reveal style="--delay: 120ms;">Видео, которое выглядит как бренд.</h1>
+        <div class="hero__kicker" data-reveal>Видеомонтаж • Постпродакшн • Москва</div>
+        <h1 class="hero__title" data-reveal style="--delay: 120ms;">Монтаж, который ощущается как режиссура.</h1>
         <p class="hero__lead" data-reveal style="--delay: 220ms;">
-          Полный цикл: стратегия, продакшн, пост. Киношный свет, точный монтаж и внимание к деталям, чтобы ваша компания выглядела дороже и увереннее.
+          Мы не «режем склейки». Мы выстраиваем ритм, эмоцию и смысл: звук, цвет, графика и темп работают на ваш бренд и задачу.
         </p>
         <div class="hero__actions" data-reveal style="--delay: 320ms;">
-          <button class="btn btn--primary" data-open-modal="leadModal">Обсудить проект</button>
+          <button class="btn btn--primary" data-open-modal="leadModal">Обсудить монтаж</button>
           <a class="btn btn--ghost" href="#works">Смотреть работы</a>
         </div>
-        <div class="hero__stats" data-reveal style="--delay: 420ms;">
+        <div class="hero__badges" data-reveal style="--delay: 420ms;">
+          <span class="badge">Color</span>
+          <span class="badge">Sound</span>
+          <span class="badge">Motion</span>
+        </div>
+        <div class="hero__stats" data-reveal style="--delay: 520ms;">
           <div class="stat">
             <div class="stat__num">10+</div>
-            <div class="stat__label">лет в продакшне</div>
+            <div class="stat__label">лет в монтаже</div>
           </div>
           <div class="stat">
             <div class="stat__num">100+</div>
-            <div class="stat__label">проектов в портфолио</div>
+            <div class="stat__label">проектов</div>
           </div>
           <div class="stat">
             <div class="stat__num">48ч</div>
-            <div class="stat__label">ответ на заявку</div>
+            <div class="stat__label">ответ на бриф</div>
           </div>
         </div>
       </div>
       <div class="hero__scroll">Листайте ↓</div>
     </section>
 
-    <section class="section signature" id="about">
-      <div class="container signature__grid">
+    <section class="section suite" id="suite">
+      <div class="container suite__grid">
         <div>
-          <div class="kicker" data-reveal>Подход</div>
-          <h2 class="h2" data-reveal style="--delay: 120ms;">Снимаем так, чтобы зритель почувствовал ваш масштаб.</h2>
+          <div class="kicker" data-reveal>Монтажная</div>
+          <h2 class="h2" data-reveal style="--delay: 120ms;">Точная сборка ритма и смысла</h2>
           <p class="lead" data-reveal style="--delay: 200ms;">
-            Мы соединяем режиссуру, продакшн и постпродакшн в одном процессе, чтобы каждый кадр работал на доверие и продажи.
+            Режиссура монтажа — это темп, пауза, динамика и звук. Мы делаем так, чтобы зритель чувствовал качество на уровне интуиции.
           </p>
+          <div class="suite__list" data-reveal style="--delay: 280ms;">
+            <div class="suite__item">
+              <div class="suite__title">Story Cut</div>
+              <div class="muted">Сценарная сборка, логика и драматургия.</div>
+            </div>
+            <div class="suite__item">
+              <div class="suite__title">Rhythm Cut</div>
+              <div class="muted">Ритм, энергия, драйв и акценты.</div>
+            </div>
+            <div class="suite__item">
+              <div class="suite__title">Final Cut</div>
+              <div class="muted">Цвет, звук, титры, финальная полировка.</div>
+            </div>
+          </div>
         </div>
 
-        <div class="signature__panel" data-reveal style="--delay: 260ms;">
-          <div class="signature__item">
-            <span class="signature__num">01</span>
-            <div>
-              <div class="signature__title">Чёткий бриф</div>
-              <div class="muted">Фиксируем задачу, аудиторию и формат.</div>
+        <div class="suite__panel" data-reveal style="--delay: 240ms;">
+          <div class="suite__top">
+            <div class="timecode">00:01:24:12</div>
+            <div class="suite__tag">CUT v4</div>
+          </div>
+          <div class="timeline">
+            <div class="playhead"></div>
+            <div class="track track--video">
+              <span class="clip" style="--x:4%;--w:36%;"></span>
+              <span class="clip" style="--x:44%;--w:22%;"></span>
+              <span class="clip" style="--x:70%;--w:22%;"></span>
+            </div>
+            <div class="track track--broll">
+              <span class="clip" style="--x:10%;--w:18%;"></span>
+              <span class="clip" style="--x:36%;--w:24%;"></span>
+              <span class="clip" style="--x:66%;--w:26%;"></span>
+            </div>
+            <div class="track track--sound">
+              <div class="wave"></div>
+            </div>
+            <div class="track track--gfx">
+              <span class="clip" style="--x:18%;--w:28%;"></span>
+              <span class="clip" style="--x:54%;--w:16%;"></span>
             </div>
           </div>
-          <div class="signature__item">
-            <span class="signature__num">02</span>
-            <div>
-              <div class="signature__title">Киношный продакшн</div>
-              <div class="muted">Свет, камера, звук — под ваш бренд.</div>
-            </div>
-          </div>
-          <div class="signature__item">
-            <span class="signature__num">03</span>
-            <div>
-              <div class="signature__title">Аккуратный пост</div>
-              <div class="muted">Монтаж, цвет, графика — без компромиссов.</div>
-            </div>
+          <div class="suite__footer">
+            <span>Варианты: 16:9 • 9:16 • 1:1</span>
+            <span>Экспорт: 4K/1080p</span>
           </div>
         </div>
       </div>
@@ -124,43 +151,43 @@
 
     <section class="strip" aria-label="Clients">
       <div class="container strip__row" data-reveal>
-        <div class="strip__label">Нам доверяют</div>
+        <div class="strip__label">Проекты</div>
         <div class="strip__items">
-          <span>Tech</span>
-          <span>Real Estate</span>
-          <span>Beauty</span>
-          <span>Education</span>
-          <span>Events</span>
-          <span>Hospitality</span>
+          <span>Бренд‑видео</span>
+          <span>Реклама</span>
+          <span>Reels/Shorts</span>
+          <span>Ивенты</span>
+          <span>Обучение</span>
+          <span>Product</span>
         </div>
       </div>
     </section>
 
-    <!-- Блок услуг -->
+    <!-- Услуги -->
     <section class="section" id="services">
       <div class="container">
         <div class="section__head">
           <div class="kicker" data-reveal>Услуги</div>
-          <h2 class="h2 h2--bigger" data-reveal style="--delay: 120ms;">Три направления, единый стандарт качества</h2>
+          <h2 class="h2" data-reveal style="--delay: 120ms;">Полный цикл постпродакшна</h2>
         </div>
 
         <div class="grid3 cardsCenter">
           <article class="card card--service" data-reveal>
             <div class="card__index">01</div>
-            <h3 class="h3 h3--bigger">Ивент‑видео</h3>
-            <p class="muted">Живые, эмоциональные фильмы о ваших важных моментах: свадьбах, юбилеях, корпоративах.</p>
+            <h3 class="h3 h3--bigger">Монтаж под задачу</h3>
+            <p class="muted">Ритм, драматургия, точные акценты — под вашу аудиторию и формат.</p>
           </article>
 
           <article class="card card--service" data-reveal style="--delay: 120ms;">
             <div class="card__index">02</div>
-            <h3 class="h3 h3--bigger">Коммерческий продакшн</h3>
-            <p class="muted">Рекламные ролики, имиджевые видео, презентации продуктов и услуг, съёмка для соцсетей.</p>
+            <h3 class="h3 h3--bigger">Цвет и графика</h3>
+            <p class="muted">Единый визуальный стиль, чистый цвет, аккуратные титры и motion.</p>
           </article>
 
           <article class="card card--service" data-reveal style="--delay: 240ms;">
             <div class="card__index">03</div>
-            <h3 class="h3 h3--bigger">Образовательный контент</h3>
-            <p class="muted">Запись лекций, семинаров и курсов с чистым звуком, графикой и выверенной подачей.</p>
+            <h3 class="h3 h3--bigger">Звук и атмосфера</h3>
+            <p class="muted">Музыка, шумы, голос — всё выравнивается до финального киношного звучания.</p>
           </article>
         </div>
       </div>
@@ -171,20 +198,21 @@
       <div class="container">
         <div class="section__head">
           <div class="kicker" data-reveal>Портфолио</div>
-          <h2 class="h2" data-reveal style="--delay: 120ms;">Покажем стиль, динамику и результат</h2>
+          <h2 class="h2" data-reveal style="--delay: 120ms;">Форматы и кейсы</h2>
         </div>
 
         <div class="tabs" data-reveal>
           <button class="tab is-active" data-filter="all">Все</button>
-          <button class="tab" data-filter="event">Мероприятия</button>
-          <button class="tab" data-filter="business">Бизнес-видео</button>
-          <button class="tab" data-filter="edu">Образовательный контент</button>
+          <button class="tab" data-filter="event">Ивенты</button>
+          <button class="tab" data-filter="business">Бизнес</button>
+          <button class="tab" data-filter="edu">Обучение</button>
         </div>
 
         <div class="gridWork" id="workGrid">
           <a class="workCard" href="#" data-cat="event" data-reveal>
             <div class="workCard__thumb" aria-hidden="true">
               <div class="workCard__play">▶</div>
+              <div class="frameTag">Aftermovie</div>
             </div>
             <div class="workCard__body">
               <div class="workCard__top">
@@ -198,6 +226,7 @@
           <a class="workCard" href="#" data-cat="event" data-reveal style="--delay: 90ms;">
             <div class="workCard__thumb" aria-hidden="true">
               <div class="workCard__play">▶</div>
+              <div class="frameTag">Wedding</div>
             </div>
             <div class="workCard__body">
               <div class="workCard__top">
@@ -211,6 +240,7 @@
           <a class="workCard" href="#" data-cat="business" data-reveal style="--delay: 180ms;">
             <div class="workCard__thumb" aria-hidden="true">
               <div class="workCard__play">▶</div>
+              <div class="frameTag">Product</div>
             </div>
             <div class="workCard__body">
               <div class="workCard__top">
@@ -224,6 +254,7 @@
           <a class="workCard" href="#" data-cat="business" data-reveal style="--delay: 270ms;">
             <div class="workCard__thumb" aria-hidden="true">
               <div class="workCard__play">▶</div>
+              <div class="frameTag">Brand</div>
             </div>
             <div class="workCard__body">
               <div class="workCard__top">
@@ -237,6 +268,7 @@
           <a class="workCard" href="#" data-cat="edu" data-reveal style="--delay: 360ms;">
             <div class="workCard__thumb" aria-hidden="true">
               <div class="workCard__play">▶</div>
+              <div class="frameTag">Education</div>
             </div>
             <div class="workCard__body">
               <div class="workCard__top">
@@ -250,6 +282,7 @@
           <a class="workCard" href="#" data-cat="edu" data-reveal style="--delay: 450ms;">
             <div class="workCard__thumb" aria-hidden="true">
               <div class="workCard__play">▶</div>
+              <div class="frameTag">Course</div>
             </div>
             <div class="workCard__body">
               <div class="workCard__top">
@@ -263,163 +296,52 @@
       </div>
     </section>
 
-    <!-- Прайс -->
-    <section class="section" id="pricing">
-      <div class="container">
-        <div class="section__head">
-          <div class="kicker" data-reveal>Прайс</div>
-          <h2 class="h2" data-reveal style="--delay: 120ms;">Ориентиры по бюджету</h2>
-        </div>
-
-        <div class="serviceCols">
-          <section class="serviceBlock" data-reveal>
-            <div class="serviceBlock__head">
-              <h3 class="h3">Съёмка мероприятий</h3>
-              <p class="muted">Свадьбы, корпоративы, конференции. Пакеты можно комбинировать.</p>
-            </div>
-
-            <div class="priceList">
-              <div class="priceRow">
-                <div>
-                  <div class="priceRow__name">Клип‑фильм</div>
-                  <div class="priceRow__desc">Эмоциональный видеорассказ о событии.</div>
-                </div>
-                <div class="priceRow__price">15 000 ₽</div>
-              </div>
-              <div class="priceRow">
-                <div>
-                  <div class="priceRow__name">Тизер</div>
-                  <div class="priceRow__desc">Короткий ролик для анонса в соцсетях.</div>
-                </div>
-                <div class="priceRow__price">8 000 ₽</div>
-              </div>
-              <div class="priceRow">
-                <div>
-                  <div class="priceRow__name">Полный репортаж</div>
-                  <div class="priceRow__desc">Запись ключевых моментов + монтаж.</div>
-                </div>
-                <div class="priceRow__price">25 000 ₽</div>
-              </div>
-            </div>
-
-            <button class="btn btn--ghost btn--block" data-open-modal="leadModal">Запросить расчёт</button>
-          </section>
-
-          <section class="serviceBlock" data-reveal style="--delay: 120ms;">
-            <div class="serviceBlock__head">
-              <h3 class="h3">Коммерческое видео</h3>
-              <p class="muted">Реклама, презентации, контент для соцсетей. Под бизнес‑цели.</p>
-            </div>
-
-            <div class="priceList">
-              <div class="priceRow">
-                <div>
-                  <div class="priceRow__name">Рекламный ролик</div>
-                  <div class="priceRow__desc">Яркое видео для продвижения.</div>
-                </div>
-                <div class="priceRow__price">15 000 ₽</div>
-              </div>
-              <div class="priceRow">
-                <div>
-                  <div class="priceRow__name">Видео для соцсетей</div>
-                  <div class="priceRow__desc">Reels/TikTok/Shorts под ваш стиль.</div>
-                </div>
-                <div class="priceRow__price">8 000 ₽</div>
-              </div>
-              <div class="priceRow">
-                <div>
-                  <div class="priceRow__name">Имиджевое видео</div>
-                  <div class="priceRow__desc">Про бренд, доверие и узнаваемость.</div>
-                </div>
-                <div class="priceRow__price">18 000 ₽</div>
-              </div>
-            </div>
-
-            <button class="btn btn--ghost btn--block" data-open-modal="leadModal">Запросить расчёт</button>
-          </section>
-
-          <section class="serviceBlock" data-reveal style="--delay: 240ms;">
-            <div class="serviceBlock__head">
-              <h3 class="h3">Образовательный контент</h3>
-              <p class="muted">Лекции, семинары, курсы — с чистым звуком и аккуратной подачей.</p>
-            </div>
-
-            <div class="priceList">
-              <div class="priceRow">
-                <div>
-                  <div class="priceRow__name">Запись лекции</div>
-                  <div class="priceRow__desc">Камера + звук + базовая графика.</div>
-                </div>
-                <div class="priceRow__price">10 000 ₽</div>
-              </div>
-              <div class="priceRow">
-                <div>
-                  <div class="priceRow__name">Вебинар</div>
-                  <div class="priceRow__desc">Запись + помощь с подготовкой сцены.</div>
-                </div>
-                <div class="priceRow__price">8 000 ₽</div>
-              </div>
-              <div class="priceRow">
-                <div>
-                  <div class="priceRow__name">Онлайн‑курс (урок)</div>
-                  <div class="priceRow__desc">Структура + съёмка + монтаж.</div>
-                </div>
-                <div class="priceRow__price">15 000 ₽</div>
-              </div>
-            </div>
-
-            <button class="btn btn--ghost btn--block" data-open-modal="leadModal">Запросить расчёт</button>
-          </section>
-        </div>
-      </div>
-    </section>
-
     <!-- Процесс -->
-    <section class="section section--alt" id="process">
+    <section class="section" id="process">
       <div class="container">
         <div class="section__head">
           <div class="kicker" data-reveal>Процесс</div>
-          <h2 class="h2" data-reveal style="--delay: 120ms;">Понятные шаги. Прозрачная коммуникация</h2>
+          <h2 class="h2" data-reveal style="--delay: 120ms;">От брифа до финального экспорта</h2>
         </div>
 
         <div class="gridProcess">
           <article class="step" data-reveal>
             <div class="step__num">01</div>
             <div class="step__body">
-              <div class="step__title">Бриф и цель</div>
-              <div class="muted">Понимаем задачу, аудиторию и площадки. Фиксируем результат.</div>
+              <div class="step__title">Бриф и референсы</div>
+              <div class="muted">Понимаем задачу, ритм, стиль и формат публикации.</div>
             </div>
           </article>
 
           <article class="step" data-reveal style="--delay: 120ms;">
             <div class="step__num">02</div>
             <div class="step__body">
-              <div class="step__title">Концепт и план</div>
-              <div class="muted">Предлагаем идею/структуру, план съёмки. Согласуем сроки и бюджет.</div>
+              <div class="step__title">Черновая сборка</div>
+              <div class="muted">Собираем драматургию, хронометраж, структуру.</div>
             </div>
           </article>
 
           <article class="step" data-reveal style="--delay: 240ms;">
             <div class="step__num">03</div>
             <div class="step__body">
-              <div class="step__title">Съёмка</div>
-              <div class="muted">Операторская работа, свет и звук. Аккуратно и без хаоса.</div>
+              <div class="step__title">Ритм и звук</div>
+              <div class="muted">Музыка, FX, шумы — создаём атмосферу.</div>
             </div>
           </article>
 
           <article class="step" data-reveal style="--delay: 360ms;">
             <div class="step__num">04</div>
             <div class="step__body">
-              <div class="step__title">Монтаж и графика</div>
-              <div class="muted">Монтаж, цвет, звук, титры/инфографика. Версии под разные форматы.</div>
+              <div class="step__title">Цвет и графика</div>
+              <div class="muted">Сводим цвет, добавляем титры и motion‑элементы.</div>
             </div>
           </article>
 
           <article class="step" data-reveal style="--delay: 480ms;">
             <div class="step__num">05</div>
             <div class="step__body">
-              <div class="step__title">Сдача</div>
-              <div class="muted">Финальные файлы и поддержка публикации по договорённости.</div>
+              <div class="step__title">Финальные версии</div>
+              <div class="muted">Экспорт под разные платформы и форматы.</div>
             </div>
           </article>
         </div>
@@ -427,11 +349,11 @@
     </section>
 
     <!-- Контакты -->
-    <section class="section contactSection" id="contact">
+    <section class="section section--alt" id="contact">
       <div class="container">
         <div class="section__head">
           <div class="kicker" data-reveal>Контакты</div>
-          <h2 class="h2" data-reveal style="--delay: 120ms;">Давайте обсудим проект</h2>
+          <h2 class="h2" data-reveal style="--delay: 120ms;">Давайте обсудим задачу</h2>
         </div>
 
         <div class="contactSection__inner">
@@ -522,8 +444,8 @@
         </div>
 
         <label class="field">
-          <span>Что нужно снять?</span>
-          <textarea name="message" rows="4" placeholder="Цель, формат, сроки, площадки…"></textarea>
+          <span>Что нужно смонтировать?</span>
+          <textarea name="message" rows="4" placeholder="Цель, формат, сроки, стиль…"></textarea>
         </label>
 
         <div class="form__actions">
@@ -560,44 +482,44 @@
 
       <div class="faqList">
         <details class="faqItem" open>
-          <summary>Сколько стоит видео?</summary>
+          <summary>Сколько стоит монтаж?</summary>
           <div class="faqItem__a muted">
-            Стоимость зависит от задачи, хронометража, локаций, команды, графики и сроков. Для точного расчёта — оставьте заявку, пришлите примеры и требования.
+            Стоимость зависит от объёма материала, хронометража, сложности графики и сроков. Для точного расчёта — пришлите задачу и референсы.
           </div>
         </details>
 
         <details class="faqItem">
-          <summary>Какие сроки производства?</summary>
+          <summary>Сколько времени занимает монтаж?</summary>
           <div class="faqItem__a muted">
-            Обычно: короткие ролики — от 3–7 дней, более сложные проекты — от 1–3 недель. Срочные задачи тоже возможны.
+            Обычно: короткие ролики — 3–7 дней, более сложные проекты — 1–3 недели. Срочные задачи тоже возможны.
           </div>
         </details>
 
         <details class="faqItem">
           <summary>Сколько правок входит?</summary>
           <div class="faqItem__a muted">
-            Обычно 1–2 раунда правок по договорённости. Правки «в рамках ТЗ» — быстро, крупные изменения концепта — отдельно согласуем.
+            Обычно 1–2 раунда правок по договорённости. Правки «в рамках ТЗ» — быстро, крупные изменения — отдельно согласуем.
           </div>
         </details>
 
         <details class="faqItem">
-          <summary>Отдаёте исходники?</summary>
+          <summary>Работаете с исходниками клиента?</summary>
           <div class="faqItem__a muted">
-            По договорённости. Чаще исходники передаются как доп. опция (из‑за объёма и подготовки).
+            Да. Передавайте материалы, мы соберём монтаж, цвет, звук и финальные версии под нужные площадки.
           </div>
         </details>
 
         <details class="faqItem">
-          <summary>В каких форматах вы отдаёте финал?</summary>
+          <summary>В каких форматах отдаёте финал?</summary>
           <div class="faqItem__a muted">
-            Под нужные площадки: горизонталь 16:9, вертикаль 9:16, квадрат 1:1, разные длины, титры/субтитры при необходимости.
+            Горизонталь 16:9, вертикаль 9:16, квадрат 1:1, разные длины, титры/субтитры по запросу.
           </div>
         </details>
 
         <details class="faqItem">
           <summary>Как быстро можно начать?</summary>
           <div class="faqItem__a muted">
-            Если материалы/бриф готовы — можем стартовать в ближайшие дни. Напишите — предложим окна по съёмке и монтажу.
+            Если материалы и бриф готовы — стартуем в ближайшие дни. Напишите — предложим окна по монтажу.
           </div>
         </details>
       </div>
