@@ -1,0 +1,509 @@
+﻿<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>KINO — Видео продакшн полного цикла</title>
+  <meta name="description" content="Видеопродакшн полного цикла: мероприятия, бизнес‑видео, образовательный контент." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/style.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="container header__inner">
+      <a class="logo" href="#top" aria-label="На главную">
+        <span class="logo__mark"></span>
+        <span class="logo__text">KINO</span>
+      </a>
+
+      <button class="btn btn--primary header__cta" data-open-modal="leadModal">Написать</button>
+      <button class="burger" aria-label="Открыть меню" aria-expanded="false" data-burger>
+        <span></span><span></span>
+      </button>
+    </div>
+
+    <div class="mobileNav" data-mobile-nav>
+      <button class="btn btn--primary" data-open-modal="leadModal">Написать</button>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="heroReel" aria-label="Showreel">
+      <video class="heroReel__video"
+        autoplay muted loop playsinline preload="metadata" data-play-when-visible="1"
+        poster="static/assets/placeholder.svg">
+        <source src="static/assets/showreel_720p.mp4" type="video/mp4">
+      </video>
+      <div class="heroReel__overlay" aria-hidden="true"></div>
+    </section>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="container hero__grid">
+        <div class="hero__wide">
+          <h1 class="h1">Видео продакшн полного цикла</h1>
+          <p class="lead">
+            Создаём видео любого формата и сложности: от съёмки мероприятий до рекламных роликов и образовательного контента.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Блок услуг -->
+    <section class="section" id="services">
+      <div class="container">
+        <div class="section__head">
+          <h2 class="h2 h2--bigger">Описание услуг и примеры: съёмка мероприятий, коммерческое видео, образовательный контент.</h2>
+        </div>
+
+        <div class="grid3 cardsCenter">
+          <article class="card">
+            <h3 class="h3 h3--bigger">Ивент-видео</h3>
+            <p class="muted">Живые, эмоциональные фильмы о ваших важных моментах: свадьбах, юбилеях, корпоративах.</p>
+          </article>
+
+          <article class="card">
+            <h3 class="h3 h3--bigger">Коммерческий видеопродакшн</h3>
+            <p class="muted">Рекламные ролики, имиджевые видео, презентации продуктов и услуг, съёмка для соцсетей (Reels, TikTok, YouTube).</p>
+          </article>
+
+          <article class="card">
+            <h3 class="h3 h3--bigger">Образовательный контент</h3>
+            <p class="muted">Профессиональная запись лекций, семинаров, мастер‑классов и курсов с качественным звуком и графикой.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Работы -->
+    <section class="section section--alt" id="works">
+      <div class="container">
+        <div class="section__head">
+          <h2 class="h2">Покажем стиль, динамику и результат</h2>
+        </div>
+
+        <div class="tabs">
+          <button class="tab is-active" data-filter="all">Все</button>
+          <button class="tab" data-filter="event">Мероприятия</button>
+          <button class="tab" data-filter="business">Бизнес-видео</button>
+          <button class="tab" data-filter="edu">Образовательный контент</button>
+        </div>
+
+        <div class="gridWork" id="workGrid">
+          <a class="workCard" href="#" data-cat="event">
+            <div class="workCard__thumb" aria-hidden="true">
+              <div class="workCard__play">▶</div>
+            </div>
+            <div class="workCard__body">
+              <div class="workCard__top">
+                <div class="workCard__title">Aftermovie конференции</div>
+                <div class="workCard__dur">1:20</div>
+              </div>
+              <div class="workCard__note">репортаж + динамичный монтаж</div>
+            </div>
+          </a>
+
+          <a class="workCard" href="#" data-cat="event">
+            <div class="workCard__thumb" aria-hidden="true">
+              <div class="workCard__play">▶</div>
+            </div>
+            <div class="workCard__body">
+              <div class="workCard__top">
+                <div class="workCard__title">Свадебный клип</div>
+                <div class="workCard__dur">3:10</div>
+              </div>
+              <div class="workCard__note">эмоции + детали</div>
+            </div>
+          </a>
+
+          <a class="workCard" href="#" data-cat="business">
+            <div class="workCard__thumb" aria-hidden="true">
+              <div class="workCard__play">▶</div>
+            </div>
+            <div class="workCard__body">
+              <div class="workCard__top">
+                <div class="workCard__title">Рекламный ролик продукта</div>
+                <div class="workCard__dur">0:30</div>
+              </div>
+              <div class="workCard__note">акцент на УТП</div>
+            </div>
+          </a>
+
+          <a class="workCard" href="#" data-cat="business">
+            <div class="workCard__thumb" aria-hidden="true">
+              <div class="workCard__play">▶</div>
+            </div>
+            <div class="workCard__body">
+              <div class="workCard__top">
+                <div class="workCard__title">Презентация сервиса</div>
+                <div class="workCard__dur">1:05</div>
+              </div>
+              <div class="workCard__note">структура + графика</div>
+            </div>
+          </a>
+
+          <a class="workCard" href="#" data-cat="edu">
+            <div class="workCard__thumb" aria-hidden="true">
+              <div class="workCard__play">▶</div>
+            </div>
+            <div class="workCard__body">
+              <div class="workCard__top">
+                <div class="workCard__title">Запись лекции</div>
+                <div class="workCard__dur">45:00</div>
+              </div>
+              <div class="workCard__note">чистый звук + титры</div>
+            </div>
+          </a>
+
+          <a class="workCard" href="#" data-cat="edu">
+            <div class="workCard__thumb" aria-hidden="true">
+              <div class="workCard__play">▶</div>
+            </div>
+            <div class="workCard__body">
+              <div class="workCard__top">
+                <div class="workCard__title">Онлайн‑курс (урок)</div>
+                <div class="workCard__dur">12:00</div>
+              </div>
+              <div class="workCard__note">экран + камера</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Прайс -->
+    <section class="section" id="pricing">
+      <div class="container">
+        <div class="section__head">
+          <h2 class="h2">Три направления — один стандарт качества</h2>
+        </div>
+
+        <div class="serviceCols">
+          <section class="serviceBlock">
+            <div class="serviceBlock__head">
+              <h3 class="h3">Съёмка мероприятий</h3>
+              <p class="muted">Свадьбы, корпоративы, конференции. Пакеты можно комбинировать.</p>
+            </div>
+
+            <div class="priceList">
+              <div class="priceRow">
+                <div>
+                  <div class="priceRow__name">Клип‑фильм</div>
+                  <div class="priceRow__desc">Эмоциональный видеорассказ о событии.</div>
+                </div>
+                <div class="priceRow__price">15 000 ₽</div>
+              </div>
+              <div class="priceRow">
+                <div>
+                  <div class="priceRow__name">Тизер</div>
+                  <div class="priceRow__desc">Короткий ролик для анонса в соцсетях.</div>
+                </div>
+                <div class="priceRow__price">8 000 ₽</div>
+              </div>
+              <div class="priceRow">
+                <div>
+                  <div class="priceRow__name">Полный репортаж</div>
+                  <div class="priceRow__desc">Запись ключевых моментов + монтаж.</div>
+                </div>
+                <div class="priceRow__price">25 000 ₽</div>
+              </div>
+            </div>
+
+            <button class="btn btn--ghost btn--block" data-open-modal="leadModal">Запросить расчёт</button>
+          </section>
+
+          <section class="serviceBlock">
+            <div class="serviceBlock__head">
+              <h3 class="h3">Коммерческое видео</h3>
+              <p class="muted">Реклама, презентации, контент для соцсетей. Под бизнес‑цели.</p>
+            </div>
+
+            <div class="priceList">
+              <div class="priceRow">
+                <div>
+                  <div class="priceRow__name">Рекламный ролик</div>
+                  <div class="priceRow__desc">Яркое видео для продвижения.</div>
+                </div>
+                <div class="priceRow__price">15 000 ₽</div>
+              </div>
+              <div class="priceRow">
+                <div>
+                  <div class="priceRow__name">Видео для соцсетей</div>
+                  <div class="priceRow__desc">Reels/TikTok/Shorts под ваш стиль.</div>
+                </div>
+                <div class="priceRow__price">8 000 ₽</div>
+              </div>
+              <div class="priceRow">
+                <div>
+                  <div class="priceRow__name">Имиджевое видео</div>
+                  <div class="priceRow__desc">Про бренд, доверие и узнаваемость.</div>
+                </div>
+                <div class="priceRow__price">18 000 ₽</div>
+              </div>
+            </div>
+
+            <button class="btn btn--ghost btn--block" data-open-modal="leadModal">Запросить расчёт</button>
+          </section>
+
+          <section class="serviceBlock">
+            <div class="serviceBlock__head">
+              <h3 class="h3">Образовательный контент</h3>
+              <p class="muted">Лекции, семинары, курсы — с чистым звуком и аккуратной подачей.</p>
+            </div>
+
+            <div class="priceList">
+              <div class="priceRow">
+                <div>
+                  <div class="priceRow__name">Запись лекции</div>
+                  <div class="priceRow__desc">Камера + звук + базовая графика.</div>
+                </div>
+                <div class="priceRow__price">10 000 ₽</div>
+              </div>
+              <div class="priceRow">
+                <div>
+                  <div class="priceRow__name">Вебинар</div>
+                  <div class="priceRow__desc">Запись + помощь с подготовкой сцены.</div>
+                </div>
+                <div class="priceRow__price">8 000 ₽</div>
+              </div>
+              <div class="priceRow">
+                <div>
+                  <div class="priceRow__name">Онлайн‑курс (урок)</div>
+                  <div class="priceRow__desc">Структура + съёмка + монтаж.</div>
+                </div>
+                <div class="priceRow__price">15 000 ₽</div>
+              </div>
+            </div>
+
+            <button class="btn btn--ghost btn--block" data-open-modal="leadModal">Запросить расчёт</button>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <!-- Процесс -->
+    <section class="section section--alt" id="process">
+      <div class="container">
+        <div class="section__head">
+          <h2 class="h2">Понятные шаги. Прозрачная коммуникация</h2>
+        </div>
+
+        <div class="gridProcess">
+          <article class="step">
+            <div class="step__num">01</div>
+            <div class="step__body">
+              <div class="step__title">Бриф и цель</div>
+              <div class="muted">Понимаем задачу, аудиторию и площадки. Фиксируем результат.</div>
+            </div>
+          </article>
+
+          <article class="step">
+            <div class="step__num">02</div>
+            <div class="step__body">
+              <div class="step__title">Концепт и план</div>
+              <div class="muted">Предлагаем идею/структуру, план съёмки. Согласуем сроки и бюджет.</div>
+            </div>
+          </article>
+
+          <article class="step">
+            <div class="step__num">03</div>
+            <div class="step__body">
+              <div class="step__title">Съёмка</div>
+              <div class="muted">Операторская работа, свет и звук. Аккуратно и без хаоса.</div>
+            </div>
+          </article>
+
+          <article class="step">
+            <div class="step__num">04</div>
+            <div class="step__body">
+              <div class="step__title">Монтаж и графика</div>
+              <div class="muted">Монтаж, цвет, звук, титры/инфографика. Версии под разные форматы.</div>
+            </div>
+          </article>
+
+          <article class="step">
+            <div class="step__num">05</div>
+            <div class="step__body">
+              <div class="step__title">Сдача</div>
+              <div class="muted">Финальные файлы и поддержка публикации по договорённости.</div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Контакты -->
+    <section class="section contactSection" id="contact">
+      <div class="container">
+        <div class="section__head">
+          <h2 class="h2">Контакты</h2>
+        </div>
+
+        <div class="contactSection__inner">
+          <aside class="contactCard">
+            <div class="contactCard__item">
+              <div class="contactCard__label">Телефон</div>
+              <a class="contactCard__value" href="tel:+79256035311">+7 925 603-53-11</a>
+            </div>
+
+            <div class="contactCard__item">
+              <div class="contactCard__label">Email</div>
+              <a class="contactCard__value" href="mailto:kino_prod@gmail.com">kino_prod@gmail.com</a>
+            </div>
+
+            <div class="contactCard__item">
+              <div class="contactCard__label">Заявка</div>
+              <button class="btn btn--primary btn--block" data-open-modal="leadModal">Написать</button>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" id="footer">
+    <div class="container footer__grid">
+      <div>
+        <div class="footer__brand">KINO</div>
+        <div class="footer__muted">(Москва) © 2026</div>
+      </div>
+
+      <div class="footer__links">
+        <a href="tel:+79256035311">+7 925 603-53-11</a>
+        <a href="mailto:kino_prod@gmail.com">kino_prod@gmail.com</a>
+      </div>
+
+      <div class="footer__links">
+        <a href="https://t.me/molodoyeg" target="_blank" rel="noreferrer">Telegram</a>
+      </div>
+
+      <div class="footer__links">
+        <a href="#top">Наверх ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lead Modal (Clapperboard) -->
+  <div class="modal" id="leadModal" aria-hidden="true">
+    <div class="modal__backdrop" data-close-modal></div>
+
+    <div class="modal__panel clapper" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="clapper__top" aria-hidden="true"></div>
+
+      <div class="clapper__header">
+        <div>
+          <div class="kicker">Заявка</div>
+          <h3 id="modalTitle" class="h3">Расскажите про проект</h3>
+        </div>
+        <button class="iconBtn" aria-label="Закрыть" data-close-modal>✕</button>
+      </div>
+
+      <form class="form clapper__form" id="leadForm" data-static="1" novalidate>
+        <label class="field">
+          <span>Имя</span>
+          <input name="name" placeholder="Как к вам обращаться" />
+        </label>
+
+        <div class="form__row">
+          <label class="field">
+            <span>Телефон</span>
+            <input name="phone" placeholder="+7 ..." inputmode="tel" autocomplete="tel" />
+          </label>
+
+          <label class="field">
+            <span>Email</span>
+            <input name="email" placeholder="you@email.com" type="email" autocomplete="email" />
+          </label>
+
+          <label class="field">
+            <span>Telegram (необязательно)</span>
+            <input name="telegram" placeholder="@username" autocomplete="off" />
+          </label>
+        </div>
+
+        <label class="field">
+          <span>Что нужно снять?</span>
+          <textarea name="message" rows="4" placeholder="Цель, формат, сроки, площадки…"></textarea>
+        </label>
+
+        <div class="form__actions">
+          <button class="btn btn--primary" type="submit">Отправить</button>
+          <div class="form__hint">Форма временно не отправляет заявки. Напишите в Telegram или на email.</div>
+        </div>
+
+        <div class="form__status" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </div>
+
+  <script src="static/app.js"></script>
+
+  <!-- Floating FAQ button (image) -->
+  <button class="faqFloat" type="button" data-open-modal="faqModal" aria-label="FAQ">
+    <img class="faqFloat__img"
+         src="static/assets/faq-mouse.png"
+         alt="FAQ"
+         draggable="false">
+  </button>
+
+  <!-- FAQ Modal -->
+  <div class="modal" id="faqModal" aria-hidden="true">
+    <div class="modal__backdrop" data-close-modal></div>
+    <div class="modal__panel faqPanel" role="dialog" aria-modal="true" aria-labelledby="faqTitle">
+      <div class="modal__head">
+        <div>
+          <div class="kicker">FAQ</div>
+          <h3 id="faqTitle" class="h3">Частые вопросы</h3>
+        </div>
+        <button class="iconBtn" aria-label="Закрыть" data-close-modal>✕</button>
+      </div>
+
+      <div class="faqList">
+        <details class="faqItem" open>
+          <summary>Сколько стоит видео?</summary>
+          <div class="faqItem__a muted">
+            Стоимость зависит от задачи, хронометража, локаций, команды, графики и сроков. Для точного расчёта — оставьте заявку, пришлите примеры и требования.
+          </div>
+        </details>
+
+        <details class="faqItem">
+          <summary>Какие сроки производства?</summary>
+          <div class="faqItem__a muted">
+            Обычно: короткие ролики — от 3–7 дней, более сложные проекты — от 1–3 недель. Срочные задачи тоже возможны.
+          </div>
+        </details>
+
+        <details class="faqItem">
+          <summary>Сколько правок входит?</summary>
+          <div class="faqItem__a muted">
+            Обычно 1–2 раунда правок по договорённости. Правки «в рамках ТЗ» — быстро, крупные изменения концепта — отдельно согласуем.
+          </div>
+        </details>
+
+        <details class="faqItem">
+          <summary>Отдаёте исходники?</summary>
+          <div class="faqItem__a muted">
+            По договорённости. Чаще исходники передаются как доп. опция (из‑за объёма и подготовки).
+          </div>
+        </details>
+
+        <details class="faqItem">
+          <summary>В каких форматах вы отдаёте финал?</summary>
+          <div class="faqItem__a muted">
+            Под нужные площадки: горизонталь 16:9, вертикаль 9:16, квадрат 1:1, разные длины, титры/субтитры при необходимости.
+          </div>
+        </details>
+
+        <details class="faqItem">
+          <summary>Как быстро можно начать?</summary>
+          <div class="faqItem__a muted">
+            Если материалы/бриф готовы — можем стартовать в ближайшие дни. Напишите — предложим окна по съёмке и монтажу.
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

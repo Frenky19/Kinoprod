@@ -1,21 +1,21 @@
-// Mobile menu toggle
-const navToggle = document.querySelector('.nav__toggle');
-const navLinks = document.querySelector('.nav__links');
+﻿// Mobile menu toggle
+const navToggle = document.querySelector('[data-burger]');
+const navLinks = document.querySelector('[data-mobile-nav]');
 
 if (navToggle && navLinks) {
   navToggle.addEventListener('click', () => {
     const isOpen = navLinks.classList.toggle('is-open');
     navToggle.setAttribute('aria-expanded', String(isOpen));
   });
-}
 
-// Close menu when clicking a link (mobile)
-document.querySelectorAll('.nav__links a').forEach((a) => {
-  a.addEventListener('click', () => {
-    navLinks?.classList.remove('is-open');
-    navToggle?.setAttribute('aria-expanded', 'false');
+  // Close menu when clicking any link inside
+  navLinks.querySelectorAll('a').forEach((a) => {
+    a.addEventListener('click', () => {
+      navLinks.classList.remove('is-open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
   });
-});
+}
 
 // Smooth scroll for anchor links (if any remain)
 document.querySelectorAll('a[href^="#"]').forEach((a) => {
@@ -31,8 +31,8 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
 
 // Universal modal logic (event delegation)
 (function initModalDelegation() {
-  const openSelector = '[data-modal-open]';
-  const closeSelector = '[data-modal-close]';
+  const openSelector = '[data-open-modal]';
+  const closeSelector = '[data-close-modal]';
 
   function openModal(id) {
     const modal = document.getElementById(id);
@@ -53,7 +53,7 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
     const openBtn = e.target.closest(openSelector);
     if (openBtn) {
       e.preventDefault();
-      const id = openBtn.getAttribute('data-modal-open');
+      const id = openBtn.getAttribute('data-open-modal');
       if (id) openModal(id);
       return;
     }
@@ -65,12 +65,6 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
       closeModal(modal);
       return;
     }
-
-    // Click on overlay closes
-    const modalOverlay = e.target.classList?.contains('modal') ? e.target : null;
-    if (modalOverlay && modalOverlay.classList.contains('is-open')) {
-      closeModal(modalOverlay);
-    }
   });
 
   // ESC closes any open modal
@@ -81,43 +75,48 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
   });
 })();
 
-// Lead form (if present) - basic handler
+// Lead form (static mode)
 (function initLeadForm() {
   const form = document.querySelector('#leadForm');
   if (!form) return;
 
-  form.addEventListener('submit', async (e) => {
+  const isStatic = form.dataset.static === '1';
+  if (!isStatic) return;
+
+  const statusEl = form.querySelector('.form__status');
+
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const submitBtn = form.querySelector('button[type="submit"]');
-    submitBtn?.setAttribute('disabled', 'true');
-
-    try {
-      const formData = new FormData(form);
-      const payload = Object.fromEntries(formData.entries());
-
-      const resp = await fetch('/lead', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
-
-      if (!resp.ok) throw new Error('Request failed');
-
-      form.reset();
-      alert('Спасибо! Мы свяжемся с вами в течение рабочего дня.');
-      // If form is inside modal, close it
-      const modal = form.closest('.modal');
-      if (modal) {
-        modal.classList.remove('is-open');
-        modal.setAttribute('aria-hidden', 'true');
-        document.body.classList.remove('modal-open');
-      }
-    } catch (err) {
-      console.error(err);
-      alert('Не удалось отправить. Попробуйте ещё раз чуть позже.');
-    } finally {
-      submitBtn?.removeAttribute('disabled');
+    if (statusEl) {
+      statusEl.textContent =
+        'Форма временно отключена. Напишите в Telegram или на email — контакты ниже.';
     }
+  });
+})();
+
+// Work filter tabs
+(function initWorkFilters() {
+  const tabs = Array.from(document.querySelectorAll('.tab[data-filter]'));
+  const cards = Array.from(document.querySelectorAll('.workCard[data-cat]'));
+  if (!tabs.length || !cards.length) return;
+
+  function setActive(tab) {
+    tabs.forEach((t) => t.classList.toggle('is-active', t === tab));
+  }
+
+  function applyFilter(key) {
+    cards.forEach((card) => {
+      const show = key === 'all' || card.dataset.cat === key;
+      card.style.display = show ? '' : 'none';
+    });
+  }
+
+  tabs.forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const key = tab.dataset.filter || 'all';
+      setActive(tab);
+      applyFilter(key);
+    });
   });
 })();
 
