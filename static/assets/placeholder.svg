@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675">
+<defs>
+  <radialGradient id="g" cx="20%" cy="30%" r="90%">
+    <stop offset="0" stop-color="#ffffff" stop-opacity=".16"/>
+    <stop offset=".65" stop-color="#ffffff" stop-opacity=".02"/>
+    <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+  </radialGradient>
+</defs>
+<rect width="1200" height="675" fill="#0b0c10"/>
+<rect width="1200" height="675" fill="url(#g)"/>
+<text x="60" y="120" fill="#f5f7ff" font-family="Manrope, Arial" font-size="64" font-weight="800">Ваш кадр</text>
+<text x="60" y="180" fill="#b6bdd6" font-family="Manrope, Arial" font-size="22">Замените на реальные обложки проектов</text>
+</svg>
