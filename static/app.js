@@ -208,3 +208,29 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
 
   videos.forEach((v) => io.observe(v));
 })();
+
+// Reveal on scroll
+(function initReveals() {
+  const items = Array.from(document.querySelectorAll('[data-reveal]'));
+  if (!items.length) return;
+
+  const prefersReduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduce || !('IntersectionObserver' in window)) {
+    items.forEach((el) => el.classList.add('is-visible'));
+    return;
+  }
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const entry of entries) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          io.unobserve(entry.target);
+        }
+      }
+    },
+    { root: null, threshold: 0.2, rootMargin: '0px 0px -10% 0px' }
+  );
+
+  items.forEach((el) => io.observe(el));
+})();

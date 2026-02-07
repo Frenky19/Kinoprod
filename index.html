@@ -7,8 +7,9 @@
   <meta name="description" content="Видеопродакшн полного цикла: мероприятия, бизнес‑видео, образовательный контент." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="static/style.css" />
+  <script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
   <header class="header">
@@ -18,14 +19,33 @@
         <span class="logo__text">KINO</span>
       </a>
 
-      <button class="btn btn--primary header__cta" data-open-modal="leadModal">Написать</button>
+      <nav class="nav">
+        <a href="#services">Услуги</a>
+        <a href="#works">Работы</a>
+        <a href="#pricing">Цены</a>
+        <a href="#process">Процесс</a>
+        <a href="#contact">Контакты</a>
+      </nav>
+
+      <div class="header__actions">
+        <button class="btn btn--ghost" data-open-modal="leadModal">Бриф</button>
+        <button class="btn btn--primary header__cta" data-open-modal="leadModal">Обсудить проект</button>
+      </div>
+
       <button class="burger" aria-label="Открыть меню" aria-expanded="false" data-burger>
         <span></span><span></span>
       </button>
     </div>
 
     <div class="mobileNav" data-mobile-nav>
-      <button class="btn btn--primary" data-open-modal="leadModal">Написать</button>
+      <div class="mobileNav__links">
+        <a href="#services">Услуги</a>
+        <a href="#works">Работы</a>
+        <a href="#pricing">Цены</a>
+        <a href="#process">Процесс</a>
+        <a href="#contact">Контакты</a>
+      </div>
+      <button class="btn btn--primary" data-open-modal="leadModal">Обсудить проект</button>
     </div>
   </header>
 
@@ -37,16 +57,81 @@
         <source src="static/assets/showreel_720p.mp4" type="video/mp4">
       </video>
       <div class="heroReel__overlay" aria-hidden="true"></div>
+
+      <div class="heroReel__content container">
+        <div class="hero__kicker" data-reveal>Креативный видеопродакшн • Москва</div>
+        <h1 class="hero__title" data-reveal style="--delay: 120ms;">Видео, которое выглядит как бренд.</h1>
+        <p class="hero__lead" data-reveal style="--delay: 220ms;">
+          Полный цикл: стратегия, продакшн, пост. Киношный свет, точный монтаж и внимание к деталям, чтобы ваша компания выглядела дороже и увереннее.
+        </p>
+        <div class="hero__actions" data-reveal style="--delay: 320ms;">
+          <button class="btn btn--primary" data-open-modal="leadModal">Обсудить проект</button>
+          <a class="btn btn--ghost" href="#works">Смотреть работы</a>
+        </div>
+        <div class="hero__stats" data-reveal style="--delay: 420ms;">
+          <div class="stat">
+            <div class="stat__num">10+</div>
+            <div class="stat__label">лет в продакшне</div>
+          </div>
+          <div class="stat">
+            <div class="stat__num">100+</div>
+            <div class="stat__label">проектов в портфолио</div>
+          </div>
+          <div class="stat">
+            <div class="stat__num">48ч</div>
+            <div class="stat__label">ответ на заявку</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero__scroll">Листайте ↓</div>
     </section>
 
-    <!-- HERO -->
-    <section class="hero">
-      <div class="container hero__grid">
-        <div class="hero__wide">
-          <h1 class="h1">Видео продакшн полного цикла</h1>
-          <p class="lead">
-            Создаём видео любого формата и сложности: от съёмки мероприятий до рекламных роликов и образовательного контента.
+    <section class="section signature" id="about">
+      <div class="container signature__grid">
+        <div>
+          <div class="kicker" data-reveal>Подход</div>
+          <h2 class="h2" data-reveal style="--delay: 120ms;">Снимаем так, чтобы зритель почувствовал ваш масштаб.</h2>
+          <p class="lead" data-reveal style="--delay: 200ms;">
+            Мы соединяем режиссуру, продакшн и постпродакшн в одном процессе, чтобы каждый кадр работал на доверие и продажи.
           </p>
+        </div>
+
+        <div class="signature__panel" data-reveal style="--delay: 260ms;">
+          <div class="signature__item">
+            <span class="signature__num">01</span>
+            <div>
+              <div class="signature__title">Чёткий бриф</div>
+              <div class="muted">Фиксируем задачу, аудиторию и формат.</div>
+            </div>
+          </div>
+          <div class="signature__item">
+            <span class="signature__num">02</span>
+            <div>
+              <div class="signature__title">Киношный продакшн</div>
+              <div class="muted">Свет, камера, звук — под ваш бренд.</div>
+            </div>
+          </div>
+          <div class="signature__item">
+            <span class="signature__num">03</span>
+            <div>
+              <div class="signature__title">Аккуратный пост</div>
+              <div class="muted">Монтаж, цвет, графика — без компромиссов.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="strip" aria-label="Clients">
+      <div class="container strip__row" data-reveal>
+        <div class="strip__label">Нам доверяют</div>
+        <div class="strip__items">
+          <span>Tech</span>
+          <span>Real Estate</span>
+          <span>Beauty</span>
+          <span>Education</span>
+          <span>Events</span>
+          <span>Hospitality</span>
         </div>
       </div>
     </section>
@@ -55,23 +140,27 @@
     <section class="section" id="services">
       <div class="container">
         <div class="section__head">
-          <h2 class="h2 h2--bigger">Описание услуг и примеры: съёмка мероприятий, коммерческое видео, образовательный контент.</h2>
+          <div class="kicker" data-reveal>Услуги</div>
+          <h2 class="h2 h2--bigger" data-reveal style="--delay: 120ms;">Три направления, единый стандарт качества</h2>
         </div>
 
         <div class="grid3 cardsCenter">
-          <article class="card">
-            <h3 class="h3 h3--bigger">Ивент-видео</h3>
+          <article class="card card--service" data-reveal>
+            <div class="card__index">01</div>
+            <h3 class="h3 h3--bigger">Ивент‑видео</h3>
             <p class="muted">Живые, эмоциональные фильмы о ваших важных моментах: свадьбах, юбилеях, корпоративах.</p>
           </article>
 
-          <article class="card">
-            <h3 class="h3 h3--bigger">Коммерческий видеопродакшн</h3>
-            <p class="muted">Рекламные ролики, имиджевые видео, презентации продуктов и услуг, съёмка для соцсетей (Reels, TikTok, YouTube).</p>
+          <article class="card card--service" data-reveal style="--delay: 120ms;">
+            <div class="card__index">02</div>
+            <h3 class="h3 h3--bigger">Коммерческий продакшн</h3>
+            <p class="muted">Рекламные ролики, имиджевые видео, презентации продуктов и услуг, съёмка для соцсетей.</p>
           </article>
 
-          <article class="card">
+          <article class="card card--service" data-reveal style="--delay: 240ms;">
+            <div class="card__index">03</div>
             <h3 class="h3 h3--bigger">Образовательный контент</h3>
-            <p class="muted">Профессиональная запись лекций, семинаров, мастер‑классов и курсов с качественным звуком и графикой.</p>
+            <p class="muted">Запись лекций, семинаров и курсов с чистым звуком, графикой и выверенной подачей.</p>
           </article>
         </div>
       </div>
@@ -81,10 +170,11 @@
     <section class="section section--alt" id="works">
       <div class="container">
         <div class="section__head">
-          <h2 class="h2">Покажем стиль, динамику и результат</h2>
+          <div class="kicker" data-reveal>Портфолио</div>
+          <h2 class="h2" data-reveal style="--delay: 120ms;">Покажем стиль, динамику и результат</h2>
         </div>
 
-        <div class="tabs">
+        <div class="tabs" data-reveal>
           <button class="tab is-active" data-filter="all">Все</button>
           <button class="tab" data-filter="event">Мероприятия</button>
           <button class="tab" data-filter="business">Бизнес-видео</button>
@@ -92,7 +182,7 @@
         </div>
 
         <div class="gridWork" id="workGrid">
-          <a class="workCard" href="#" data-cat="event">
+          <a class="workCard" href="#" data-cat="event" data-reveal>
             <div class="workCard__thumb" aria-hidden="true">
               <div class="workCard__play">▶</div>
             </div>
@@ -105,7 +195,7 @@
             </div>
           </a>
 
-          <a class="workCard" href="#" data-cat="event">
+          <a class="workCard" href="#" data-cat="event" data-reveal style="--delay: 90ms;">
             <div class="workCard__thumb" aria-hidden="true">
               <div class="workCard__play">▶</div>
             </div>
@@ -118,7 +208,7 @@
             </div>
           </a>
 
-          <a class="workCard" href="#" data-cat="business">
+          <a class="workCard" href="#" data-cat="business" data-reveal style="--delay: 180ms;">
             <div class="workCard__thumb" aria-hidden="true">
               <div class="workCard__play">▶</div>
             </div>
@@ -131,7 +221,7 @@
             </div>
           </a>
 
-          <a class="workCard" href="#" data-cat="business">
+          <a class="workCard" href="#" data-cat="business" data-reveal style="--delay: 270ms;">
             <div class="workCard__thumb" aria-hidden="true">
               <div class="workCard__play">▶</div>
             </div>
@@ -144,7 +234,7 @@
             </div>
           </a>
 
-          <a class="workCard" href="#" data-cat="edu">
+          <a class="workCard" href="#" data-cat="edu" data-reveal style="--delay: 360ms;">
             <div class="workCard__thumb" aria-hidden="true">
               <div class="workCard__play">▶</div>
             </div>
@@ -157,7 +247,7 @@
             </div>
           </a>
 
-          <a class="workCard" href="#" data-cat="edu">
+          <a class="workCard" href="#" data-cat="edu" data-reveal style="--delay: 450ms;">
             <div class="workCard__thumb" aria-hidden="true">
               <div class="workCard__play">▶</div>
             </div>
@@ -177,11 +267,12 @@
     <section class="section" id="pricing">
       <div class="container">
         <div class="section__head">
-          <h2 class="h2">Три направления — один стандарт качества</h2>
+          <div class="kicker" data-reveal>Прайс</div>
+          <h2 class="h2" data-reveal style="--delay: 120ms;">Ориентиры по бюджету</h2>
         </div>
 
         <div class="serviceCols">
-          <section class="serviceBlock">
+          <section class="serviceBlock" data-reveal>
             <div class="serviceBlock__head">
               <h3 class="h3">Съёмка мероприятий</h3>
               <p class="muted">Свадьбы, корпоративы, конференции. Пакеты можно комбинировать.</p>
@@ -214,7 +305,7 @@
             <button class="btn btn--ghost btn--block" data-open-modal="leadModal">Запросить расчёт</button>
           </section>
 
-          <section class="serviceBlock">
+          <section class="serviceBlock" data-reveal style="--delay: 120ms;">
             <div class="serviceBlock__head">
               <h3 class="h3">Коммерческое видео</h3>
               <p class="muted">Реклама, презентации, контент для соцсетей. Под бизнес‑цели.</p>
@@ -247,7 +338,7 @@
             <button class="btn btn--ghost btn--block" data-open-modal="leadModal">Запросить расчёт</button>
           </section>
 
-          <section class="serviceBlock">
+          <section class="serviceBlock" data-reveal style="--delay: 240ms;">
             <div class="serviceBlock__head">
               <h3 class="h3">Образовательный контент</h3>
               <p class="muted">Лекции, семинары, курсы — с чистым звуком и аккуратной подачей.</p>
@@ -287,11 +378,12 @@
     <section class="section section--alt" id="process">
       <div class="container">
         <div class="section__head">
-          <h2 class="h2">Понятные шаги. Прозрачная коммуникация</h2>
+          <div class="kicker" data-reveal>Процесс</div>
+          <h2 class="h2" data-reveal style="--delay: 120ms;">Понятные шаги. Прозрачная коммуникация</h2>
         </div>
 
         <div class="gridProcess">
-          <article class="step">
+          <article class="step" data-reveal>
             <div class="step__num">01</div>
             <div class="step__body">
               <div class="step__title">Бриф и цель</div>
@@ -299,7 +391,7 @@
             </div>
           </article>
 
-          <article class="step">
+          <article class="step" data-reveal style="--delay: 120ms;">
             <div class="step__num">02</div>
             <div class="step__body">
               <div class="step__title">Концепт и план</div>
@@ -307,7 +399,7 @@
             </div>
           </article>
 
-          <article class="step">
+          <article class="step" data-reveal style="--delay: 240ms;">
             <div class="step__num">03</div>
             <div class="step__body">
               <div class="step__title">Съёмка</div>
@@ -315,7 +407,7 @@
             </div>
           </article>
 
-          <article class="step">
+          <article class="step" data-reveal style="--delay: 360ms;">
             <div class="step__num">04</div>
             <div class="step__body">
               <div class="step__title">Монтаж и графика</div>
@@ -323,7 +415,7 @@
             </div>
           </article>
 
-          <article class="step">
+          <article class="step" data-reveal style="--delay: 480ms;">
             <div class="step__num">05</div>
             <div class="step__body">
               <div class="step__title">Сдача</div>
@@ -338,11 +430,12 @@
     <section class="section contactSection" id="contact">
       <div class="container">
         <div class="section__head">
-          <h2 class="h2">Контакты</h2>
+          <div class="kicker" data-reveal>Контакты</div>
+          <h2 class="h2" data-reveal style="--delay: 120ms;">Давайте обсудим проект</h2>
         </div>
 
         <div class="contactSection__inner">
-          <aside class="contactCard">
+          <aside class="contactCard" data-reveal>
             <div class="contactCard__item">
               <div class="contactCard__label">Телефон</div>
               <a class="contactCard__value" href="tel:+79256035311">+7 925 603-53-11</a>
@@ -351,6 +444,11 @@
             <div class="contactCard__item">
               <div class="contactCard__label">Email</div>
               <a class="contactCard__value" href="mailto:kino_prod@gmail.com">kino_prod@gmail.com</a>
+            </div>
+
+            <div class="contactCard__item">
+              <div class="contactCard__label">Telegram</div>
+              <a class="contactCard__value" href="https://t.me/molodoyeg" target="_blank" rel="noreferrer">@molodoyeg</a>
             </div>
 
             <div class="contactCard__item">
