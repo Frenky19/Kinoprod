@@ -16,6 +16,8 @@
   --radius: 22px;
   --radius-lg: 28px;
 
+  --header-h: 68px;
+
   --font-display: "Space Grotesk", sans-serif;
   --font-body: "Manrope", sans-serif;
 }
@@ -133,8 +135,10 @@ img{max-width:100%; display:block}
 .btn--block{width:100%; justify-content:center}
 
 .header{
-  position: sticky;
+  position: fixed;
   top:0;
+  left:0;
+  right:0;
   z-index:20;
   backdrop-filter: blur(16px);
   background: rgba(11,15,20,.78);
@@ -144,9 +148,11 @@ img{max-width:100%; display:block}
   display:flex;
   align-items:center;
   justify-content:space-between;
-  padding:14px 0;
+  min-height: var(--header-h);
+  padding:12px 0;
   gap:14px;
 }
+main{padding-top: var(--header-h);}
 .logo{
   display:flex;
   align-items:center;
@@ -178,6 +184,11 @@ img{max-width:100%; display:block}
   white-space:nowrap;
 }
 .header__icons{display:flex; gap:12px; align-items:center}
+.header__divider{
+  width:1px;
+  height:32px;
+  background: rgba(233,240,246,.16);
+}
 .iconLink{
   width:42px;
   height:42px;
@@ -229,8 +240,8 @@ img{max-width:100%; display:block}
 .heroReel{
   position: relative;
   width: 100%;
-  min-height: 100vh;
-  height: 100svh;
+  min-height: calc(100vh - var(--header-h));
+  height: calc(100svh - var(--header-h));
   overflow: hidden;
   background: #090d12;
 }
