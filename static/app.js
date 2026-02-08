@@ -234,3 +234,52 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
 
   items.forEach((el) => io.observe(el));
 })();
+
+// Typing effect for hero
+(function initTyping() {
+  const el = document.querySelector('.typed[data-typed]');
+  if (!el) return;
+
+  let items = [];
+  try {
+    items = JSON.parse(el.getAttribute('data-typed') || '[]');
+  } catch (e) {
+    items = [];
+  }
+  if (!items.length) return;
+
+  let wordIndex = 0;
+  let charIndex = 0;
+  let deleting = false;
+
+  const typeSpeed = 70;
+  const deleteSpeed = 45;
+  const holdDelay = 1100;
+
+  const tick = () => {
+    const word = items[wordIndex] || '';
+    if (!deleting) {
+      charIndex += 1;
+      el.textContent = word.slice(0, charIndex);
+      if (charIndex >= word.length) {
+        deleting = true;
+        setTimeout(tick, holdDelay);
+        return;
+      }
+      setTimeout(tick, typeSpeed);
+      return;
+    }
+
+    charIndex -= 1;
+    el.textContent = word.slice(0, charIndex);
+    if (charIndex <= 0) {
+      deleting = false;
+      wordIndex = (wordIndex + 1) % items.length;
+      setTimeout(tick, 260);
+      return;
+    }
+    setTimeout(tick, deleteSpeed);
+  };
+
+  tick();
+})();

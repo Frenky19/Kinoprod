@@ -19,16 +19,20 @@
         <span class="logo__text">KINO</span>
       </a>
 
-      <nav class="nav">
-        <a href="#suite">Монтажная</a>
-        <a href="#services">Услуги</a>
-        <a href="#works">Работы</a>
-        <a href="#process">Процесс</a>
-        <a href="#contact">Контакты</a>
-      </nav>
-
-      <div class="header__actions">
-        <button class="btn btn--ghost" data-open-modal="leadModal">Бриф</button>
+      <div class="header__right">
+        <a class="header__phone" href="tel:+79256035311">+7 925 603-53-11</a>
+        <div class="header__icons">
+          <a class="iconLink" href="mailto:kino_prod@gmail.com" aria-label="Email">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 5h16a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm0 2 8 5 8-5M4 7l8 5 8-5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <a class="iconLink" href="https://t.me/molodoyeg" target="_blank" rel="noreferrer" aria-label="Telegram">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M21.5 4.5 2.8 11.7c-1.1.4-1.1 1.9.1 2.2l4.6 1.4 1.8 5.2c.3.9 1.4 1.1 2 .3l2.6-3.3 4.9 3.6c.8.6 2 .1 2.2-.9l2.4-14c.2-1-.8-1.8-1.9-1.7z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
         <button class="btn btn--primary" data-open-modal="leadModal">Обсудить проект</button>
       </div>
 
@@ -60,36 +64,25 @@
       <div class="heroReel__grain" aria-hidden="true"></div>
 
       <div class="heroReel__content container">
-        <div class="hero__kicker" data-reveal>Видеомонтаж • Постпродакшн • Москва</div>
-        <h1 class="hero__title" data-reveal style="--delay: 120ms;">Монтаж, который ощущается как режиссура.</h1>
-        <p class="hero__lead" data-reveal style="--delay: 220ms;">
-          Мы не «режем склейки». Мы выстраиваем ритм, эмоцию и смысл: звук, цвет, графика и темп работают на ваш бренд и задачу.
-        </p>
-        <div class="hero__actions" data-reveal style="--delay: 320ms;">
-          <button class="btn btn--primary" data-open-modal="leadModal">Обсудить монтаж</button>
-          <a class="btn btn--ghost" href="#works">Смотреть работы</a>
+        <div class="hero__brand">
+          Videoproduction<br>
+          <span class="hero__brand-accent">Kino</span>
         </div>
-        <div class="hero__badges" data-reveal style="--delay: 420ms;">
-          <span class="badge">Color</span>
-          <span class="badge">Sound</span>
-          <span class="badge">Motion</span>
+        <div class="hero__typed">
+          Снимаем&nbsp;<span class="typed" data-typed='["ивенты","обучающие ролики","видео для бизнеса"]'>ивенты</span><span class="typed__cursor" aria-hidden="true">|</span>
         </div>
-        <div class="hero__stats" data-reveal style="--delay: 520ms;">
-          <div class="stat">
-            <div class="stat__num">10+</div>
-            <div class="stat__label">лет в монтаже</div>
-          </div>
-          <div class="stat">
-            <div class="stat__num">100+</div>
-            <div class="stat__label">проектов</div>
-          </div>
-          <div class="stat">
-            <div class="stat__num">48ч</div>
-            <div class="stat__label">ответ на бриф</div>
+        <!-- lead text removed as requested -->
+        <div class="hero__clients">
+          <div class="hero__clients-label">Наши клиенты</div>
+          <div class="clientLogos">
+            <span class="clientLogo">NOVA</span>
+            <span class="clientLogo">AURUM</span>
+            <span class="clientLogo">KINETIC</span>
+            <span class="clientLogo">SFERA</span>
+            <span class="clientLogo">MOTION LAB</span>
           </div>
         </div>
       </div>
-      <div class="hero__scroll">Листайте ↓</div>
     </section>
 
     <section class="section suite" id="suite">
