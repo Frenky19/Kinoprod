@@ -378,8 +378,7 @@
             После брифа даём точный план и оценку.
           </p>
           <div class="brief__actions" data-reveal style="--delay: 280ms;">
-            <a class="btn btn--primary" href="static/brief.pdf" download>Скачать бриф</a>
-            <button class="btn btn--ghost" data-open-modal="briefModal">Заполнить онлайн</button>
+            <button class="btn btn--primary" data-open-modal="briefModal">Заполнить онлайн</button>
           </div>
         </div>
 
@@ -518,10 +517,10 @@
         <button class="iconBtn" aria-label="Закрыть" data-close-modal>✕</button>
       </div>
 
-      <form class="form" id="briefForm" data-static="1" novalidate>
+      <form class="form" id="briefForm" action="/brief" method="post" novalidate>
         <label class="field">
           <span>Цель ролика</span>
-          <input name="goal" placeholder="Продажи, узнаваемость, обучение..." />
+          <input name="goal" placeholder="Продажи, узнаваемость, обучение..." required />
         </label>
 
         <label class="field">
@@ -583,13 +582,13 @@
 
           <label class="field">
             <span>Контакт для связи</span>
-            <input name="contact" placeholder="Телефон/Telegram" />
+            <input name="contact" placeholder="Телефон/Telegram" required />
           </label>
         </div>
 
         <div class="form__actions">
           <button class="btn btn--primary" type="submit">Отправить бриф</button>
-          <div class="form__hint">Форма временно не отправляет заявки. Напишите в Telegram или на email.</div>
+          <div class="form__hint">После отправки свяжемся и уточним детали.</div>
         </div>
 
         <div class="form__status" role="status" aria-live="polite"></div>

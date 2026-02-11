@@ -119,6 +119,109 @@
     </div>
   </div>
 
+  <!-- Brief Modal -->
+  <div class="modal" id="briefModal" aria-hidden="true">
+    <div class="modal__backdrop" data-close-modal></div>
+
+    <div class="modal__panel briefPanel" role="dialog" aria-modal="true" aria-labelledby="briefTitle" tabindex="-1">
+      <div class="modal__head">
+        <div>
+          <div class="kicker">Р‘СЂРёС„</div>
+          <h3 id="briefTitle" class="h3">РљРѕСЂРѕС‚РєР°СЏ Р°РЅРєРµС‚Р°</h3>
+        </div>
+        <button class="iconBtn" aria-label="Р—Р°РєСЂС‹С‚СЊ" data-close-modal>вњ•</button>
+      </div>
+
+      <form class="form" id="briefForm" action="{{ url_for('brief_form_post') }}" method="post" novalidate>
+        <!-- anti-spam: honeypot -->
+        <div style="position:absolute; left:-10000px; top:auto; width:1px; height:1px; overflow:hidden;" aria-hidden="true">
+          <label>
+            Leave empty
+            <input name="website" tabindex="-1" autocomplete="off" />
+          </label>
+        </div>
+
+        <!-- anti-spam: timestamp -->
+        <input type="hidden" name="form_ts" value="{{ form_ts|default('', true) }}" />
+
+        <label class="field">
+          <span>Р¦РµР»СЊ СЂРѕР»РёРєР°*</span>
+          <input name="goal" placeholder="РџСЂРѕРґР°Р¶Рё, СѓР·РЅР°РІР°РµРјРѕСЃС‚СЊ, РѕР±СѓС‡РµРЅРёРµ..." required />
+        </label>
+
+        <label class="field">
+          <span>РђСѓРґРёС‚РѕСЂРёСЏ</span>
+          <input name="audience" placeholder="РљС‚Рѕ РІР°С€ Р·СЂРёС‚РµР»СЊ?" />
+        </label>
+
+        <div class="form__row">
+          <label class="field">
+            <span>Р¤РѕСЂРјР°С‚</span>
+            <input name="format" placeholder="16:9, 9:16, 1:1" />
+          </label>
+
+          <label class="field">
+            <span>Р”Р»РёС‚РµР»СЊРЅРѕСЃС‚СЊ</span>
+            <input name="duration" placeholder="30вЂ“90 СЃРµРє" />
+          </label>
+        </div>
+
+        <div class="form__row">
+          <label class="field">
+            <span>РџР»РѕС‰Р°РґРєР°</span>
+            <input name="platform" placeholder="YouTube, Instagram, VK..." />
+          </label>
+
+          <label class="field">
+            <span>РЎСЂРѕРєРё</span>
+            <input name="deadline" placeholder="Р”Р°С‚Р°/РїРµСЂРёРѕРґ" />
+          </label>
+        </div>
+
+        <label class="field">
+          <span>Р РµС„РµСЂРµРЅСЃС‹ (СЃСЃС‹Р»РєРё)</span>
+          <textarea name="refs" rows="3" placeholder="2вЂ“3 СЃСЃС‹Р»РєРё РЅР° РїРѕРЅСЂР°РІРёРІС€РёРµСЃСЏ СЂРѕР»РёРєРё"></textarea>
+        </label>
+
+        <label class="field">
+          <span>РњР°С‚РµСЂРёР°Р»С‹ Рё РѕР±СЉС‘Рј РёСЃС…РѕРґРЅРёРєРѕРІ</span>
+          <textarea name="materials" rows="3" placeholder="РЎРєРѕР»СЊРєРѕ РёСЃС…РѕРґРЅРёРєРѕРІ, РµСЃС‚СЊ Р»Рё Р·РІСѓРє/РіСЂР°С„РёРєР°"></textarea>
+        </label>
+
+        <div class="form__row">
+          <label class="field">
+            <span>Р“СЂР°С„РёРєР°/С‚РёС‚СЂС‹</span>
+            <input name="graphics" placeholder="РќСѓР¶РЅРѕ/РЅРµ РЅСѓР¶РЅРѕ" />
+          </label>
+
+          <label class="field">
+            <span>РљРѕР»РёС‡РµСЃС‚РІРѕ РїСЂР°РІРѕРє</span>
+            <input name="revisions" placeholder="1вЂ“2 СЂР°СѓРЅРґР°" />
+          </label>
+        </div>
+
+        <div class="form__row">
+          <label class="field">
+            <span>Р‘СЋРґР¶РµС‚ (РѕРїС†РёРѕРЅР°Р»СЊРЅРѕ)</span>
+            <input name="budget" placeholder="Р’РёР»РєР°" />
+          </label>
+
+          <label class="field">
+            <span>РљРѕРЅС‚Р°РєС‚ РґР»СЏ СЃРІСЏР·Рё*</span>
+            <input name="contact" placeholder="РўРµР»РµС„РѕРЅ/Telegram" required />
+          </label>
+        </div>
+
+        <div class="form__actions">
+          <button class="btn btn--primary" type="submit">РћС‚РїСЂР°РІРёС‚СЊ Р±СЂРёС„</button>
+          <div class="form__hint">РџРѕСЃР»Рµ РѕС‚РїСЂР°РІРєРё СЃРІСЏР¶РµРјСЃСЏ Рё СѓС‚РѕС‡РЅРёРј РґРµС‚Р°Р»Рё.</div>
+        </div>
+
+        <div class="form__status" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </div>
+
   <script src="{{ url_for('static', filename='app.js') }}"></script>
 
   <!-- Floating FAQ button (image) -->

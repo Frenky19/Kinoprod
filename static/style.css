@@ -681,6 +681,10 @@ main{padding-top: var(--header-h);}
   color:rgba(233,240,246,.8);
 }
 .brief__actions{display:flex; gap:12px; flex-wrap:wrap}
+.brief__actions .btn{
+  padding:14px 22px;
+  font-size:15px;
+}
 
 .footer{
   padding:34px 0;

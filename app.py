@@ -217,6 +217,76 @@ def _notify_telegram(payload: dict[str, str]) -> None:
         pass
 
 
+def _validate_brief(payload: dict[str, str]) -> tuple[bool, str | None]:
+    if (payload.get("website") or "").strip():
+        return False, "Не удалось отправить. Попробуйте еще раз."
+    try:
+        ts = int(str(payload.get("form_ts") or "0"))
+    except ValueError:
+        ts = 0
+    if ts:
+        if (time.time() - ts) < 2.0:
+            return False, "Не удалось отправить. Попробуйте еще раз."
+    goal = (payload.get("goal") or "").strip()
+    contact = (payload.get("contact") or "").strip()
+    if not goal:
+        return False, "Укажите цель ролика."
+    if not contact:
+        return False, "Укажите контакт для связи."
+    if len(contact) < 3:
+        return False, "Контакт выглядит слишком коротким."
+    for key in (
+        "goal",
+        "audience",
+        "format",
+        "duration",
+        "platform",
+        "deadline",
+        "refs",
+        "materials",
+        "graphics",
+        "revisions",
+        "budget",
+        "contact",
+    ):
+        if len((payload.get(key) or "").strip()) > 2000:
+            return False, "Поле слишком длинное. Укоротите текст."
+    return True, None
+
+
+def _notify_telegram_brief(payload: dict[str, str]) -> None:
+    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+        return
+    text = (
+        "📝 Новый бриф\n\n"
+        f"Цель: {payload.get('goal') or '—'}\n"
+        f"Аудитория: {payload.get('audience') or '—'}\n"
+        f"Формат: {payload.get('format') or '—'}\n"
+        f"Длительность: {payload.get('duration') or '—'}\n"
+        f"Площадка: {payload.get('platform') or '—'}\n"
+        f"Сроки: {payload.get('deadline') or '—'}\n"
+        f"Референсы: {payload.get('refs') or '—'}\n"
+        f"Материалы: {payload.get('materials') or '—'}\n"
+        f"Графика/титры: {payload.get('graphics') or '—'}\n"
+        f"Правки: {payload.get('revisions') or '—'}\n"
+        f"Бюджет: {payload.get('budget') or '—'}\n"
+        f"Контакт: {payload.get('contact') or '—'}"
+    )
+    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
+    try:
+        requests.post(
+            url,
+            json={
+                "chat_id": TELEGRAM_CHAT_ID,
+                "text": text,
+                "disable_web_page_preview": True,
+            },
+            timeout=6,
+        )
+    except Exception:
+        pass
+
+
 # Routes
 @app.get("/")
 def index():
@@ -250,6 +320,35 @@ def lead_form_post():
     return redirect(url_for("success"))
 
 
+@app.post("/brief")
+def brief_form_post():
+    if not _rate_limit_ok():
+        return render_template("index.html", error="Слишком часто. Попробуйте чуть позже.", **_index_context()), 429
+
+    payload = {
+        "goal": (request.form.get("goal") or "").strip(),
+        "audience": (request.form.get("audience") or "").strip(),
+        "format": (request.form.get("format") or "").strip(),
+        "duration": (request.form.get("duration") or "").strip(),
+        "platform": (request.form.get("platform") or "").strip(),
+        "deadline": (request.form.get("deadline") or "").strip(),
+        "refs": (request.form.get("refs") or "").strip(),
+        "materials": (request.form.get("materials") or "").strip(),
+        "graphics": (request.form.get("graphics") or "").strip(),
+        "revisions": (request.form.get("revisions") or "").strip(),
+        "budget": (request.form.get("budget") or "").strip(),
+        "contact": (request.form.get("contact") or "").strip(),
+        # anti-spam fields
+        "website": (request.form.get("website") or "").strip(),
+        "form_ts": (request.form.get("form_ts") or "").strip(),
+    }
+    ok, err = _validate_brief(payload)
+    if not ok:
+        return render_template("index.html", error=err, **_index_context()), 400
+    _notify_telegram_brief(payload)
+    return redirect(url_for("success"))
+
+
 @app.post("/api/lead")
 def api_lead():
     if not _rate_limit_ok():
@@ -269,6 +368,35 @@ def api_lead():
     if not ok:
         return jsonify({"ok": False, "error": err}), 400
     _notify_telegram(payload)
+    return jsonify({"ok": True})
+
+
+@app.post("/api/brief")
+def api_brief():
+    if not _rate_limit_ok():
+        return jsonify({"ok": False, "error": "Слишком часто. Попробуйте чуть позже."}), 429
+    data: dict[str, Any] = request.get_json(silent=True) or {}
+    payload = {
+        "goal": str(data.get("goal") or "").strip(),
+        "audience": str(data.get("audience") or "").strip(),
+        "format": str(data.get("format") or "").strip(),
+        "duration": str(data.get("duration") or "").strip(),
+        "platform": str(data.get("platform") or "").strip(),
+        "deadline": str(data.get("deadline") or "").strip(),
+        "refs": str(data.get("refs") or "").strip(),
+        "materials": str(data.get("materials") or "").strip(),
+        "graphics": str(data.get("graphics") or "").strip(),
+        "revisions": str(data.get("revisions") or "").strip(),
+        "budget": str(data.get("budget") or "").strip(),
+        "contact": str(data.get("contact") or "").strip(),
+        # anti-spam fields
+        "website": str(data.get("website") or "").strip(),
+        "form_ts": str(data.get("form_ts") or "").strip(),
+    }
+    ok, err = _validate_brief(payload)
+    if not ok:
+        return jsonify({"ok": False, "error": err}), 400
+    _notify_telegram_brief(payload)
     return jsonify({"ok": True})
 
 
