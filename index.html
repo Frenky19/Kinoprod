@@ -71,7 +71,6 @@
     <div class="mobileNav" data-mobile-nav>
       <div class="mobileNav__links">
         <a href="#suite">Монтажная</a>
-        <a href="#services">Услуги</a>
         <a href="#works">Работы</a>
         <a href="#process">Процесс</a>
         <a href="#contact">Контакты</a>
@@ -175,145 +174,15 @@
           <h2 class="h2" data-reveal style="--delay: 120ms;">Форматы и кейсы</h2>
         </div>
 
-        <div class="tabs" data-reveal>
-          <button class="tab is-active" data-filter="all">Все</button>
-          <button class="tab" data-filter="event">Ивенты</button>
-          <button class="tab" data-filter="business">Бизнес</button>
-          <button class="tab" data-filter="edu">Обучение</button>
-        </div>
-
-        <div class="gridWork" id="workGrid">
-          <button class="workCard" type="button" data-cat="event" data-reveal
-            data-open-modal="workModal"
-            data-work-title="Aftermovie конференции"
-            data-work-tag="Aftermovie"
-            data-work-dur="1:20"
-            data-work-note="репортаж + динамичный монтаж"
-            data-work-video="static/assets/showreel_720p.mp4"
-            data-work-poster="static/assets/placeholder.svg"
-            aria-label="Aftermovie конференции — 1:20">
-            <div class="workCard__thumb" aria-hidden="true">
-              <div class="workCard__play">▶</div>
-              <div class="frameTag">Aftermovie</div>
-            </div>
-            <div class="workCard__body">
-              <div class="workCard__top">
-                <div class="workCard__title">Aftermovie конференции</div>
-                <div class="workCard__dur">1:20</div>
-              </div>
-              <div class="workCard__note">репортаж + динамичный монтаж</div>
-            </div>
-          </button>
-
-          <button class="workCard" type="button" data-cat="event" data-reveal style="--delay: 90ms;"
-            data-open-modal="workModal"
-            data-work-title="Свадебный клип"
-            data-work-tag="Wedding"
-            data-work-dur="3:10"
-            data-work-note="эмоции + детали"
-            data-work-video="static/assets/showreel_720p.mp4"
-            data-work-poster="static/assets/placeholder.svg"
-            aria-label="Свадебный клип — 3:10">
-            <div class="workCard__thumb" aria-hidden="true">
-              <div class="workCard__play">▶</div>
-              <div class="frameTag">Wedding</div>
-            </div>
-            <div class="workCard__body">
-              <div class="workCard__top">
-                <div class="workCard__title">Свадебный клип</div>
-                <div class="workCard__dur">3:10</div>
-              </div>
-              <div class="workCard__note">эмоции + детали</div>
-            </div>
-          </button>
-
-          <button class="workCard" type="button" data-cat="business" data-reveal style="--delay: 180ms;"
-            data-open-modal="workModal"
-            data-work-title="Рекламный ролик продукта"
-            data-work-tag="Product"
-            data-work-dur="0:30"
-            data-work-note="акцент на УТП"
-            data-work-video="static/assets/showreel_720p.mp4"
-            data-work-poster="static/assets/placeholder.svg"
-            aria-label="Рекламный ролик продукта — 0:30">
-            <div class="workCard__thumb" aria-hidden="true">
-              <div class="workCard__play">▶</div>
-              <div class="frameTag">Product</div>
-            </div>
-            <div class="workCard__body">
-              <div class="workCard__top">
-                <div class="workCard__title">Рекламный ролик продукта</div>
-                <div class="workCard__dur">0:30</div>
-              </div>
-              <div class="workCard__note">акцент на УТП</div>
-            </div>
-          </button>
-
-          <button class="workCard" type="button" data-cat="business" data-reveal style="--delay: 270ms;"
-            data-open-modal="workModal"
-            data-work-title="Презентация сервиса"
-            data-work-tag="Brand"
-            data-work-dur="1:05"
-            data-work-note="структура + графика"
-            data-work-video="static/assets/showreel_720p.mp4"
-            data-work-poster="static/assets/placeholder.svg"
-            aria-label="Презентация сервиса — 1:05">
-            <div class="workCard__thumb" aria-hidden="true">
-              <div class="workCard__play">▶</div>
-              <div class="frameTag">Brand</div>
-            </div>
-            <div class="workCard__body">
-              <div class="workCard__top">
-                <div class="workCard__title">Презентация сервиса</div>
-                <div class="workCard__dur">1:05</div>
-              </div>
-              <div class="workCard__note">структура + графика</div>
-            </div>
-          </button>
-
-          <button class="workCard" type="button" data-cat="edu" data-reveal style="--delay: 360ms;"
-            data-open-modal="workModal"
-            data-work-title="Запись лекции"
-            data-work-tag="Education"
-            data-work-dur="45:00"
-            data-work-note="чистый звук + титры"
-            data-work-video="static/assets/showreel_720p.mp4"
-            data-work-poster="static/assets/placeholder.svg"
-            aria-label="Запись лекции — 45:00">
-            <div class="workCard__thumb" aria-hidden="true">
-              <div class="workCard__play">▶</div>
-              <div class="frameTag">Education</div>
-            </div>
-            <div class="workCard__body">
-              <div class="workCard__top">
-                <div class="workCard__title">Запись лекции</div>
-                <div class="workCard__dur">45:00</div>
-              </div>
-              <div class="workCard__note">чистый звук + титры</div>
-            </div>
-          </button>
-
-          <button class="workCard" type="button" data-cat="edu" data-reveal style="--delay: 450ms;"
-            data-open-modal="workModal"
-            data-work-title="Онлайн‑курс (урок)"
-            data-work-tag="Course"
-            data-work-dur="12:00"
-            data-work-note="экран + камера"
-            data-work-video="static/assets/showreel_720p.mp4"
-            data-work-poster="static/assets/placeholder.svg"
-            aria-label="Онлайн‑курс (урок) — 12:00">
-            <div class="workCard__thumb" aria-hidden="true">
-              <div class="workCard__play">▶</div>
-              <div class="frameTag">Course</div>
-            </div>
-            <div class="workCard__body">
-              <div class="workCard__top">
-                <div class="workCard__title">Онлайн‑курс (урок)</div>
-                <div class="workCard__dur">12:00</div>
-              </div>
-              <div class="workCard__note">экран + камера</div>
-            </div>
-          </button>
+        <div class="workEmpty" data-reveal>
+          <div class="workEmpty__title">Проекты по запросу</div>
+          <p class="muted">
+            Сейчас собираем и обновляем портфолио. Пришлём релевантные кейсы под вашу задачу и формат.
+          </p>
+          <div class="workEmpty__actions">
+            <button class="btn btn--primary" data-open-modal="leadModal">Запросить кейсы</button>
+            <a class="btn btn--ghost" href="https://t.me/molodoyeg" target="_blank" rel="noreferrer">Написать в Telegram</a>
+          </div>
         </div>
       </div>
     </section>
