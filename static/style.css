@@ -477,6 +477,7 @@ main{padding-top: var(--header-h);}
 .strip__label{font-size:12px; letter-spacing:.3em; text-transform:uppercase; color:var(--muted)}
 .strip__items{display:flex; gap:18px; flex-wrap:wrap; color:rgba(233,240,246,.7); font-size:13px}
 .strip__items span{padding:6px 10px; border-radius:999px; border:1px solid rgba(233,240,246,.08)}
+.workFormats{margin:8px 0 24px}
 
 .grid3{
   display:grid;
@@ -661,6 +662,25 @@ main{padding-top: var(--header-h);}
 .contactCard__value{font-weight:700}
 
 .contactSection__inner{display:flex; justify-content:flex-start}
+
+.brief{
+  display:grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap:26px;
+  align-items:start;
+}
+.brief__list{
+  display:grid;
+  gap:10px;
+}
+.brief__item{
+  padding:12px 14px;
+  border-radius:14px;
+  border:1px solid rgba(233,240,246,.12);
+  background: rgba(233,240,246,.03);
+  color:rgba(233,240,246,.8);
+}
+.brief__actions{display:flex; gap:12px; flex-wrap:wrap}
 
 .footer{
   padding:34px 0;
@@ -854,6 +874,7 @@ input:focus, textarea:focus{
   .grid3{grid-template-columns: 1fr}
   .gridWork{grid-template-columns: 1fr}
   .gridProcess{grid-template-columns: 1fr}
+  .brief{grid-template-columns: 1fr}
   .footer__grid{grid-template-columns: 1fr 1fr}
   .contactSection__inner{justify-content:stretch}
   .contactCard{width:100%}

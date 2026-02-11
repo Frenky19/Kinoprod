@@ -63,7 +63,11 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
     const tag = trigger.getAttribute('data-work-tag') || '';
     const dur = trigger.getAttribute('data-work-dur') || '';
     const note = trigger.getAttribute('data-work-note') || '';
-    const videoSrc = trigger.getAttribute('data-work-video') || '';
+    const webmSrc = trigger.getAttribute('data-work-video-webm') || '';
+    const mp4Src =
+      trigger.getAttribute('data-work-video-mp4') ||
+      trigger.getAttribute('data-work-video') ||
+      '';
     const poster = trigger.getAttribute('data-work-poster') || 'static/assets/placeholder.svg';
 
     const titleEl = modal.querySelector('#workTitle');
@@ -78,13 +82,29 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
     if (durEl) durEl.textContent = dur;
     if (noteEl) noteEl.textContent = note;
 
+    const setSource = (type, src) => {
+      if (!videoEl) return;
+      const sourceEl = videoEl.querySelector(`source[data-work-source="${type}"]`);
+      if (!sourceEl) return;
+      if (src) {
+        sourceEl.setAttribute('src', src);
+      } else {
+        sourceEl.removeAttribute('src');
+      }
+    };
+
     if (videoEl) {
       videoEl.pause();
-      if (videoSrc) {
-        videoEl.src = videoSrc;
+      const hasAny = Boolean(webmSrc || mp4Src);
+      if (hasAny) {
+        videoEl.removeAttribute('src');
+        setSource('webm', webmSrc);
+        setSource('mp4', mp4Src);
         videoEl.controls = true;
       } else {
         videoEl.removeAttribute('src');
+        setSource('webm', '');
+        setSource('mp4', '');
         videoEl.controls = false;
       }
       videoEl.setAttribute('poster', poster);
@@ -92,7 +112,7 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
     }
 
     if (fallbackEl) {
-      fallbackEl.hidden = Boolean(videoSrc);
+      fallbackEl.hidden = Boolean(webmSrc || mp4Src);
     }
   }
 
@@ -103,6 +123,8 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
     if (videoEl) {
       videoEl.pause();
       videoEl.removeAttribute('src');
+      const sources = videoEl.querySelectorAll('source[data-work-source]');
+      sources.forEach((s) => s.removeAttribute('src'));
       videoEl.controls = false;
       videoEl.load();
     }
@@ -192,22 +214,20 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
   });
 })();
 
-// Lead form (static mode)
-(function initLeadForm() {
-  const form = document.querySelector('#leadForm');
-  if (!form) return;
+// Static forms (no backend yet)
+(function initStaticForms() {
+  const forms = Array.from(document.querySelectorAll('form[data-static="1"]'));
+  if (!forms.length) return;
 
-  const isStatic = form.dataset.static === '1';
-  if (!isStatic) return;
-
-  const statusEl = form.querySelector('.form__status');
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (statusEl) {
-      statusEl.textContent =
-        'Форма временно отключена. Напишите в Telegram или на email — контакты ниже.';
-    }
+  forms.forEach((form) => {
+    const statusEl = form.querySelector('.form__status');
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      if (statusEl) {
+        statusEl.textContent =
+          'Форма временно отключена. Напишите в Telegram или на email — контакты ниже.';
+      }
+    });
   });
 })();
 

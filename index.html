@@ -84,6 +84,7 @@
       <video class="heroReel__video"
         autoplay muted loop playsinline preload="metadata" data-play-when-visible="1"
         poster="static/assets/placeholder.svg">
+        <source src="static/assets/showreel_720p.webm" type="video/webm">
         <source src="static/assets/showreel_720p.mp4" type="video/mp4">
       </video>
       <div class="heroReel__overlay" aria-hidden="true"></div>
@@ -174,15 +175,145 @@
           <h2 class="h2" data-reveal style="--delay: 120ms;">Форматы и кейсы</h2>
         </div>
 
-        <div class="workEmpty" data-reveal>
-          <div class="workEmpty__title">Проекты по запросу</div>
-          <p class="muted">
-            Сейчас собираем и обновляем портфолио. Пришлём релевантные кейсы под вашу задачу и формат.
-          </p>
-          <div class="workEmpty__actions">
-            <button class="btn btn--primary" data-open-modal="leadModal">Запросить кейсы</button>
-            <a class="btn btn--ghost" href="https://t.me/molodoyeg" target="_blank" rel="noreferrer">Написать в Telegram</a>
-          </div>
+        <div class="tabs" data-reveal>
+          <button class="tab is-active" data-filter="all">Все</button>
+          <button class="tab" data-filter="event">Ивенты</button>
+          <button class="tab" data-filter="business">Бизнес</button>
+          <button class="tab" data-filter="edu">Обучение</button>
+        </div>
+
+        <div class="gridWork" id="workGrid">
+          <button class="workCard" type="button" data-cat="event" data-reveal
+            data-open-modal="workModal"
+            data-work-title="Aftermovie конференции"
+            data-work-tag="Aftermovie"
+            data-work-dur="1:20"
+            data-work-note="репортаж + динамичный монтаж"
+            data-work-video-mp4="static/assets/showreel_720p.mp4"
+            data-work-poster="static/assets/placeholder.svg"
+            aria-label="Aftermovie конференции — 1:20">
+            <div class="workCard__thumb" aria-hidden="true">
+              <div class="workCard__play">▶</div>
+              <div class="frameTag">Aftermovie</div>
+            </div>
+            <div class="workCard__body">
+              <div class="workCard__top">
+                <div class="workCard__title">Aftermovie конференции</div>
+                <div class="workCard__dur">1:20</div>
+              </div>
+              <div class="workCard__note">репортаж + динамичный монтаж</div>
+            </div>
+          </button>
+
+          <button class="workCard" type="button" data-cat="event" data-reveal style="--delay: 90ms;"
+            data-open-modal="workModal"
+            data-work-title="Свадебный клип"
+            data-work-tag="Wedding"
+            data-work-dur="3:10"
+            data-work-note="эмоции + детали"
+            data-work-video-mp4="static/assets/showreel_720p.mp4"
+            data-work-poster="static/assets/placeholder.svg"
+            aria-label="Свадебный клип — 3:10">
+            <div class="workCard__thumb" aria-hidden="true">
+              <div class="workCard__play">▶</div>
+              <div class="frameTag">Wedding</div>
+            </div>
+            <div class="workCard__body">
+              <div class="workCard__top">
+                <div class="workCard__title">Свадебный клип</div>
+                <div class="workCard__dur">3:10</div>
+              </div>
+              <div class="workCard__note">эмоции + детали</div>
+            </div>
+          </button>
+
+          <button class="workCard" type="button" data-cat="business" data-reveal style="--delay: 180ms;"
+            data-open-modal="workModal"
+            data-work-title="Рекламный ролик продукта"
+            data-work-tag="Product"
+            data-work-dur="0:30"
+            data-work-note="акцент на УТП"
+            data-work-video-mp4="static/assets/showreel_720p.mp4"
+            data-work-poster="static/assets/placeholder.svg"
+            aria-label="Рекламный ролик продукта — 0:30">
+            <div class="workCard__thumb" aria-hidden="true">
+              <div class="workCard__play">▶</div>
+              <div class="frameTag">Product</div>
+            </div>
+            <div class="workCard__body">
+              <div class="workCard__top">
+                <div class="workCard__title">Рекламный ролик продукта</div>
+                <div class="workCard__dur">0:30</div>
+              </div>
+              <div class="workCard__note">акцент на УТП</div>
+            </div>
+          </button>
+
+          <button class="workCard" type="button" data-cat="business" data-reveal style="--delay: 270ms;"
+            data-open-modal="workModal"
+            data-work-title="Презентация сервиса"
+            data-work-tag="Brand"
+            data-work-dur="1:05"
+            data-work-note="структура + графика"
+            data-work-video-mp4="static/assets/showreel_720p.mp4"
+            data-work-poster="static/assets/placeholder.svg"
+            aria-label="Презентация сервиса — 1:05">
+            <div class="workCard__thumb" aria-hidden="true">
+              <div class="workCard__play">▶</div>
+              <div class="frameTag">Brand</div>
+            </div>
+            <div class="workCard__body">
+              <div class="workCard__top">
+                <div class="workCard__title">Презентация сервиса</div>
+                <div class="workCard__dur">1:05</div>
+              </div>
+              <div class="workCard__note">структура + графика</div>
+            </div>
+          </button>
+
+          <button class="workCard" type="button" data-cat="edu" data-reveal style="--delay: 360ms;"
+            data-open-modal="workModal"
+            data-work-title="Запись лекции"
+            data-work-tag="Education"
+            data-work-dur="45:00"
+            data-work-note="чистый звук + титры"
+            data-work-video-mp4="static/assets/showreel_720p.mp4"
+            data-work-poster="static/assets/placeholder.svg"
+            aria-label="Запись лекции — 45:00">
+            <div class="workCard__thumb" aria-hidden="true">
+              <div class="workCard__play">▶</div>
+              <div class="frameTag">Education</div>
+            </div>
+            <div class="workCard__body">
+              <div class="workCard__top">
+                <div class="workCard__title">Запись лекции</div>
+                <div class="workCard__dur">45:00</div>
+              </div>
+              <div class="workCard__note">чистый звук + титры</div>
+            </div>
+          </button>
+
+          <button class="workCard" type="button" data-cat="edu" data-reveal style="--delay: 450ms;"
+            data-open-modal="workModal"
+            data-work-title="Онлайн‑курс (урок)"
+            data-work-tag="Course"
+            data-work-dur="12:00"
+            data-work-note="экран + камера"
+            data-work-video-mp4="static/assets/showreel_720p.mp4"
+            data-work-poster="static/assets/placeholder.svg"
+            aria-label="Онлайн‑курс (урок) — 12:00">
+            <div class="workCard__thumb" aria-hidden="true">
+              <div class="workCard__play">▶</div>
+              <div class="frameTag">Course</div>
+            </div>
+            <div class="workCard__body">
+              <div class="workCard__top">
+                <div class="workCard__title">Онлайн‑курс (урок)</div>
+                <div class="workCard__dur">12:00</div>
+              </div>
+              <div class="workCard__note">экран + камера</div>
+            </div>
+          </button>
         </div>
       </div>
     </section>
@@ -234,6 +365,33 @@
               <div class="muted">Экспорт под разные платформы и форматы.</div>
             </div>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section--alt" id="brief">
+      <div class="container brief">
+        <div class="brief__content">
+          <h2 class="h2" data-reveal style="--delay: 120ms;">Пакет брифа за 2 минуты</h2>
+          <p class="lead" data-reveal style="--delay: 200ms;">
+            Короткий список вопросов помогает быстро понять задачу, формат и сроки.
+            После брифа даём точный план и оценку.
+          </p>
+          <div class="brief__actions" data-reveal style="--delay: 280ms;">
+            <a class="btn btn--primary" href="static/brief.pdf" download>Скачать бриф</a>
+            <button class="btn btn--ghost" data-open-modal="briefModal">Заполнить онлайн</button>
+          </div>
+        </div>
+
+        <div class="brief__list" data-reveal style="--delay: 220ms;">
+          <div class="brief__item">Цель ролика и аудитория</div>
+          <div class="brief__item">Формат и длительность</div>
+          <div class="brief__item">Площадка публикации</div>
+          <div class="brief__item">Сроки и дедлайн</div>
+          <div class="brief__item">Референсы и стиль</div>
+          <div class="brief__item">Материалы и объём исходников</div>
+          <div class="brief__item">Требования к графике и титрам</div>
+          <div class="brief__item">Количество правок</div>
         </div>
       </div>
     </section>
@@ -347,6 +505,98 @@
     </div>
   </div>
 
+  <!-- Brief Modal -->
+  <div class="modal" id="briefModal" aria-hidden="true">
+    <div class="modal__backdrop" data-close-modal></div>
+
+    <div class="modal__panel briefPanel" role="dialog" aria-modal="true" aria-labelledby="briefTitle" tabindex="-1">
+      <div class="modal__head">
+        <div>
+          <div class="kicker">Бриф</div>
+          <h3 id="briefTitle" class="h3">Короткая анкета</h3>
+        </div>
+        <button class="iconBtn" aria-label="Закрыть" data-close-modal>✕</button>
+      </div>
+
+      <form class="form" id="briefForm" data-static="1" novalidate>
+        <label class="field">
+          <span>Цель ролика</span>
+          <input name="goal" placeholder="Продажи, узнаваемость, обучение..." />
+        </label>
+
+        <label class="field">
+          <span>Аудитория</span>
+          <input name="audience" placeholder="Кто ваш зритель?" />
+        </label>
+
+        <div class="form__row">
+          <label class="field">
+            <span>Формат</span>
+            <input name="format" placeholder="16:9, 9:16, 1:1" />
+          </label>
+
+          <label class="field">
+            <span>Длительность</span>
+            <input name="duration" placeholder="сек/мин" />
+          </label>
+        </div>
+
+        <div class="form__row">
+          <label class="field">
+            <span>Площадка</span>
+            <input name="platform" placeholder="YouTube, Instagram, VK..." />
+          </label>
+
+          <label class="field">
+            <span>Сроки</span>
+            <input name="deadline" placeholder="Дата/период" />
+          </label>
+        </div>
+
+        <label class="field">
+          <span>Референсы (ссылки)</span>
+          <textarea name="refs" rows="3" placeholder="2–3 ссылки на понравившиеся ролики"></textarea>
+        </label>
+
+        <label class="field">
+          <span>Материалы и объём исходников</span>
+          <textarea name="materials" rows="3" placeholder="Сколько исходников, есть ли звук/графика"></textarea>
+        </label>
+
+        <div class="form__row">
+          <label class="field">
+            <span>Графика/титры</span>
+            <input name="graphics" placeholder="Нужно/не нужно" />
+          </label>
+
+          <label class="field">
+            <span>Количество правок</span>
+            <input name="revisions" placeholder="1–2 раунда" />
+          </label>
+        </div>
+
+        <div class="form__row">
+          <label class="field">
+            <span>Бюджет (опционально)</span>
+            <input name="budget" placeholder="Вилка" />
+          </label>
+
+          <label class="field">
+            <span>Контакт для связи</span>
+            <input name="contact" placeholder="Телефон/Telegram" />
+          </label>
+        </div>
+
+        <div class="form__actions">
+          <button class="btn btn--primary" type="submit">Отправить бриф</button>
+          <div class="form__hint">Форма временно не отправляет заявки. Напишите в Telegram или на email.</div>
+        </div>
+
+        <div class="form__status" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </div>
+
   <!-- Work Modal -->
   <div class="modal" id="workModal" aria-hidden="true">
     <div class="modal__backdrop" data-close-modal></div>
@@ -361,7 +611,10 @@
 
       <div class="workModal__body">
         <div class="workModal__media">
-          <video class="workModal__video" controls preload="metadata" playsinline poster="static/assets/placeholder.svg" aria-label="Видеоплеер"></video>
+          <video class="workModal__video" controls preload="metadata" playsinline poster="static/assets/placeholder.svg" aria-label="Видеоплеер">
+            <source data-work-source="webm" type="video/webm">
+            <source data-work-source="mp4" type="video/mp4">
+          </video>
           <div class="workModal__placeholder" data-work-fallback>Видео скоро будет здесь</div>
         </div>
         <div class="workModal__meta">
