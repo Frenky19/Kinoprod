@@ -29,24 +29,120 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
   });
 });
 
-// Universal modal logic (event delegation)
+// Universal modal logic (event delegation + focus trap)
 (function initModalDelegation() {
   const openSelector = '[data-open-modal]';
   const closeSelector = '[data-close-modal]';
+  const focusableSelector =
+    'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
 
-  function openModal(id) {
+  let activeModal = null;
+  let lastActiveElement = null;
+
+  function getFocusable(modal) {
+    if (!modal) return [];
+    return Array.from(modal.querySelectorAll(focusableSelector)).filter(
+      (el) => !el.hasAttribute('disabled') && el.getAttribute('aria-hidden') !== 'true'
+    );
+  }
+
+  function focusFirst(modal) {
+    const focusable = getFocusable(modal);
+    const panel = modal ? modal.querySelector('.modal__panel') : null;
+    const target = focusable[0] || panel || modal;
+    if (target && typeof target.focus === 'function') {
+      target.focus({ preventScroll: true });
+    }
+  }
+
+  function setWorkModalData(trigger) {
+    const modal = document.getElementById('workModal');
+    if (!modal || !trigger) return;
+
+    const title = trigger.getAttribute('data-work-title') || 'Проект';
+    const tag = trigger.getAttribute('data-work-tag') || '';
+    const dur = trigger.getAttribute('data-work-dur') || '';
+    const note = trigger.getAttribute('data-work-note') || '';
+    const videoSrc = trigger.getAttribute('data-work-video') || '';
+    const poster = trigger.getAttribute('data-work-poster') || 'static/assets/placeholder.svg';
+
+    const titleEl = modal.querySelector('#workTitle');
+    const tagEl = modal.querySelector('[data-work-tag]');
+    const durEl = modal.querySelector('[data-work-dur]');
+    const noteEl = modal.querySelector('[data-work-note]');
+    const videoEl = modal.querySelector('.workModal__video');
+    const fallbackEl = modal.querySelector('[data-work-fallback]');
+
+    if (titleEl) titleEl.textContent = title;
+    if (tagEl) tagEl.textContent = tag;
+    if (durEl) durEl.textContent = dur;
+    if (noteEl) noteEl.textContent = note;
+
+    if (videoEl) {
+      videoEl.pause();
+      if (videoSrc) {
+        videoEl.src = videoSrc;
+        videoEl.controls = true;
+      } else {
+        videoEl.removeAttribute('src');
+        videoEl.controls = false;
+      }
+      videoEl.setAttribute('poster', poster);
+      videoEl.load();
+    }
+
+    if (fallbackEl) {
+      fallbackEl.hidden = Boolean(videoSrc);
+    }
+  }
+
+  function resetWorkModal(modal) {
+    if (!modal || modal.id !== 'workModal') return;
+    const videoEl = modal.querySelector('.workModal__video');
+    const fallbackEl = modal.querySelector('[data-work-fallback]');
+    if (videoEl) {
+      videoEl.pause();
+      videoEl.removeAttribute('src');
+      videoEl.controls = false;
+      videoEl.load();
+    }
+    if (fallbackEl) fallbackEl.hidden = false;
+  }
+
+  function openModal(id, opener) {
     const modal = document.getElementById(id);
     if (!modal) return;
+
+    const previousModal = activeModal;
+    if (previousModal && previousModal !== modal) {
+      closeModal(previousModal, { restoreFocus: false });
+    }
+
+    const openerInsidePrevious =
+      previousModal && opener && previousModal.contains(opener);
+    if (!openerInsidePrevious) {
+      lastActiveElement = opener || document.activeElement;
+    }
     modal.classList.add('is-open');
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
+    activeModal = modal;
+    focusFirst(modal);
   }
 
-  function closeModal(modal) {
+  function closeModal(modal, { restoreFocus = true } = {}) {
     if (!modal) return;
     modal.classList.remove('is-open');
     modal.setAttribute('aria-hidden', 'true');
     document.body.classList.remove('modal-open');
+    resetWorkModal(modal);
+
+    if (restoreFocus && lastActiveElement && typeof lastActiveElement.focus === 'function') {
+      lastActiveElement.focus({ preventScroll: true });
+    }
+
+    if (activeModal === modal) activeModal = null;
+    if (restoreFocus) lastActiveElement = null;
   }
 
   document.addEventListener('click', (e) => {
@@ -54,7 +150,8 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
     if (openBtn) {
       e.preventDefault();
       const id = openBtn.getAttribute('data-open-modal');
-      if (id) openModal(id);
+      if (id === 'workModal') setWorkModalData(openBtn);
+      if (id) openModal(id, openBtn);
       return;
     }
 
@@ -67,11 +164,31 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
     }
   });
 
-  // ESC closes any open modal
+  // ESC closes any open modal + focus trap
   document.addEventListener('keydown', (e) => {
-    if (e.key !== 'Escape') return;
-    const openModalEl = document.querySelector('.modal.is-open');
-    if (openModalEl) closeModal(openModalEl);
+    if (e.key === 'Escape') {
+      if (activeModal) closeModal(activeModal);
+      return;
+    }
+
+    if (e.key !== 'Tab' || !activeModal) return;
+    const focusable = getFocusable(activeModal);
+    if (!focusable.length) {
+      e.preventDefault();
+      return;
+    }
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault();
+      last.focus();
+      return;
+    }
+    if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    }
   });
 })();
 

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#26d6b5" stop-opacity="0.35"/>
+      <stop offset="1" stop-color="#7fd7ff" stop-opacity="0.2"/>
+    </linearGradient>
+    <linearGradient id="g2" x1="0" y1="1" x2="1" y2="0">
+      <stop offset="0" stop-color="#f6c16b" stop-opacity="0.25"/>
+      <stop offset="1" stop-color="#26d6b5" stop-opacity="0.15"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#0b0f14"/>
+  <rect x="60" y="70" width="1080" height="490" rx="42" fill="url(#g1)"/>
+  <rect x="120" y="120" width="960" height="390" rx="36" fill="url(#g2)"/>
+  <text x="160" y="300" fill="#e9f0f6" font-size="110" font-family="Space Grotesk, Manrope, sans-serif" font-weight="700" letter-spacing="10">KINO</text>
+  <text x="160" y="370" fill="#e9f0f6" font-size="36" font-family="Manrope, sans-serif" opacity="0.8" letter-spacing="4">VIDEOPRODUCTION</text>
+  <text x="160" y="430" fill="#7fd7ff" font-size="24" font-family="Manrope, sans-serif" opacity="0.85" letter-spacing="4">EDIT | COLOR | SOUND | MOTION</text>
+</svg>

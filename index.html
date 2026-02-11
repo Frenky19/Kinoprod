@@ -5,11 +5,37 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>KINO — Видеомонтаж и постпродакшн</title>
   <meta name="description" content="Видеомонтаж и постпродакшн: ритм, цвет, звук, графика. Индивидуально под задачу и стиль бренда." />
+  <meta name="theme-color" content="#0b0f14" />
+  <meta property="og:title" content="KINO — Видеомонтаж и постпродакшн" />
+  <meta property="og:description" content="Видеомонтаж и постпродакшн: ритм, цвет, звук, графика. Индивидуально под задачу и стиль бренда." />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ru_RU" />
+  <meta property="og:image" content="static/assets/og-cover.svg" />
+  <meta property="og:image:alt" content="KINO — видеопродакшн" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="icon" type="image/svg+xml" href="static/assets/favicon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="static/style.css" />
   <script>document.documentElement.classList.add('js');</script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "KINO",
+    "email": "kino_prod@gmail.com",
+    "telephone": "+7 925 603-53-11",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Москва",
+      "addressCountry": "RU"
+    },
+    "sameAs": [
+      "https://t.me/molodoyeg"
+    ]
+  }
+  </script>
 </head>
 <body>
   <header class="header">
@@ -203,7 +229,15 @@
         </div>
 
         <div class="gridWork" id="workGrid">
-          <a class="workCard" href="#" data-cat="event" data-reveal>
+          <button class="workCard" type="button" data-cat="event" data-reveal
+            data-open-modal="workModal"
+            data-work-title="Aftermovie конференции"
+            data-work-tag="Aftermovie"
+            data-work-dur="1:20"
+            data-work-note="репортаж + динамичный монтаж"
+            data-work-video="static/assets/showreel_720p.mp4"
+            data-work-poster="static/assets/placeholder.svg"
+            aria-label="Aftermovie конференции — 1:20">
             <div class="workCard__thumb" aria-hidden="true">
               <div class="workCard__play">▶</div>
               <div class="frameTag">Aftermovie</div>
@@ -215,9 +249,17 @@
               </div>
               <div class="workCard__note">репортаж + динамичный монтаж</div>
             </div>
-          </a>
+          </button>
 
-          <a class="workCard" href="#" data-cat="event" data-reveal style="--delay: 90ms;">
+          <button class="workCard" type="button" data-cat="event" data-reveal style="--delay: 90ms;"
+            data-open-modal="workModal"
+            data-work-title="Свадебный клип"
+            data-work-tag="Wedding"
+            data-work-dur="3:10"
+            data-work-note="эмоции + детали"
+            data-work-video="static/assets/showreel_720p.mp4"
+            data-work-poster="static/assets/placeholder.svg"
+            aria-label="Свадебный клип — 3:10">
             <div class="workCard__thumb" aria-hidden="true">
               <div class="workCard__play">▶</div>
               <div class="frameTag">Wedding</div>
@@ -229,9 +271,17 @@
               </div>
               <div class="workCard__note">эмоции + детали</div>
             </div>
-          </a>
+          </button>
 
-          <a class="workCard" href="#" data-cat="business" data-reveal style="--delay: 180ms;">
+          <button class="workCard" type="button" data-cat="business" data-reveal style="--delay: 180ms;"
+            data-open-modal="workModal"
+            data-work-title="Рекламный ролик продукта"
+            data-work-tag="Product"
+            data-work-dur="0:30"
+            data-work-note="акцент на УТП"
+            data-work-video="static/assets/showreel_720p.mp4"
+            data-work-poster="static/assets/placeholder.svg"
+            aria-label="Рекламный ролик продукта — 0:30">
             <div class="workCard__thumb" aria-hidden="true">
               <div class="workCard__play">▶</div>
               <div class="frameTag">Product</div>
@@ -243,9 +293,17 @@
               </div>
               <div class="workCard__note">акцент на УТП</div>
             </div>
-          </a>
+          </button>
 
-          <a class="workCard" href="#" data-cat="business" data-reveal style="--delay: 270ms;">
+          <button class="workCard" type="button" data-cat="business" data-reveal style="--delay: 270ms;"
+            data-open-modal="workModal"
+            data-work-title="Презентация сервиса"
+            data-work-tag="Brand"
+            data-work-dur="1:05"
+            data-work-note="структура + графика"
+            data-work-video="static/assets/showreel_720p.mp4"
+            data-work-poster="static/assets/placeholder.svg"
+            aria-label="Презентация сервиса — 1:05">
             <div class="workCard__thumb" aria-hidden="true">
               <div class="workCard__play">▶</div>
               <div class="frameTag">Brand</div>
@@ -257,9 +315,17 @@
               </div>
               <div class="workCard__note">структура + графика</div>
             </div>
-          </a>
+          </button>
 
-          <a class="workCard" href="#" data-cat="edu" data-reveal style="--delay: 360ms;">
+          <button class="workCard" type="button" data-cat="edu" data-reveal style="--delay: 360ms;"
+            data-open-modal="workModal"
+            data-work-title="Запись лекции"
+            data-work-tag="Education"
+            data-work-dur="45:00"
+            data-work-note="чистый звук + титры"
+            data-work-video="static/assets/showreel_720p.mp4"
+            data-work-poster="static/assets/placeholder.svg"
+            aria-label="Запись лекции — 45:00">
             <div class="workCard__thumb" aria-hidden="true">
               <div class="workCard__play">▶</div>
               <div class="frameTag">Education</div>
@@ -271,9 +337,17 @@
               </div>
               <div class="workCard__note">чистый звук + титры</div>
             </div>
-          </a>
+          </button>
 
-          <a class="workCard" href="#" data-cat="edu" data-reveal style="--delay: 450ms;">
+          <button class="workCard" type="button" data-cat="edu" data-reveal style="--delay: 450ms;"
+            data-open-modal="workModal"
+            data-work-title="Онлайн‑курс (урок)"
+            data-work-tag="Course"
+            data-work-dur="12:00"
+            data-work-note="экран + камера"
+            data-work-video="static/assets/showreel_720p.mp4"
+            data-work-poster="static/assets/placeholder.svg"
+            aria-label="Онлайн‑курс (урок) — 12:00">
             <div class="workCard__thumb" aria-hidden="true">
               <div class="workCard__play">▶</div>
               <div class="frameTag">Course</div>
@@ -285,7 +359,7 @@
               </div>
               <div class="workCard__note">экран + камера</div>
             </div>
-          </a>
+          </button>
         </div>
       </div>
     </section>
@@ -403,7 +477,7 @@
   <div class="modal" id="leadModal" aria-hidden="true">
     <div class="modal__backdrop" data-close-modal></div>
 
-    <div class="modal__panel clapper" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal__panel clapper" role="dialog" aria-modal="true" aria-labelledby="modalTitle" tabindex="-1">
       <div class="clapper__top" aria-hidden="true"></div>
 
       <div class="clapper__header">
@@ -452,6 +526,38 @@
     </div>
   </div>
 
+  <!-- Work Modal -->
+  <div class="modal" id="workModal" aria-hidden="true">
+    <div class="modal__backdrop" data-close-modal></div>
+    <div class="modal__panel workPanel" role="dialog" aria-modal="true" aria-labelledby="workTitle" tabindex="-1">
+      <div class="modal__head">
+        <div>
+          <div class="kicker">Портфолио</div>
+          <h3 id="workTitle" class="h3">Проект</h3>
+        </div>
+        <button class="iconBtn" aria-label="Закрыть" data-close-modal>✕</button>
+      </div>
+
+      <div class="workModal__body">
+        <div class="workModal__media">
+          <video class="workModal__video" controls preload="metadata" playsinline poster="static/assets/placeholder.svg" aria-label="Видеоплеер"></video>
+          <div class="workModal__placeholder" data-work-fallback>Видео скоро будет здесь</div>
+        </div>
+        <div class="workModal__meta">
+          <div class="workModal__chips">
+            <span class="workModal__tag" data-work-tag></span>
+            <span class="workModal__dur" data-work-dur></span>
+          </div>
+          <p class="muted" data-work-note></p>
+          <div class="workModal__actions">
+            <button class="btn btn--primary" data-open-modal="leadModal">Обсудить проект</button>
+            <button class="btn btn--ghost" data-close-modal>Закрыть</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script src="static/app.js"></script>
 
   <!-- Floating FAQ button (image) -->
@@ -465,7 +571,7 @@
   <!-- FAQ Modal -->
   <div class="modal" id="faqModal" aria-hidden="true">
     <div class="modal__backdrop" data-close-modal></div>
-    <div class="modal__panel faqPanel" role="dialog" aria-modal="true" aria-labelledby="faqTitle">
+    <div class="modal__panel faqPanel" role="dialog" aria-modal="true" aria-labelledby="faqTitle" tabindex="-1">
       <div class="modal__head">
         <div>
           <div class="kicker">FAQ</div>

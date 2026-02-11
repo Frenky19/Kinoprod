@@ -24,7 +24,10 @@
 
 *{box-sizing:border-box}
 html,body{height:100%}
-html{scroll-behavior:smooth}
+html{
+  scroll-behavior:smooth;
+  scroll-padding-top: calc(var(--header-h) + 24px);
+}
 body{
   margin:0;
   font-family:var(--font-body);
@@ -60,6 +63,15 @@ body::after{
 
 a{color:inherit; text-decoration:none}
 img{max-width:100%; display:block}
+:where([id]){scroll-margin-top: calc(var(--header-h) + 24px)}
+
+:focus-visible{
+  outline: 2px solid var(--accent-3);
+  outline-offset: 3px;
+}
+input:focus-visible,
+textarea:focus-visible{outline: none}
+.modal__panel:focus{outline: none}
 
 .container{width:min(1200px, calc(100% - 56px)); margin:0 auto}
 
@@ -512,6 +524,13 @@ main{padding-top: var(--header-h);}
   gap:18px;
 }
 .workCard{
+  appearance:none;
+  text-align:left;
+  font: inherit;
+  color: inherit;
+  cursor:pointer;
+  padding:0;
+  width:100%;
   border:1px solid rgba(233,240,246,.1);
   border-radius: var(--radius-lg);
   overflow:hidden;
@@ -523,6 +542,10 @@ main{padding-top: var(--header-h);}
   transform: translateY(-4px);
   box-shadow: var(--shadow);
   border-color: rgba(233,240,246,.25);
+}
+.workCard:focus-visible{
+  border-color: rgba(127,215,255,.7);
+  box-shadow: 0 0 0 3px rgba(127,215,255,.2), var(--shadow-soft);
 }
 .workCard__thumb{
   aspect-ratio: 16/9;
@@ -714,6 +737,58 @@ input:focus, textarea:focus{
   user-select: none;
 }
 
+/* --- Work modal --- */
+.workPanel{width:min(860px, calc(100% - 24px))}
+.workModal__body{
+  display:grid;
+  grid-template-columns: 1.1fr .9fr;
+  gap:18px;
+  align-items:stretch;
+}
+.workModal__media{
+  position:relative;
+  border-radius: 18px;
+  border:1px solid rgba(233,240,246,.12);
+  background:
+    radial-gradient(680px 260px at 30% 30%, rgba(38,214,181,.18), transparent 60%),
+    radial-gradient(520px 220px at 80% 20%, rgba(127,215,255,.14), transparent 60%),
+    rgba(11,15,20,.75);
+  overflow:hidden;
+  min-height: 260px;
+}
+.workModal__video{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit: cover;
+  background: #05080c;
+}
+.workModal__placeholder{
+  position:absolute;
+  inset:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:rgba(233,240,246,.7);
+  font-size:14px;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  background: linear-gradient(180deg, rgba(11,15,20,.2), rgba(11,15,20,.6));
+}
+.workModal__meta{display:grid; gap:12px}
+.workModal__chips{display:flex; gap:10px; flex-wrap:wrap}
+.workModal__tag,
+.workModal__dur{
+  padding:6px 12px;
+  border-radius:999px;
+  border:1px solid rgba(233,240,246,.16);
+  background: rgba(233,240,246,.05);
+  font-size:12px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+.workModal__actions{display:flex; gap:12px; flex-wrap:wrap}
+
 /* --- Clapperboard (lead form) --- */
 #leadModal .modal__panel.clapper{padding: 0; overflow: hidden; background: rgba(12,16,22,.92)}
 .clapper__top{
@@ -772,6 +847,7 @@ input:focus, textarea:focus{
   .suite__footer{flex-direction:column; gap:6px}
   .hero__clients{margin-top:28px; flex-direction:column; align-items:flex-start}
   .clientLogos{justify-content:flex-start}
+  .workModal__body{grid-template-columns: 1fr}
 }
 
 @media (max-width: 560px){
