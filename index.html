@@ -114,55 +114,42 @@
 
     <section class="section suite" id="suite">
       <div class="container suite__grid">
-        <div>
-          <h2 class="h2" data-reveal style="--delay: 120ms;">Точная сборка ритма и смысла</h2>
-          <p class="lead" data-reveal style="--delay: 200ms;">
-            Режиссура монтажа — это темп, пауза, динамика и звук. Мы делаем так, чтобы зритель чувствовал качество на уровне интуиции.
+        <div class="suite__copy">
+          <h2 class="h2 suite__title-main" data-reveal style="--delay: 120ms;">Мы делаем видеопродакшн, в котором идея начинает работать на бренд</h2>
+          <p class="suite__text suite__text--lead" data-reveal style="--delay: 200ms;">
+            Для нас ролик не ограничивается красивой съёмкой. Мы собираем историю, которая удерживает внимание, вовлекает зрителя и усиливает присутствие бренда в кадре.
           </p>
-          <div class="suite__list" data-reveal style="--delay: 280ms;">
-            <div class="suite__item">
-              <div class="suite__title">Story Cut</div>
-              <div class="muted">Сценарная сборка, логика и драматургия.</div>
-            </div>
-            <div class="suite__item">
-              <div class="suite__title">Rhythm Cut</div>
-              <div class="muted">Ритм, энергия, драйв и акценты.</div>
-            </div>
-            <div class="suite__item">
-              <div class="suite__title">Final Cut</div>
-              <div class="muted">Цвет, звук, титры, финальная полировка.</div>
-            </div>
-          </div>
-        </div>
+          <p class="suite__text" data-reveal style="--delay: 260ms;">
+            Мы строим подачу так, чтобы видео не просто посмотрели, а действительно прочувствовали: через ритм, атмосферу, звук и точные визуальные акценты.
+          </p>
+          <p class="suite__text" data-reveal style="--delay: 320ms;">
+            Видеопродакшн для нас — это сочетание ремесла, вкуса и смысла. Мы знаем, как придать ролику характер, чтобы он выделялся и оставался в памяти.
+          </p>
 
-        <div class="suite__panel" data-reveal style="--delay: 240ms;">
-          <div class="suite__top">
-            <div class="timecode">00:01:24:12</div>
-            <div class="suite__tag">CUT v4</div>
-          </div>
-          <div class="timeline">
-            <div class="playhead"></div>
-            <div class="track track--video">
-              <span class="clip" style="--x:4%;--w:36%;"></span>
-              <span class="clip" style="--x:44%;--w:22%;"></span>
-              <span class="clip" style="--x:70%;--w:22%;"></span>
-            </div>
-            <div class="track track--broll">
-              <span class="clip" style="--x:10%;--w:18%;"></span>
-              <span class="clip" style="--x:36%;--w:24%;"></span>
-              <span class="clip" style="--x:66%;--w:26%;"></span>
-            </div>
-            <div class="track track--sound">
-              <div class="wave"></div>
-            </div>
-            <div class="track track--gfx">
-              <span class="clip" style="--x:18%;--w:28%;"></span>
-              <span class="clip" style="--x:54%;--w:16%;"></span>
-            </div>
-          </div>
-          <div class="suite__footer">
-            <span>Варианты: 16:9 • 9:16 • 1:1</span>
-            <span>Экспорт: 4K/1080p</span>
+          <div class="suite__previews" data-reveal style="--delay: 420ms;">
+            <button class="previewCard" type="button"
+              data-open-modal="workModal"
+              data-work-title="Aftermovie конференции"
+              data-work-note="Репортажная съёмка и монтаж с живой динамикой, акцентами на атмосферу и детали события."
+              data-work-video-mp4="static/assets/showreel_720p.mp4"
+              data-work-poster="static/assets/placeholder.svg"
+              aria-label="Открыть кейс Aftermovie конференции">
+              <video class="previewCard__video" muted loop playsinline preload="none" poster="static/assets/placeholder.svg" data-hover-preview="1">
+                <source src="static/assets/showreel_720p.mp4" type="video/mp4">
+              </video>
+            </button>
+
+            <button class="previewCard" type="button"
+              data-open-modal="workModal"
+              data-work-title="Видео для бизнеса"
+              data-work-note="Аккуратная визуальная подача, ритм и монтаж, которые делают сообщение бренда ясным и запоминающимся."
+              data-work-video-mp4="static/assets/showreel_720p.mp4"
+              data-work-poster="static/assets/placeholder.svg"
+              aria-label="Открыть кейс Видео для бизнеса">
+              <video class="previewCard__video previewCard__video--alt" muted loop playsinline preload="none" poster="static/assets/placeholder.svg" data-hover-preview="1">
+                <source src="static/assets/showreel_720p.mp4" type="video/mp4">
+              </video>
+            </button>
           </div>
         </div>
       </div>
@@ -600,10 +587,9 @@
   <div class="modal" id="workModal" aria-hidden="true">
     <div class="modal__backdrop" data-close-modal></div>
     <div class="modal__panel workPanel" role="dialog" aria-modal="true" aria-labelledby="workTitle" tabindex="-1">
-      <div class="modal__head">
-        <div>
-          <div class="kicker">Портфолио</div>
-          <h3 id="workTitle" class="h3">Проект</h3>
+      <div class="modal__head workModal__head">
+        <div class="workModal__intro">
+          <h3 id="workTitle" class="h3 workModal__title">Проект</h3>
         </div>
         <button class="iconBtn" aria-label="Закрыть" data-close-modal>✕</button>
       </div>
@@ -617,14 +603,10 @@
           <div class="workModal__placeholder" data-work-fallback>Видео скоро будет здесь</div>
         </div>
         <div class="workModal__meta">
-          <div class="workModal__chips">
-            <span class="workModal__tag" data-work-tag></span>
-            <span class="workModal__dur" data-work-dur></span>
-          </div>
-          <p class="muted" data-work-note></p>
+          <p class="muted workModal__note" data-work-note></p>
           <div class="workModal__actions">
-            <button class="btn btn--primary" data-open-modal="leadModal">Обсудить проект</button>
-            <button class="btn btn--ghost" data-close-modal>Закрыть</button>
+            <button class="btn btn--primary workModal__btn" data-open-modal="leadModal">Обсудить проект</button>
+            <button class="btn btn--ghost workModal__btn" data-close-modal>Закрыть</button>
           </div>
         </div>
       </div>

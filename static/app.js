@@ -60,8 +60,6 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
     if (!modal || !trigger) return;
 
     const title = trigger.getAttribute('data-work-title') || 'Проект';
-    const tag = trigger.getAttribute('data-work-tag') || '';
-    const dur = trigger.getAttribute('data-work-dur') || '';
     const note = trigger.getAttribute('data-work-note') || '';
     const webmSrc = trigger.getAttribute('data-work-video-webm') || '';
     const mp4Src =
@@ -71,16 +69,15 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
     const poster = trigger.getAttribute('data-work-poster') || 'static/assets/placeholder.svg';
 
     const titleEl = modal.querySelector('#workTitle');
-    const tagEl = modal.querySelector('[data-work-tag]');
-    const durEl = modal.querySelector('[data-work-dur]');
     const noteEl = modal.querySelector('[data-work-note]');
     const videoEl = modal.querySelector('.workModal__video');
     const fallbackEl = modal.querySelector('[data-work-fallback]');
 
     if (titleEl) titleEl.textContent = title;
-    if (tagEl) tagEl.textContent = tag;
-    if (durEl) durEl.textContent = dur;
-    if (noteEl) noteEl.textContent = note;
+    if (noteEl) {
+      noteEl.textContent = note;
+      noteEl.hidden = !note;
+    }
 
     const setSource = (type, src) => {
       if (!videoEl) return;
@@ -120,6 +117,7 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
     if (!modal || modal.id !== 'workModal') return;
     const videoEl = modal.querySelector('.workModal__video');
     const fallbackEl = modal.querySelector('[data-work-fallback]');
+    const noteEl = modal.querySelector('[data-work-note]');
     if (videoEl) {
       videoEl.pause();
       videoEl.removeAttribute('src');
@@ -129,6 +127,10 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
       videoEl.load();
     }
     if (fallbackEl) fallbackEl.hidden = false;
+    if (noteEl) {
+      noteEl.textContent = '';
+      noteEl.hidden = false;
+    }
   }
 
   function openModal(id, opener) {
@@ -172,6 +174,12 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
     if (openBtn) {
       e.preventDefault();
       const id = openBtn.getAttribute('data-open-modal');
+      document.querySelectorAll('video[data-hover-preview="1"]').forEach((video) => {
+        try {
+          video.pause();
+          video.currentTime = 0;
+        } catch (err) {}
+      });
       if (id === 'workModal') setWorkModalData(openBtn);
       if (id) openModal(id, openBtn);
       return;
@@ -344,6 +352,50 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
   );
 
   videos.forEach((v) => io.observe(v));
+})();
+
+// Preview cards load and play only on hover/focus.
+(function initHoverPreviews() {
+  const previews = Array.from(document.querySelectorAll('video[data-hover-preview="1"]'));
+  if (!previews.length) return;
+
+  const ensureLoad = (video) => {
+    if (video.dataset.previewLoaded === '1') return;
+    try {
+      video.preload = 'metadata';
+      video.load();
+    } catch (e) {}
+    video.dataset.previewLoaded = '1';
+  };
+
+  const playPreview = (video) => {
+    video.muted = true;
+    video.playsInline = true;
+    ensureLoad(video);
+    const promise = video.play();
+    if (promise && typeof promise.catch === 'function') {
+      promise.catch(() => {});
+    }
+  };
+
+  const stopPreview = (video) => {
+    try {
+      video.pause();
+      video.currentTime = 0;
+    } catch (e) {}
+  };
+
+  previews.forEach((video) => {
+    const card = video.closest('.previewCard') || video;
+    card.addEventListener('mouseenter', () => playPreview(video));
+    card.addEventListener('mouseleave', () => stopPreview(video));
+    card.addEventListener('focusin', () => playPreview(video));
+    card.addEventListener('focusout', () => stopPreview(video));
+  });
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) previews.forEach(stopPreview);
+  });
 })();
 
 // Reveal on scroll
