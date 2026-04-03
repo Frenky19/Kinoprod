@@ -189,39 +189,11 @@ main{padding-top: var(--header-h);}
 }
 .logo__text{font-size:12px}
 
-.nav{
-  display:flex;
-  flex:1 1 auto;
-  align-items:center;
-  justify-content:center;
-  gap:24px;
-  min-width:0;
-}
-.nav__link{
-  padding:8px 0;
-  border:0;
-  background:none;
-  color:rgba(233,240,246,.76);
-  font: inherit;
-  font-size:15px;
-  line-height:1.2;
-  cursor:pointer;
-  white-space:nowrap;
-  transition: color .2s ease, transform .2s ease;
-}
-.nav__link:hover{
-  color:var(--text);
-  transform: translateY(-1px);
-}
-.nav__link--button{
-  color:rgba(233,240,246,.9);
-}
-
 .header__right{
   display:flex;
-  gap:12px;
+  gap:20px;
   align-items:center;
-  margin-left:24px;
+  margin-left:auto;
 }
 .header__phone{
   font-size:15px;
@@ -230,6 +202,11 @@ main{padding-top: var(--header-h);}
   white-space:nowrap;
 }
 .header__icons{display:flex; gap:12px; align-items:center}
+.header__divider{
+  width:1px;
+  height:32px;
+  background: rgba(233,240,246,.16);
+}
 .iconLink{
   width:42px;
   height:42px;
@@ -250,7 +227,12 @@ main{padding-top: var(--header-h);}
 .iconLink svg{width:20px; height:20px}
 
 .burger{
-  display:none;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:6px;
+  flex:0 0 auto;
   width:44px;
   height:44px;
   border-radius:14px;
@@ -263,20 +245,56 @@ main{padding-top: var(--header-h);}
   height:2px;
   width:18px;
   background:var(--text);
-  margin:0 auto;
   border-radius:2px;
 }
-.burger span+span{margin-top:6px}
 
 .mobileNav{
   display:none;
-  padding:18px 22px 24px;
-  border-top:1px solid rgba(233,240,246,.10);
+  position:absolute;
+  top:100%;
+  left:0;
+  right:0;
+  padding:16px 0 22px;
+  border-top:1px solid rgba(233,240,246,.1);
   background:rgba(11,15,20,.96);
+  box-shadow: var(--shadow-soft);
 }
 .mobileNav.is-open{display:block}
-.mobileNav__links{display:grid; gap:10px; margin-bottom:16px}
-.mobileNav__links a{font-size:15px; color:rgba(233,240,246,.85)}
+.mobileNav__inner{
+  width:min(1200px, calc(100% - 56px));
+  margin:0 auto;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+}
+.mobileNav__links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px 24px;
+  align-items:center;
+  justify-content:flex-start;
+}
+.mobileNav__links a{
+  font-size:15px;
+  color:rgba(233,240,246,.85);
+  white-space:nowrap;
+}
+.mobileNav__actions{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  justify-self:auto;
+  margin-right:58px;
+}
+.mobileNav__actions .btn--primary{
+  width: var(--desktop-header-cta-w, auto);
+  justify-content:center;
+  flex: 0 0 auto;
+}
+.mobileNav__leadBtn{
+  display:none;
+}
 
 .heroReel{
   position: relative;
@@ -1413,15 +1431,31 @@ input:focus, textarea:focus{
 @media (max-width: 1100px){
   .nav{display:none}
   .header__right{display:none}
-  .burger{display:block}
+  .burger{display:inline-flex}
   .mobileNav{
     padding:16px 28px calc(20px + env(safe-area-inset-bottom));
   }
+  .mobileNav__inner{
+    width:100%;
+    display:grid;
+    gap:16px;
+  }
   .mobileNav__links{
-    gap:12px;
+    gap:12px 18px;
   }
   .mobileNav__links a{
     font-size:16px;
+  }
+  .mobileNav__actions{
+    display:grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap:12px;
+    margin-left:0;
+    margin-right:0;
+    justify-self:stretch;
+  }
+  .mobileNav__leadBtn{
+    display:inline-flex;
   }
   .suite__grid{grid-template-columns: 1fr}
   .grid3{grid-template-columns: 1fr}
@@ -1455,6 +1489,12 @@ input:focus, textarea:focus{
   .header__inner{padding:10px 0}
   .mobileNav{
     padding:14px 20px calc(18px + env(safe-area-inset-bottom));
+  }
+  .mobileNav__inner{
+    width:min(1200px, calc(100% - 28px));
+  }
+  .mobileNav__actions{
+    grid-template-columns: 1fr;
   }
   .mobileNav .btn{
     width:100%;
@@ -1679,6 +1719,9 @@ input:focus, textarea:focus{
   .container{width: min(1200px, calc(100% - 22px))}
   .mobileNav{
     padding:12px 16px calc(16px + env(safe-area-inset-bottom));
+  }
+  .mobileNav__inner{
+    width:min(1200px, calc(100% - 22px));
   }
   .hero__brand{font-size: clamp(34px, 11vw, 56px)}
   .hero__typed{font-size: clamp(16px, 4.6vw, 22px)}

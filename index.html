@@ -44,13 +44,6 @@
         <img class="logo__img" src="static/assets/logo-header.png" alt="EVA" />
       </a>
 
-      <nav class="nav" aria-label="Основная навигация">
-        <a class="nav__link" href="#works">Работы</a>
-        <a class="nav__link" href="#process">Процесс</a>
-        <a class="nav__link" href="#contact">Контакты</a>
-        <button class="nav__link nav__link--button" type="button" data-open-modal="briefModal">Заполнить бриф</button>
-      </nav>
-
       <div class="header__right">
         <a class="header__phone" href="tel:+79256035311">+7 925 603-53-11</a>
         <div class="header__icons">
@@ -65,6 +58,8 @@
             </svg>
           </a>
         </div>
+        <span class="header__divider" aria-hidden="true"></span>
+        <button class="btn btn--primary header__cta" data-open-modal="leadModal">Обсудить проект</button>
       </div>
 
       <button class="burger" aria-label="Открыть меню" aria-expanded="false" data-burger>
@@ -73,12 +68,17 @@
     </div>
 
     <div class="mobileNav" data-mobile-nav>
-      <div class="mobileNav__links">
-        <a href="#works">Работы</a>
-        <a href="#process">Процесс</a>
-        <a href="#contact">Контакты</a>
+      <div class="mobileNav__inner">
+        <div class="mobileNav__links">
+          <a href="#works">Работы</a>
+          <a href="#process">Процесс</a>
+          <a href="#contact">Контакты</a>
+        </div>
+        <div class="mobileNav__actions">
+          <button class="btn btn--ghost mobileNav__leadBtn" data-open-modal="leadModal">Обсудить проект</button>
+          <button class="btn btn--primary mobileNav__briefBtn" data-open-modal="briefModal">Заполнить бриф</button>
+        </div>
       </div>
-      <button class="btn btn--primary" data-open-modal="briefModal">Заполнить бриф</button>
     </div>
   </header>
 
@@ -599,7 +599,7 @@
     <div class="container footer__grid">
       <div>
         <div class="footer__brand">EVA</div>
-        <div class="footer__muted">(Москва) © 2026</div>
+        <div class="footer__muted">© 2026</div>
       </div>
 
       <div class="footer__links">

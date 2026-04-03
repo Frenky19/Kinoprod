@@ -1,7 +1,30 @@
 ﻿// Mobile menu toggle
 const navToggle = document.querySelector('[data-burger]');
 const navLinks = document.querySelector('[data-mobile-nav]');
+const headerCta = document.querySelector('.header__cta');
+const briefMenuCta = document.querySelector('.mobileNav__briefBtn');
 const FIRST_FRAME_TIME = 0.05;
+
+function syncDesktopMenuCtaWidth() {
+  if (!headerCta || !briefMenuCta) return;
+  const isMobile = window.matchMedia('(max-width: 1100px)').matches;
+  if (isMobile) {
+    document.documentElement.style.removeProperty('--desktop-header-cta-w');
+    return;
+  }
+
+  const width = Math.ceil(headerCta.getBoundingClientRect().width);
+  if (width > 0) {
+    document.documentElement.style.setProperty('--desktop-header-cta-w', `${width}px`);
+  }
+}
+
+syncDesktopMenuCtaWidth();
+window.addEventListener('resize', syncDesktopMenuCtaWidth);
+window.addEventListener('load', syncDesktopMenuCtaWidth);
+if (document.fonts && document.fonts.ready) {
+  document.fonts.ready.then(syncDesktopMenuCtaWidth).catch(() => {});
+}
 
 function getVideoPreviewTime(video) {
   const duration = Number.isFinite(video.duration) ? video.duration : 0;
