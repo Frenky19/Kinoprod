@@ -333,8 +333,7 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
     form.addEventListener('submit', (e) => {
       e.preventDefault();
       if (statusEl) {
-        statusEl.textContent =
-          'Форма временно отключена. Напишите в Telegram или на email — контакты ниже.';
+        statusEl.textContent = '';
       }
     });
   });

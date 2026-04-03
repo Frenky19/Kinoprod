@@ -655,7 +655,6 @@
 
         <div class="form__actions">
           <button class="btn btn--primary" type="submit">Отправить</button>
-          <div class="form__hint">Форма временно не отправляет заявки. Напишите в Telegram или на email.</div>
         </div>
 
         <div class="form__status" role="status" aria-live="polite"></div>
@@ -667,8 +666,10 @@
   <div class="modal" id="briefModal" aria-hidden="true">
     <div class="modal__backdrop" data-close-modal></div>
 
-    <div class="modal__panel briefPanel" role="dialog" aria-modal="true" aria-labelledby="briefTitle" tabindex="-1">
-      <div class="modal__head">
+    <div class="modal__panel clapper briefPanel" role="dialog" aria-modal="true" aria-labelledby="briefTitle" tabindex="-1">
+      <div class="clapper__top" aria-hidden="true"></div>
+
+      <div class="clapper__header">
         <div>
           <div class="kicker">Бриф</div>
           <h3 id="briefTitle" class="h3">Короткая анкета</h3>
@@ -676,7 +677,7 @@
         <button class="iconBtn" aria-label="Закрыть" data-close-modal>✕</button>
       </div>
 
-      <form class="form" id="briefForm" action="/brief" method="post" novalidate>
+      <form class="form clapper__form" id="briefForm" action="/brief" method="post" novalidate>
         <label class="field">
           <span>Цель ролика</span>
           <input name="goal" placeholder="Продажи, узнаваемость, обучение..." required />

@@ -706,9 +706,9 @@ main{padding-top: var(--header-h);}
   align-items:center;
   justify-content:center;
   border-radius: 14px;
-  background: rgba(38,214,181,.18);
-  border: 1px solid rgba(38,214,181,.34);
-  color: #33e2c2;
+  background: rgba(106,178,163,.13);
+  border: 1px solid rgba(106,178,163,.24);
+  color: rgba(183,233,221,.94);
 }
 .processCard__icon svg{
   width: 24px;
@@ -826,9 +826,9 @@ main{padding-top: var(--header-h);}
 .brief__content{
   padding:32px;
   background:
-    radial-gradient(circle at top left, rgba(38,214,181,.18), transparent 42%),
-    radial-gradient(circle at bottom right, rgba(127,215,255,.12), transparent 36%),
-    rgba(233,240,246,.04);
+    radial-gradient(circle at top left, rgba(233,240,246,.055), transparent 42%),
+    radial-gradient(circle at bottom right, rgba(233,240,246,.03), transparent 36%),
+    rgba(233,240,246,.03);
   display:flex;
   flex-direction:column;
   justify-content:flex-start;
@@ -841,7 +841,7 @@ main{padding-top: var(--header-h);}
   width:220px;
   height:220px;
   border-radius:50%;
-  background: radial-gradient(circle, rgba(38,214,181,.18), transparent 68%);
+  background: radial-gradient(circle, rgba(233,240,246,.05), transparent 68%);
   pointer-events:none;
 }
 .brief__content > *{
@@ -898,8 +898,8 @@ main{padding-top: var(--header-h);}
 .brief__panel{
   padding:28px;
   background:
-    linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.015)),
-    rgba(15,22,30,.86);
+    linear-gradient(180deg, rgba(255,255,255,.025), rgba(255,255,255,.012)),
+    rgba(13,19,26,.86);
 }
 .brief__panelHead{
   margin-bottom:18px;
@@ -938,9 +938,9 @@ main{padding-top: var(--header-h);}
   align-items:center;
   justify-content:center;
   border-radius:14px;
-  background: rgba(38,214,181,.14);
-  border:1px solid rgba(38,214,181,.22);
-  color:var(--accent);
+  background: rgba(106,178,163,.13);
+  border:1px solid rgba(106,178,163,.22);
+  color: rgba(183,233,221,.94);
   font-family: var(--font-display);
   font-size:18px;
   line-height:1;
@@ -967,7 +967,7 @@ main{padding-top: var(--header-h);}
   border-radius:22px;
   border:1px solid rgba(233,240,246,.09);
   background:
-    linear-gradient(135deg, rgba(38,214,181,.08), rgba(127,215,255,.04)),
+    linear-gradient(135deg, rgba(255,255,255,.03), rgba(255,255,255,.012)),
     rgba(8,13,18,.54);
 }
 .brief__resultTitle{
@@ -1304,7 +1304,8 @@ input:focus, textarea:focus{
 }
 
 /* --- Clapperboard (lead form) --- */
-#leadModal .modal__panel.clapper{padding: 0; overflow: hidden; background: rgba(12,16,22,.92)}
+#leadModal .modal__panel.clapper,
+#briefModal .modal__panel.clapper{padding: 0; overflow: hidden; background: rgba(12,16,22,.92)}
 .clapper__top{
   height: 72px;
   position: relative;
@@ -1319,9 +1320,13 @@ input:focus, textarea:focus{
 .clapper__form{ padding: 0 18px 18px; }
 
 #leadModal input,
-#leadModal textarea{background: rgba(233,240,246,.06); border-color: rgba(233,240,246,.16)}
+#leadModal textarea,
+#briefModal input,
+#briefModal textarea{background: rgba(233,240,246,.06); border-color: rgba(233,240,246,.16)}
 #leadModal input:focus,
-#leadModal textarea:focus{box-shadow: 0 0 0 3px rgba(38,214,181,.22)}
+#leadModal textarea:focus,
+#briefModal input:focus,
+#briefModal textarea:focus{box-shadow: 0 0 0 3px rgba(38,214,181,.22)}
 
 /* Reveal animations */
 .js [data-reveal]{
