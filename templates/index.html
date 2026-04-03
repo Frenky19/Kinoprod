@@ -4,7 +4,7 @@
 <section class="heroReel" aria-label="Showreel">
     <video class="heroReel__video"
       autoplay muted loop playsinline preload="metadata"
-      poster="{{ url_for('static', filename='assets/showreel.jpg') }}">
+      data-play-when-visible="1" data-preview-video="1" data-preview-time="3" data-preview-blur="1" data-preview-reset-on-play="1">
       <source src="{{ url_for('static', filename='assets/showreel.mp4') }}" type="video/mp4">
     </video>
   <div class="heroReel__overlay" aria-hidden="true"></div>

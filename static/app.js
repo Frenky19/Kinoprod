@@ -1,6 +1,99 @@
 ﻿// Mobile menu toggle
 const navToggle = document.querySelector('[data-burger]');
 const navLinks = document.querySelector('[data-mobile-nav]');
+const FIRST_FRAME_TIME = 0.05;
+
+function getVideoPreviewTime(video) {
+  const duration = Number.isFinite(video.duration) ? video.duration : 0;
+  if (duration <= 0) return 0;
+  const explicitPreviewTime = Number.parseFloat(video.dataset.previewTime || '');
+  if (Number.isFinite(explicitPreviewTime) && explicitPreviewTime >= 0) {
+    return Math.min(explicitPreviewTime, Math.max(duration - 0.01, 0));
+  }
+  if (video.dataset.previewFrame === 'middle') {
+    return Math.min(duration * 0.5, Math.max(duration - 0.01, 0));
+  }
+  return Math.min(FIRST_FRAME_TIME, Math.max(duration - 0.01, 0));
+}
+
+function setVideoPreviewState(video, isPreview) {
+  if (!video || video.dataset.previewBlur !== '1') return;
+  video.classList.toggle('is-preview-frame', isPreview);
+}
+
+function setVideoPreviewReady(video, isReady) {
+  if (!video) return;
+  video.classList.toggle('is-preview-ready', isReady);
+}
+
+function primeVideoPreviewFrame(video) {
+  if (!video) return;
+  const hasSource =
+    Boolean(video.getAttribute('src')) ||
+    Array.from(video.querySelectorAll('source')).some((source) =>
+      Boolean(source.getAttribute('src'))
+    );
+  if (!hasSource) return;
+
+  const seekToFrame = () => {
+    const targetTime = getVideoPreviewTime(video);
+    const finalizePreview = () => {
+      setVideoPreviewState(video, true);
+      setVideoPreviewReady(video, true);
+    };
+
+    try {
+      video.pause();
+      setVideoPreviewReady(video, false);
+      if (targetTime > 0 && Math.abs(video.currentTime - targetTime) > 0.02) {
+        video.addEventListener('seeked', finalizePreview, { once: true });
+        video.currentTime = targetTime;
+        return;
+      }
+      finalizePreview();
+    } catch (err) {}
+  };
+
+  if (video.dataset.previewInit !== '1') {
+    video.addEventListener('play', () => {
+      setVideoPreviewState(video, false);
+      setVideoPreviewReady(video, true);
+    });
+    video.addEventListener('playing', () => {
+      setVideoPreviewState(video, false);
+      setVideoPreviewReady(video, true);
+      video.dataset.previewPlayedOnce = '1';
+    });
+    video.addEventListener('pause', () => setVideoPreviewState(video, true));
+    video.dataset.previewInit = '1';
+  }
+
+  if (video.readyState >= 2) {
+    seekToFrame();
+    return;
+  }
+
+  video.addEventListener('loadeddata', seekToFrame, { once: true });
+  try {
+    if (video.dataset.previewTime && video.preload !== 'auto') {
+      video.preload = 'auto';
+    } else if (video.preload === 'none') {
+      video.preload = 'metadata';
+    }
+    video.load();
+  } catch (err) {}
+}
+
+function resetPreviewFrameBeforeFirstPlay(video) {
+  if (!video || video.dataset.previewResetOnPlay !== '1') return false;
+  if (video.dataset.previewPlayedOnce === '1') return false;
+  try {
+    video.currentTime = 0;
+    return true;
+  } catch (err) {
+    return false;
+  }
+}
 
 if (navToggle && navLinks) {
   navToggle.addEventListener('click', () => {
@@ -66,7 +159,9 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
       trigger.getAttribute('data-work-video-mp4') ||
       trigger.getAttribute('data-work-video') ||
       '';
-    const poster = trigger.getAttribute('data-work-poster') || 'static/assets/placeholder.svg';
+    const posterAttr = trigger.getAttribute('data-work-poster') || '';
+    const poster =
+      posterAttr && !posterAttr.endsWith('placeholder.svg') ? posterAttr : '';
 
     const titleEl = modal.querySelector('#workTitle');
     const noteEl = modal.querySelector('[data-work-note]');
@@ -104,8 +199,13 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
         setSource('mp4', '');
         videoEl.controls = false;
       }
-      videoEl.setAttribute('poster', poster);
+      if (poster) {
+        videoEl.setAttribute('poster', poster);
+      } else {
+        videoEl.removeAttribute('poster');
+      }
       videoEl.load();
+      primeVideoPreviewFrame(videoEl);
     }
 
     if (fallbackEl) {
@@ -124,6 +224,7 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
       const sources = videoEl.querySelectorAll('source[data-work-source]');
       sources.forEach((s) => s.removeAttribute('src'));
       videoEl.controls = false;
+      videoEl.removeAttribute('poster');
       videoEl.load();
     }
     if (fallbackEl) fallbackEl.hidden = false;
@@ -239,6 +340,16 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
   });
 })();
 
+// Static video previews use a real frame from the file instead of the SVG placeholder.
+(function initFirstFrameVideos() {
+  const videos = Array.from(
+    document.querySelectorAll('video[data-first-frame-video="1"], video[data-preview-video="1"]')
+  );
+  if (!videos.length) return;
+
+  videos.forEach((video) => primeVideoPreviewFrame(video));
+})();
+
 // Work filter tabs
 (function initWorkFilters() {
   const tabs = Array.from(document.querySelectorAll('.tab[data-filter]'));
@@ -288,12 +399,19 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
     video.playsInline = true;
 
     ensureLoad(video);
+    const resetPreview = resetPreviewFrameBeforeFirstPlay(video);
+    setVideoPreviewState(video, false);
 
     const p = video.play();
     if (p && typeof p.catch === 'function') {
       p.catch(() => {
         // Some mobile browsers (or data-saver modes) may block autoplay.
         // In that case we just keep the poster visible (video stays paused).
+        if (resetPreview) {
+          primeVideoPreviewFrame(video);
+        } else {
+          setVideoPreviewState(video, true);
+        }
       });
     }
   };
@@ -381,7 +499,7 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
   const stopPreview = (video) => {
     try {
       video.pause();
-      video.currentTime = 0;
+      video.currentTime = getVideoPreviewTime(video);
     } catch (e) {}
   };
 
