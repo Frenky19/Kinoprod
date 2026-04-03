@@ -774,7 +774,35 @@ main{padding-top: var(--header-h);}
 .contactCard__label{color:var(--muted); font-size:12px; letter-spacing:.2em; text-transform:uppercase}
 .contactCard__value{font-weight:700}
 
-.contactSection__inner{display:flex; justify-content:flex-start}
+.contactSection__inner{
+  display:flex;
+  justify-content:flex-start;
+}
+
+.tgFloat{
+  position:fixed;
+  right:22px;
+  bottom:22px;
+  z-index:24;
+  display:block;
+  width:92px;
+  height:92px;
+  padding:0;
+  border:0;
+  background:none;
+  box-shadow:none;
+  transition: transform .2s ease, filter .2s ease;
+}
+.tgFloat:hover{
+  transform: translateY(-2px) scale(1.04);
+  filter: saturate(1.04) brightness(1.02);
+}
+.tgFloat img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:contain;
+}
 
 .brief{
   display:grid;
@@ -1341,7 +1369,6 @@ input:focus, textarea:focus{
   }
   .footer__grid{grid-template-columns: 1fr 1fr}
   .contactSection__inner{justify-content:stretch}
-  .contactCard{width:100%}
 }
 
 @media (max-width: 680px){
@@ -1421,6 +1448,12 @@ input:focus, textarea:focus{
   .form__row{grid-template-columns: 1fr}
   .hero__actions{flex-direction:column; align-items:flex-start}
   .strip__row{flex-direction:column; align-items:flex-start}
+  .tgFloat{
+    right:14px;
+    bottom:14px;
+    width:78px;
+    height:78px;
+  }
 }
 
 @media (max-width: 420px){
@@ -1434,4 +1467,8 @@ input:focus, textarea:focus{
   }
   .btn{padding:11px 16px}
   .iconLink{width:38px; height:38px}
+  .tgFloat{
+    width:68px;
+    height:68px;
+  }
 }
