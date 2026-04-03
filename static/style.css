@@ -861,11 +861,14 @@ main{padding-top: var(--header-h);}
   gap:12px;
 }
 .brief__stat{
-  min-height:132px;
-  padding:16px;
+  min-height:114px;
+  padding:14px 16px;
   border-radius:18px;
   border:1px solid rgba(233,240,246,.1);
   background: rgba(7,12,16,.34);
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
 }
 .brief__statValue{
   margin-bottom:8px;
@@ -915,15 +918,15 @@ main{padding-top: var(--header-h);}
   gap:12px;
 }
 .brief__item{
-  min-height:154px;
-  padding:16px;
+  min-height:132px;
+  padding:14px 16px;
   border-radius:20px;
   border:1px solid rgba(233,240,246,.09);
   background: rgba(233,240,246,.03);
   display:grid;
   grid-template-columns: 44px minmax(0, 1fr);
   gap:12px;
-  align-items:start;
+  align-items:center;
 }
 .brief__itemNum{
   width:44px;
@@ -941,6 +944,7 @@ main{padding-top: var(--header-h);}
 }
 .brief__itemBody{
   display:grid;
+  align-content:center;
   gap:8px;
 }
 .brief__itemTitle{
@@ -1136,8 +1140,8 @@ input:focus, textarea:focus{
   cursor: pointer;
   font-family: var(--font-body);
   font-weight: 500;
-  font-size: clamp(18px, 1.55vw, 24px);
-  line-height: 1.32;
+  font-size: 18px;
+  line-height: 1.22;
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -1454,7 +1458,7 @@ input:focus, textarea:focus{
   .faqItem summary{
     min-height: 92px;
     padding: 22px 74px 22px 0;
-    font-size: clamp(17px, 4.6vw, 21px);
+    font-size: 18px;
   }
   .faqItem summary::before{
     width:48px;
