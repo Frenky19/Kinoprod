@@ -280,6 +280,10 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
     if (openBtn) {
       e.preventDefault();
       const id = openBtn.getAttribute('data-open-modal');
+      if (navLinks && navToggle && navLinks.classList.contains('is-open')) {
+        navLinks.classList.remove('is-open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
       document.querySelectorAll('video[data-hover-preview="1"]').forEach((video) => {
         try {
           video.pause();
