@@ -117,19 +117,47 @@
 
 <!-- Процесс -->
 <section class="section section--alt" id="process">
-  <div class="container">
+  <div class="container processFlow">
     <div class="section__head">
-      <h2 class="h2">Понятные шаги. Прозрачная коммуникация</h2>
+      <h2 class="h2">Как собирается проект</h2>
     </div>
 
-    <div class="gridProcess">
+    <div class="processGrid">
       {% for s in process %}
-      <article class="step">
-        <div class="step__num">{{ s.step }}</div>
-        <div class="step__body">
-          <div class="step__title">{{ s.title }}</div>
-          <div class="muted">{{ s.text }}</div>
+      <article class="processCard">
+        <div class="processCard__icon" aria-hidden="true">
+          {% if loop.index == 1 %}
+          <svg viewBox="0 0 24 24">
+            <path d="M7 4.5h7l3 3V19a1.5 1.5 0 0 1-1.5 1.5h-8A1.5 1.5 0 0 1 6 19V6A1.5 1.5 0 0 1 7.5 4.5Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+            <path d="M14 4.5V8h3.5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+          </svg>
+          {% elif loop.index == 2 %}
+          <svg viewBox="0 0 24 24">
+            <path d="m7 16 8.5-8.5 2 2L9 18H7v-2Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+            <path d="m14.5 6 2 2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+          </svg>
+          {% elif loop.index == 3 %}
+          <svg viewBox="0 0 24 24">
+            <path d="M6 8h12M9 4.5v3.5M15 4.5v3.5M7.5 19.5h9A1.5 1.5 0 0 0 18 18V8H6v10a1.5 1.5 0 0 0 1.5 1.5Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          {% elif loop.index == 4 %}
+          <svg viewBox="0 0 24 24">
+            <path d="M5 8.5h9A1.5 1.5 0 0 1 15.5 10v8A1.5 1.5 0 0 1 14 19.5H5A1.5 1.5 0 0 1 3.5 18v-8A1.5 1.5 0 0 1 5 8.5Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+            <path d="m15.5 11.5 4-2v9l-4-2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+          </svg>
+          {% elif loop.index == 5 %}
+          <svg viewBox="0 0 24 24">
+            <path d="M4.5 7.5h15M7.5 4.5v6M12 4.5v6M16.5 4.5v6M4.5 16.5h15M7.5 13.5v6M12 13.5v6M16.5 13.5v6" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+          </svg>
+          {% else %}
+          <svg viewBox="0 0 24 24">
+            <path d="M6 12.5 10 16.5 18 8.5" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="1.7"/>
+          </svg>
+          {% endif %}
         </div>
+        <div class="processCard__step">{{ s.step }} {{ s.title }}</div>
+        <p class="processCard__text">{{ s.text }}</p>
       </article>
       {% endfor %}
     </div>
@@ -139,30 +167,165 @@
 <!-- Контакты -->
 <!-- Р‘СЂРёС„ -->
 <section class="section section--alt" id="brief">
-  <div class="container brief">
-    <div class="brief__content">
-      <h2 class="h2">РџР°РєРµС‚ Р±СЂРёС„Р° Р·Р° 2 РјРёРЅСѓС‚С‹</h2>
-      <p class="lead">
-        РљРѕСЂРѕС‚РєРёР№ СЃРїРёСЃРѕРє РІРѕРїСЂРѕСЃРѕРІ РїРѕРјРѕРіР°РµС‚ Р±С‹СЃС‚СЂРѕ РїРѕРЅСЏС‚СЊ Р·Р°РґР°С‡Сѓ,
-        С„РѕСЂРјР°С‚ Рё СЃСЂРѕРєРё. РџРѕСЃР»Рµ Р±СЂРёС„Р° РґР°С‘Рј С‚РѕС‡РЅС‹Р№ РїР»Р°РЅ Рё РѕС†РµРЅРєСѓ.
-      </p>
-      <div class="brief__actions">
-        <button class="btn btn--primary" data-open-modal="briefModal">Р—Р°РїРѕР»РЅРёС‚СЊ РѕРЅР»Р°Р№РЅ</button>
+      <div class="container">
+        <div class="section__head brief__head" data-reveal>
+          <h2 class="h2 brief__headline">Бриф, с которого начинается проект</h2>
+        </div>
       </div>
-    </div>
 
-    <div class="brief__list">
-      <div class="brief__item">Р¦РµР»СЊ СЂРѕР»РёРєР° Рё Р°СѓРґРёС‚РѕСЂРёСЏ</div>
-      <div class="brief__item">Р¤РѕСЂРјР°С‚ Рё РґР»РёС‚РµР»СЊРЅРѕСЃС‚СЊ</div>
-      <div class="brief__item">РџР»РѕС‰Р°РґРєР° РїСѓР±Р»РёРєР°С†РёРё</div>
-      <div class="brief__item">РЎСЂРѕРєРё Рё РґРµРґР»Р°Р№РЅ</div>
-      <div class="brief__item">Р РµС„РµСЂРµРЅСЃС‹ Рё СЃС‚РёР»СЊ</div>
-      <div class="brief__item">РњР°С‚РµСЂРёР°Р»С‹ Рё РѕР±СЉС‘Рј РёСЃС…РѕРґРЅРёРєРѕРІ</div>
-      <div class="brief__item">РўСЂРµР±РѕРІР°РЅРёСЏ Рє РіСЂР°С„РёРєРµ Рё С‚РёС‚СЂР°Рј</div>
-      <div class="brief__item">РљРѕР»РёС‡РµСЃС‚РІРѕ РїСЂР°РІРѕРє</div>
-    </div>
-  </div>
-</section>
+      <div class="container brief">
+        <div class="brief__content" data-reveal>
+          <p class="brief__lead">
+            Вместо длинной переписки на старте — короткая анкета, в которой мы сразу
+            фиксируем задачу, формат, сроки и ожидания по финалу. Это экономит время,
+            убирает лишние круги согласования и даёт нормальную точку входа в проект.
+          </p>
+
+          <div class="brief__stats">
+            <div class="brief__stat">
+              <div class="brief__statValue">2 минуты</div>
+              <div class="brief__statText">чтобы заполнить анкету без созвона и лишних сообщений</div>
+            </div>
+            <div class="brief__stat">
+              <div class="brief__statValue">6 блоков</div>
+              <div class="brief__statText">которые сразу проясняют объём работ и формат сдачи</div>
+            </div>
+            <div class="brief__stat">
+              <div class="brief__statValue">1 понятный старт</div>
+              <div class="brief__statText">после брифа уже можно собирать план, сроки и этапы</div>
+            </div>
+          </div>
+
+          <div class="brief__actions">
+            <button class="btn btn--primary" data-open-modal="briefModal">Заполнить бриф</button>
+          </div>
+        </div>
+
+        <div class="brief__panel" data-reveal>
+          <div class="brief__panelHead">
+            <div class="brief__panelTitle">Что мы фиксируем в брифе</div>
+          </div>
+
+          <div class="brief__list">
+            <article class="brief__item">
+              <div class="brief__itemNum">01</div>
+              <div class="brief__itemBody">
+                <div class="brief__itemTitle">Задача и аудитория</div>
+                <p class="brief__itemText">Понимаем, для кого делается ролик и какой результат он должен дать.</p>
+              </div>
+            </article>
+
+            <article class="brief__item">
+              <div class="brief__itemNum">02</div>
+              <div class="brief__itemBody">
+                <div class="brief__itemTitle">Формат и хронометраж</div>
+                <p class="brief__itemText">Сразу определяем площадки, пропорции и длину финальных версий.</p>
+              </div>
+            </article>
+
+            <article class="brief__item">
+              <div class="brief__itemNum">03</div>
+              <div class="brief__itemBody">
+                <div class="brief__itemTitle">Сроки и дедлайн</div>
+                <p class="brief__itemText">Фиксируем темп проекта, чтобы продакшн не разваливался по ходу работы.</p>
+              </div>
+            </article>
+
+            <article class="brief__item">
+              <div class="brief__itemNum">04</div>
+              <div class="brief__itemBody">
+                <div class="brief__itemTitle">Референсы и стиль</div>
+                <p class="brief__itemText">Собираем ориентиры по подаче, ритму и визуальному настроению ролика.</p>
+              </div>
+            </article>
+
+            <article class="brief__item">
+              <div class="brief__itemNum">05</div>
+              <div class="brief__itemBody">
+                <div class="brief__itemTitle">Материалы и графика</div>
+                <p class="brief__itemText">Оцениваем объём исходников, титры, motion, цвет и другие доработки.</p>
+              </div>
+            </article>
+
+            <article class="brief__item">
+              <div class="brief__itemNum">06</div>
+              <div class="brief__itemBody">
+                <div class="brief__itemTitle">Правки и версии</div>
+                <p class="brief__itemText">Понимаем, сколько итераций и форматов нужно подготовить на выходе.</p>
+              </div>
+            </article>
+          </div>
+
+          <div class="brief__result">
+            <div class="brief__resultTitle">Что будет после</div>
+            <div class="brief__resultList">
+              <div class="brief__resultItem">Понятный старт проекта без хаотичной переписки</div>
+              <div class="brief__resultItem">Оценка сроков, этапов и объёма работ под вашу задачу</div>
+              <div class="brief__resultItem">Чёткое понимание, что именно нужно снять, собрать и отдать в финале</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+<section class="section faqSection" id="faq">
+      <div class="container">
+        <div class="section__head faqSection__head" data-reveal>
+          <h2 class="h2 faqSection__title">Частые вопросы</h2>
+          <p class="faqSection__desc">
+            Мы собрали вопросы, которые чаще всего прилетают до старта проекта, и ответили
+            на них заранее. Если нужный пункт уже раскрыт здесь — можно не тратить время
+            на лишние уточнения и сразу переходить к задаче.
+          </p>
+        </div>
+
+        <div class="faqSection__surface" data-reveal>
+          <div class="faqList">
+            <details class="faqItem">
+              <summary><span>Сколько стоит монтаж?</span></summary>
+              <div class="faqItem__a muted">
+                Стоимость зависит от объёма материала, хронометража, сложности графики и сроков. Для точного расчёта — пришлите задачу и референсы.
+              </div>
+            </details>
+
+            <details class="faqItem">
+              <summary><span>Сколько времени занимает монтаж?</span></summary>
+              <div class="faqItem__a muted">
+                Обычно: короткие ролики — 3–7 дней, более сложные проекты — 1–3 недели. Срочные задачи тоже возможны.
+              </div>
+            </details>
+
+            <details class="faqItem">
+              <summary><span>Сколько правок входит?</span></summary>
+              <div class="faqItem__a muted">
+                Обычно 1–2 раунда правок по договорённости. Правки «в рамках ТЗ» — быстро, крупные изменения — отдельно согласуем.
+              </div>
+            </details>
+
+            <details class="faqItem">
+              <summary><span>Работаете с исходниками клиента?</span></summary>
+              <div class="faqItem__a muted">
+                Да. Передавайте материалы, мы соберём монтаж, цвет, звук и финальные версии под нужные площадки.
+              </div>
+            </details>
+
+            <details class="faqItem">
+              <summary><span>В каких форматах отдаёте финал?</span></summary>
+              <div class="faqItem__a muted">
+                Горизонталь 16:9, вертикаль 9:16, квадрат 1:1, разные длины, титры/субтитры по запросу.
+              </div>
+            </details>
+
+            <details class="faqItem">
+              <summary><span>Как быстро можно начать?</span></summary>
+              <div class="faqItem__a muted">
+                Если материалы и бриф готовы — стартуем в ближайшие дни. Напишите — предложим окна по монтажу.
+              </div>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
 
 <section class="section contactSection" id="contact">
   <div class="container">

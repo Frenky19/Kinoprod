@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>{{ title if title else (brand.name ~ " — " ~ brand.tagline) }}</title>
+  <title>{{ title if title else "Видеомонтаж и постпродакшн" }}</title>
   <meta name="description" content="Видеопродакшн полного цикла: мероприятия, бизнес-видео, образовательный контент." />
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/favicon.ico') }}" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
@@ -14,8 +15,7 @@
   <header class="header">
     <div class="container header__inner">
       <a class="logo" href="#top" aria-label="На главную">
-        <span class="logo__mark"></span>
-        <span class="logo__text">{{ brand.name }}</span>
+        <img class="logo__img" src="{{ url_for('static', filename='assets/logo-header.png') }}" alt="{{ brand.name }}" />
       </a>
 
       <button class="btn btn--primary header__cta" data-open-modal="leadModal">Написать</button>
@@ -223,68 +223,5 @@
   </div>
 
   <script src="{{ url_for('static', filename='app.js') }}"></script>
-
-  <!-- Floating FAQ button (image) -->
-  <button class="faqFloat" type="button" data-open-modal="faqModal" aria-label="FAQ">
-    <span class="faqFloat__label" data-alt="FUCK">FAQ</span>
-  </button>
-
-  <!-- FAQ Modal -->
-  <div class="modal" id="faqModal" aria-hidden="true">
-    <div class="modal__backdrop" data-close-modal></div>
-    <div class="modal__panel faqPanel" role="dialog" aria-modal="true" aria-labelledby="faqTitle">
-      <div class="modal__head">
-        <div>
-          <div class="kicker">FAQ</div>
-          <h3 id="faqTitle" class="h3">Частые вопросы</h3>
-        </div>
-        <button class="iconBtn" aria-label="Закрыть" data-close-modal>✕</button>
-      </div>
-
-      <div class="faqList">
-        <details class="faqItem" open>
-          <summary>Сколько стоит видео?</summary>
-          <div class="faqItem__a muted">
-            Стоимость зависит от задачи, хронометража, локаций, команды, графики и сроков. Для точного расчёта — оставьте заявку, пришлите примеры и требования.
-          </div>
-        </details>
-
-        <details class="faqItem">
-          <summary>Какие сроки производства?</summary>
-          <div class="faqItem__a muted">
-            Обычно: короткие ролики — от 3–7 дней, более сложные проекты — от 1–3 недель. Срочные задачи тоже возможны.
-          </div>
-        </details>
-
-        <details class="faqItem">
-          <summary>Сколько правок входит?</summary>
-          <div class="faqItem__a muted">
-            Обычно 1–2 раунда правок по договорённости. Правки “в рамках ТЗ” — быстро, крупные изменения концепта — отдельно согласуем.
-          </div>
-        </details>
-
-        <details class="faqItem">
-          <summary>Отдаёте исходники?</summary>
-          <div class="faqItem__a muted">
-            По договорённости. Чаще исходники передаются как доп. опция (из-за объёма и подготовки).
-          </div>
-        </details>
-
-        <details class="faqItem">
-          <summary>В каких форматах вы отдаёте финал?</summary>
-          <div class="faqItem__a muted">
-            Под нужные площадки: горизонталь 16:9, вертикаль 9:16, квадрат 1:1, разные длины, титры/субтитры при необходимости.
-          </div>
-        </details>
-
-        <details class="faqItem">
-          <summary>Как быстро можно начать?</summary>
-          <div class="faqItem__a muted">
-            Если материалы/бриф готовы — можем стартовать в ближайшие дни. Напишите — предложим окна по съёмке и монтажу.
-          </div>
-        </details>
-      </div>
-    </div>
-  </div>
 </body>
 </html>

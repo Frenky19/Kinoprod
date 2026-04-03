@@ -12,7 +12,7 @@
   <rect width="1200" height="630" fill="#0b0f14"/>
   <rect x="60" y="70" width="1080" height="490" rx="42" fill="url(#g1)"/>
   <rect x="120" y="120" width="960" height="390" rx="36" fill="url(#g2)"/>
-  <text x="160" y="300" fill="#e9f0f6" font-size="110" font-family="Space Grotesk, Manrope, sans-serif" font-weight="700" letter-spacing="10">KINO</text>
+  <text x="160" y="300" fill="#e9f0f6" font-size="110" font-family="Space Grotesk, Manrope, sans-serif" font-weight="700" letter-spacing="10">EVA</text>
   <text x="160" y="370" fill="#e9f0f6" font-size="36" font-family="Manrope, sans-serif" opacity="0.8" letter-spacing="4">VIDEOPRODUCTION</text>
   <text x="160" y="430" fill="#7fd7ff" font-size="24" font-family="Manrope, sans-serif" opacity="0.85" letter-spacing="4">EDIT | COLOR | SOUND | MOTION</text>
 </svg>
