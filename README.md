@@ -1,21 +1,45 @@
-# Видео-продакшн сайт (Flask)
+# EVA site
 
-Это стартовый сайт для видеопродакшна: стиль — минимализм/типографика.
+Сайт обслуживается Flask-приложением, но сам фронтенд хранится в корне репозитория:
 
-## Запуск
+- `index.html` — основная страница
+- `success.html` — страница успешной отправки
+- `404.html` — страница 404
+- `static/` — CSS, JS и ассеты
+
+Формы отправляются в Flask API:
+
+- `POST /api/lead`
+- `POST /api/brief`
+
+Обычные HTML-post fallback-маршруты тоже есть:
+
+- `POST /lead`
+- `POST /brief`
+
+## Локальный запуск
 
 ```bash
-cd kinoprod
 python -m venv .venv
-# Windows:
+
+# Windows
 .venv\Scripts\activate
-# macOS/Linux:
+
+# macOS / Linux
 source .venv/bin/activate
 
 pip install -r requirements.txt
 python app.py
 ```
 
-Откройте: http://127.0.0.1:5000
+Открыть:
 
-touch tmp/restart.txt
+```text
+http://127.0.0.1:5000
+```
+
+## Что важно
+
+- Telegram-уведомления читаются из `.env`
+- Flask теперь обслуживает актуальный root frontend, а не отдельную версию из `templates/`
+- Если меняется hero/video-ассет, обновляй ссылки в `index.html`

@@ -95,6 +95,13 @@ function resetPreviewFrameBeforeFirstPlay(video) {
   }
 }
 
+function stampFormTimestamp(form) {
+  if (!form) return;
+  const tsInput = form.querySelector('input[name="form_ts"]');
+  if (!tsInput) return;
+  tsInput.value = String(Math.floor(Date.now() / 1000));
+}
+
 if (navToggle && navLinks) {
   navToggle.addEventListener('click', () => {
     const isOpen = navLinks.classList.toggle('is-open');
@@ -323,30 +330,109 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
   });
 })();
 
-// Static forms (no backend yet)
-(function initStaticForms() {
-  const forms = Array.from(document.querySelectorAll('form[data-static="1"]'));
+// AJAX forms with Flask API fallback.
+(function initApiForms() {
+  const forms = Array.from(document.querySelectorAll('form[data-api]'));
   if (!forms.length) return;
 
+  const setStatus = (statusEl, state, message) => {
+    if (!statusEl) return;
+    statusEl.textContent = message || '';
+    if (state) {
+      statusEl.dataset.state = state;
+    } else {
+      delete statusEl.dataset.state;
+    }
+  };
+
   forms.forEach((form) => {
+    stampFormTimestamp(form);
     const statusEl = form.querySelector('.form__status');
-    form.addEventListener('submit', (e) => {
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const apiUrl = form.getAttribute('data-api');
+    const successMessage =
+      form.getAttribute('data-success-message') || 'Готово. Мы получили форму.';
+
+    form.addEventListener('submit', async (e) => {
+      if (!apiUrl) return;
       e.preventDefault();
-      if (statusEl) {
-        statusEl.textContent = '';
+      setStatus(statusEl, '', '');
+
+      const payload = Object.fromEntries(new FormData(form).entries());
+      const initialLabel = submitBtn ? submitBtn.textContent : '';
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Отправляем...';
+      }
+
+      try {
+        const response = await fetch(apiUrl, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify(payload),
+        });
+
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok || !data.ok) {
+          throw new Error(data.error || 'Не удалось отправить форму. Попробуйте ещё раз.');
+        }
+
+        setStatus(statusEl, 'success', successMessage);
+        form.reset();
+        stampFormTimestamp(form);
+
+        const closeBtn = form.closest('.modal')?.querySelector('.iconBtn[data-close-modal]');
+        if (closeBtn) {
+          window.setTimeout(() => closeBtn.click(), 900);
+        }
+      } catch (error) {
+        const message =
+          error instanceof Error && error.message
+            ? error.message
+            : 'Не удалось отправить форму. Попробуйте ещё раз.';
+        setStatus(statusEl, 'error', message);
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = initialLabel;
+        }
       }
     });
   });
 })();
 
-// Static video previews use a real frame from the file instead of the SVG placeholder.
+// Video previews use a real frame from the file, but only near the viewport.
 (function initFirstFrameVideos() {
   const videos = Array.from(
     document.querySelectorAll('video[data-first-frame-video="1"], video[data-preview-video="1"]')
   );
   if (!videos.length) return;
 
-  videos.forEach((video) => primeVideoPreviewFrame(video));
+  if (!('IntersectionObserver' in window)) {
+    videos.forEach((video) => primeVideoPreviewFrame(video));
+    return;
+  }
+
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        primeVideoPreviewFrame(entry.target);
+        io.unobserve(entry.target);
+      });
+    },
+    {
+      root: null,
+      threshold: 0.01,
+      rootMargin: '300px 0px 300px 0px',
+    }
+  );
+
+  videos.forEach((video) => io.observe(video));
 })();
 
 // Work filter tabs

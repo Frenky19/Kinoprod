@@ -1046,6 +1046,14 @@ main{padding-top: var(--header-h);}
 
 .form{display:grid; gap:12px}
 .form__row{display:grid; grid-template-columns: 1fr 1fr; gap:12px}
+.formTrap{
+  position:absolute;
+  left:-10000px;
+  top:auto;
+  width:1px;
+  height:1px;
+  overflow:hidden;
+}
 .field{display:grid; gap:6px}
 .field span{font-size:12px; color:var(--muted)}
 input, textarea{
@@ -1064,6 +1072,8 @@ input:focus, textarea:focus{
 .form__actions{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
 .form__hint{color:var(--muted); font-size:12px; max-width:52ch}
 .form__status{color:rgba(233,240,246,.78); font-size:13px}
+.form__status[data-state="success"]{color:rgba(161,233,210,.96)}
+.form__status[data-state="error"]{color:rgba(255,182,182,.96)}
 
 .modal-open{overflow:hidden}
 

@@ -83,7 +83,6 @@
       <video class="heroReel__video"
         autoplay muted loop playsinline preload="metadata" data-play-when-visible="1"
         data-preview-video="1" data-preview-time="3" data-preview-blur="1" data-preview-reset-on-play="1">
-        <source src="static/assets/showreel_720p.webm" type="video/webm">
         <source src="static/assets/showreel_720p.mp4" type="video/mp4">
       </video>
       <div class="heroReel__overlay" aria-hidden="true"></div>
@@ -132,7 +131,7 @@
               data-work-note="Репортажная съёмка и монтаж с живой динамикой, акцентами на атмосферу и детали события."
               data-work-video-mp4="static/assets/showreel_720p.mp4"
               aria-label="Открыть кейс Aftermovie конференции">
-              <video class="previewCard__video" muted loop playsinline preload="metadata" data-hover-preview="1" data-preview-video="1" data-preview-time="3" data-preview-blur="1">
+              <video class="previewCard__video" muted loop playsinline preload="none" data-hover-preview="1" data-preview-video="1" data-preview-time="3" data-preview-blur="1">
                 <source src="static/assets/showreel_720p.mp4" type="video/mp4">
               </video>
             </button>
@@ -143,7 +142,7 @@
               data-work-note="Аккуратная визуальная подача, ритм и монтаж, которые делают сообщение бренда ясным и запоминающимся."
               data-work-video-mp4="static/assets/showreel_720p.mp4"
               aria-label="Открыть кейс Видео для бизнеса">
-              <video class="previewCard__video previewCard__video--alt" muted loop playsinline preload="metadata" data-hover-preview="1" data-preview-video="1" data-preview-time="3" data-preview-blur="1">
+              <video class="previewCard__video previewCard__video--alt" muted loop playsinline preload="none" data-hover-preview="1" data-preview-video="1" data-preview-time="3" data-preview-blur="1">
                 <source src="static/assets/showreel_720p.mp4" type="video/mp4">
               </video>
             </button>
@@ -176,7 +175,7 @@
             data-work-video-mp4="static/assets/showreel_720p.mp4"
             aria-label="Aftermovie конференции — 1:20">
             <div class="workCard__thumb" aria-hidden="true">
-              <video class="workCard__video" muted playsinline preload="metadata" data-first-frame-video="1">
+              <video class="workCard__video" muted playsinline preload="none" data-first-frame-video="1">
                 <source src="static/assets/showreel_720p.mp4" type="video/mp4">
               </video>
               <div class="workCard__play">▶</div>
@@ -200,7 +199,7 @@
             data-work-video-mp4="static/assets/showreel_720p.mp4"
             aria-label="Свадебный клип — 3:10">
             <div class="workCard__thumb" aria-hidden="true">
-              <video class="workCard__video" muted playsinline preload="metadata" data-first-frame-video="1">
+              <video class="workCard__video" muted playsinline preload="none" data-first-frame-video="1">
                 <source src="static/assets/showreel_720p.mp4" type="video/mp4">
               </video>
               <div class="workCard__play">▶</div>
@@ -224,7 +223,7 @@
             data-work-video-mp4="static/assets/showreel_720p.mp4"
             aria-label="Рекламный ролик продукта — 0:30">
             <div class="workCard__thumb" aria-hidden="true">
-              <video class="workCard__video" muted playsinline preload="metadata" data-first-frame-video="1">
+              <video class="workCard__video" muted playsinline preload="none" data-first-frame-video="1">
                 <source src="static/assets/showreel_720p.mp4" type="video/mp4">
               </video>
               <div class="workCard__play">▶</div>
@@ -248,7 +247,7 @@
             data-work-video-mp4="static/assets/showreel_720p.mp4"
             aria-label="Презентация сервиса — 1:05">
             <div class="workCard__thumb" aria-hidden="true">
-              <video class="workCard__video" muted playsinline preload="metadata" data-first-frame-video="1">
+              <video class="workCard__video" muted playsinline preload="none" data-first-frame-video="1">
                 <source src="static/assets/showreel_720p.mp4" type="video/mp4">
               </video>
               <div class="workCard__play">▶</div>
@@ -272,7 +271,7 @@
             data-work-video-mp4="static/assets/showreel_720p.mp4"
             aria-label="Запись лекции — 45:00">
             <div class="workCard__thumb" aria-hidden="true">
-              <video class="workCard__video" muted playsinline preload="metadata" data-first-frame-video="1">
+              <video class="workCard__video" muted playsinline preload="none" data-first-frame-video="1">
                 <source src="static/assets/showreel_720p.mp4" type="video/mp4">
               </video>
               <div class="workCard__play">▶</div>
@@ -296,7 +295,7 @@
             data-work-video-mp4="static/assets/showreel_720p.mp4"
             aria-label="Онлайн‑курс (урок) — 12:00">
             <div class="workCard__thumb" aria-hidden="true">
-              <video class="workCard__video" muted playsinline preload="metadata" data-first-frame-video="1">
+              <video class="workCard__video" muted playsinline preload="none" data-first-frame-video="1">
                 <source src="static/assets/showreel_720p.mp4" type="video/mp4">
               </video>
               <div class="workCard__play">▶</div>
@@ -625,10 +624,18 @@
         <button class="iconBtn" aria-label="Закрыть" data-close-modal>✕</button>
       </div>
 
-      <form class="form clapper__form" id="leadForm" data-static="1" novalidate>
+      <form class="form clapper__form" id="leadForm" action="/lead" method="post" data-api="/api/lead" data-success-message="Заявка отправлена. Скоро свяжемся с вами." novalidate>
+        <div class="formTrap" aria-hidden="true">
+          <label>
+            Leave empty
+            <input name="website" tabindex="-1" autocomplete="off" />
+          </label>
+        </div>
+        <input type="hidden" name="form_ts" value="">
+
         <label class="field">
           <span>Имя</span>
-          <input name="name" placeholder="Как к вам обращаться" />
+          <input name="name" placeholder="Как к вам обращаться" required />
         </label>
 
         <div class="form__row">
@@ -677,7 +684,15 @@
         <button class="iconBtn" aria-label="Закрыть" data-close-modal>✕</button>
       </div>
 
-      <form class="form clapper__form" id="briefForm" action="/brief" method="post" novalidate>
+      <form class="form clapper__form" id="briefForm" action="/brief" method="post" data-api="/api/brief" data-success-message="Бриф отправлен. Мы изучим его и скоро свяжемся." novalidate>
+        <div class="formTrap" aria-hidden="true">
+          <label>
+            Leave empty
+            <input name="website" tabindex="-1" autocomplete="off" />
+          </label>
+        </div>
+        <input type="hidden" name="form_ts" value="">
+
         <label class="field">
           <span>Цель ролика</span>
           <input name="goal" placeholder="Продажи, узнаваемость, обучение..." required />

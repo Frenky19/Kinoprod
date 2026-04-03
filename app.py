@@ -4,237 +4,142 @@ import os
 import re
 import time
 from collections import defaultdict, deque
+from pathlib import Path
 from typing import Any
 
 import requests
 from dotenv import load_dotenv
-from flask import Flask, jsonify, redirect, render_template, request, url_for
+from flask import Flask, jsonify, redirect, request, send_from_directory
 
-load_dotenv()
+BASE_DIR = Path(__file__).resolve().parent
 
-app = Flask(__name__)
+load_dotenv(BASE_DIR / ".env")
+
+app = Flask(
+    __name__,
+    static_folder=str(BASE_DIR / "static"),
+    static_url_path="/static",
+)
 
 
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "").strip()
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "").strip()
 
-BRAND = {
-    "name": "EVA",
-    "tagline": "Видеопродакшн полного цикла",
-    "city": "Москва",
-    "phone": "+7 925 603-53-11",
-    "email": "eva_studio@gmail.com",
-    "social": {
-        "telegram": "https://t.me/molodoyeg",
-        "youtube": "#",
-    },
-}
-
-BENEFITS = [
-    {
-        "title": "Единая команда под любой проект",
-        "text": "Продюсер, оператор, звук, монтаж, графика — в одном процессе без «сборной солянки».",
-    },
-    {
-        "title": "Гибкие форматы и сроки",
-        "text": "От быстрых роликов для соцсетей до постановочных проектов со сценарием и подготовкой.",
-    },
-    {
-        "title": "От съёмки до готового ролика",
-        "text": "Бриф → план → съёмка → монтаж → графика → финальные версии под нужные площадки.",
-    },
-]
-
-WORK_CATEGORIES = [
-    {"key": "event", "title": "Мероприятия", "desc": "Свадьбы, юбилеи, корпоративы, конференции."},
-    {"key": "business", "title": "Бизнес-видео", "desc": "Реклама, презентации, контент для соцсетей."},
-    {"key": "edu", "title": "Образовательный контент", "desc": "Лекции, курсы, вебинары — чисто и понятно."},
-]
-
-PROJECTS = [
-    {"title": "Aftermovie конференции", "cat": "event", "duration": "1:20", "note": "репортаж + динамичный монтаж", "video_url": "#"},
-    {"title": "Свадебный клип", "cat": "event", "duration": "3:10", "note": "эмоции + детали", "video_url": "#"},
-    {"title": "Рекламный ролик продукта", "cat": "business", "duration": "0:30", "note": "акцент на УТП", "video_url": "#"},
-    {"title": "Презентация сервиса", "cat": "business", "duration": "1:05", "note": "структура + графика", "video_url": "#"},
-    {"title": "Запись лекции", "cat": "edu", "duration": "45:00", "note": "чистый звук + титры", "video_url": "#"},
-    {"title": "Онлайн-курс (урок)", "cat": "edu", "duration": "12:00", "note": "экран + камера", "video_url": "#"},
-]
-
-PRICING = {
-    "event": {
-        "title": "Съёмка мероприятий",
-        "subtitle": "Свадьбы, корпоративы, конференции. Пакеты можно комбинировать.",
-        "items": [
-            {"name": "Клип-фильм", "price": "15 000 ₽", "desc": "Эмоциональный видеорассказ о событии."},
-            {"name": "Тизер", "price": "8 000 ₽", "desc": "Короткий ролик для анонса в соцсетях."},
-            {"name": "Полный репортаж", "price": "25 000 ₽", "desc": "Запись ключевых моментов + монтаж."},
-        ],
-    },
-    "business": {
-        "title": "Коммерческое видео",
-        "subtitle": "Реклама, презентации, контент для соцсетей. Под бизнес-цели.",
-        "items": [
-            {"name": "Рекламный ролик", "price": "15 000 ₽", "desc": "Яркое видео для продвижения."},
-            {"name": "Видео для соцсетей", "price": "8 000 ₽", "desc": "Reels/TikTok/Shorts под ваш стиль."},
-            {"name": "Имиджевое видео", "price": "18 000 ₽", "desc": "Про бренд, доверие и узнаваемость."},
-        ],
-    },
-    "edu": {
-        "title": "Образовательный контент",
-        "subtitle": "Лекции, семинары, курсы — с чистым звуком и аккуратной подачей.",
-        "items": [
-            {"name": "Запись лекции", "price": "10 000 ₽", "desc": "Камера + звук + базовая графика."},
-            {"name": "Вебинар", "price": "8 000 ₽", "desc": "Запись + помощь с подготовкой сцены."},
-            {"name": "Онлайн-курс (урок)", "price": "15 000 ₽", "desc": "Структура + съёмка + монтаж."},
-        ],
-    },
-}
-
-PROCESS = [
-    {"step": "01", "title": "Старт и оценка", "text": "Разбираем задачу, формат, сроки и референсы. После этого даём понятный план и рабочую смету."},
-    {"step": "02", "title": "Фиксируем рамки", "text": "Утверждаем объём работ, структуру ролика, график и ключевые ориентиры, чтобы дальше двигаться без хаоса."},
-    {"step": "03", "title": "Подготовка", "text": "Собираем материалы, сценарную канву, тайминг и технические детали, чтобы съёмка и монтаж шли без лишних пауз."},
-    {"step": "04", "title": "Продакшн", "text": "Снимаем материал под задачу: с нужным ритмом, светом, планами и запасом, который потом работает в монтаже."},
-    {"step": "05", "title": "Монтаж и пост", "text": "Собираем историю, добавляем звук, цвет, титры и графику. На этом этапе ролик получает характер и точный темп."},
-    {"step": "06", "title": "Правки и финал", "text": "Согласовываем финальные штрихи, готовим версии под площадки и передаём проект в чистом, готовом к публикации виде."},
-]
-
-# Helpers
-def _index_context() -> dict[str, Any]:
-    return dict(
-        brand=BRAND,
-        benefits=BENEFITS,
-        work_categories=WORK_CATEGORIES,
-        projects=PROJECTS,
-        pricing=PRICING,
-        process=PROCESS,
-        form_ts=int(time.time()),  # anti-spam timestamp
-    )
-
-
 EMAIL_RE = re.compile(r"^[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9-]+(\.[A-Za-z0-9-]+)+$")
-
-
-def _normalize_phone(raw: str) -> tuple[str, str]:
-    s = (raw or "").strip()
-    digits = "".join(ch for ch in s if ch.isdigit())
-    return digits, s
-
-
 _RATE: dict[str, deque[float]] = defaultdict(deque)
 
 
+def _serve_page(filename: str):
+    return send_from_directory(BASE_DIR, filename)
+
+
+def _normalize_phone(raw: str) -> tuple[str, str]:
+    value = (raw or "").strip()
+    digits = "".join(ch for ch in value if ch.isdigit())
+    return digits, value
+
+
 def _client_ip() -> str:
-    xff = request.headers.get("X-Forwarded-For", "")
-    if xff:
-        return xff.split(",")[0].strip()
+    forwarded_for = request.headers.get("X-Forwarded-For", "")
+    if forwarded_for:
+        return forwarded_for.split(",")[0].strip()
     return request.remote_addr or "unknown"
 
 
 def _rate_limit_ok(limit: int = 10, window_sec: int = 600) -> bool:
     ip = _client_ip()
-    q = _RATE[ip]
+    queue = _RATE[ip]
     now = time.time()
 
-    while q and (now - q[0]) > window_sec:
-        q.popleft()
+    while queue and (now - queue[0]) > window_sec:
+        queue.popleft()
 
-    if len(q) >= limit:
+    if len(queue) >= limit:
         return False
 
-    q.append(now)
+    queue.append(now)
     return True
 
 
 def _validate_lead(payload: dict[str, str]) -> tuple[bool, str | None]:
     if (payload.get("website") or "").strip():
         return False, "Не удалось отправить. Попробуйте ещё раз."
+
     try:
         ts = int(str(payload.get("form_ts") or "0"))
     except ValueError:
         ts = 0
-    if ts:
-        if (time.time() - ts) < 2.0:
-            return False, "Не удалось отправить. Попробуйте ещё раз."
+
+    if ts and (time.time() - ts) < 2.0:
+        return False, "Не удалось отправить. Попробуйте ещё раз."
+
     name = (payload.get("name") or "").strip()
     phone_raw = (payload.get("phone") or "").strip()
     email = (payload.get("email") or "").strip()
-    msg = (payload.get("message") or "").strip()
-    tg = (payload.get("telegram") or "").strip()
+    message = (payload.get("message") or "").strip()
+    telegram = (payload.get("telegram") or "").strip()
+
     if not name:
         return False, "Укажите имя — так мы поймём, как к вам обращаться."
+
     if not phone_raw and not email:
         return False, "Укажите телефон или email — чтобы мы могли ответить."
+
     if email:
         if len(email) > 254:
             return False, "Email слишком длинный."
         if not EMAIL_RE.match(email):
             return False, "Похоже, email указан с ошибкой."
+
     if phone_raw:
-        digits, _pretty = _normalize_phone(phone_raw)
+        digits, _ = _normalize_phone(phone_raw)
 
         if re.search(r"[^\d+\-\s()]", phone_raw):
-            return False, "Телефон содержит недопустимые символы. Разрешены цифры, пробел, +, -, (, )."
+            return (
+                False,
+                "Телефон содержит недопустимые символы. Разрешены цифры, пробел, +, -, (, ).",
+            )
         if len(digits) < 10:
             return False, "Телефон слишком короткий (нужно минимум 10 цифр)."
         if len(digits) > 15:
             return False, "Телефон слишком длинный (максимум 15 цифр)."
-    if tg:
-        if not tg.startswith("@"):
+
+    if telegram:
+        if not telegram.startswith("@"):
             return False, "Telegram должен быть в формате @username."
-        if len(tg) < 3 or len(tg) > 33:
+        if len(telegram) < 3 or len(telegram) > 33:
             return False, "Telegram username выглядит подозрительно."
-        if not re.fullmatch(r"@[A-Za-z0-9_]+", tg):
+        if not re.fullmatch(r"@[A-Za-z0-9_]+", telegram):
             return False, "В Telegram username допустимы только латиница, цифры и подчёркивание."
-    if len(msg) > 2000:
+
+    if len(message) > 2000:
         return False, "Сообщение слишком длинное (до 2000 символов)."
+
     return True, None
-
-
-def _notify_telegram(payload: dict[str, str]) -> None:
-    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
-        return
-    text = (
-        "🎬 Новая заявка\n\n"
-        f"Имя: {payload.get('name') or '—'}\n"
-        f"Телефон: {payload.get('phone') or '—'}\n"
-        f"Email: {payload.get('email') or '—'}\n"
-        f"Telegram: {payload.get('telegram') or '—'}\n"
-        f"Сообщение:\n{payload.get('message') or '—'}"
-    )
-    url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
-    try:
-        requests.post(
-            url,
-            json={
-                "chat_id": TELEGRAM_CHAT_ID,
-                "text": text,
-                "disable_web_page_preview": True,
-            },
-            timeout=6,
-        )
-    except Exception:
-        pass
 
 
 def _validate_brief(payload: dict[str, str]) -> tuple[bool, str | None]:
     if (payload.get("website") or "").strip():
-        return False, "Не удалось отправить. Попробуйте еще раз."
+        return False, "Не удалось отправить. Попробуйте ещё раз."
+
     try:
         ts = int(str(payload.get("form_ts") or "0"))
     except ValueError:
         ts = 0
-    if ts:
-        if (time.time() - ts) < 2.0:
-            return False, "Не удалось отправить. Попробуйте еще раз."
+
+    if ts and (time.time() - ts) < 2.0:
+        return False, "Не удалось отправить. Попробуйте ещё раз."
+
     goal = (payload.get("goal") or "").strip()
     contact = (payload.get("contact") or "").strip()
+
     if not goal:
         return False, "Укажите цель ролика."
     if not contact:
         return False, "Укажите контакт для связи."
     if len(contact) < 3:
         return False, "Контакт выглядит слишком коротким."
+
     for key in (
         "goal",
         "audience",
@@ -251,12 +156,29 @@ def _validate_brief(payload: dict[str, str]) -> tuple[bool, str | None]:
     ):
         if len((payload.get(key) or "").strip()) > 2000:
             return False, "Поле слишком длинное. Укоротите текст."
+
     return True, None
+
+
+def _notify_telegram(payload: dict[str, str]) -> None:
+    if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+        return
+
+    text = (
+        "🎬 Новая заявка\n\n"
+        f"Имя: {payload.get('name') or '—'}\n"
+        f"Телефон: {payload.get('phone') or '—'}\n"
+        f"Email: {payload.get('email') or '—'}\n"
+        f"Telegram: {payload.get('telegram') or '—'}\n"
+        f"Сообщение:\n{payload.get('message') or '—'}"
+    )
+    _send_telegram_message(text)
 
 
 def _notify_telegram_brief(payload: dict[str, str]) -> None:
     if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
         return
+
     text = (
         "📝 Новый бриф\n\n"
         f"Цель: {payload.get('goal') or '—'}\n"
@@ -272,6 +194,10 @@ def _notify_telegram_brief(payload: dict[str, str]) -> None:
         f"Бюджет: {payload.get('budget') or '—'}\n"
         f"Контакт: {payload.get('contact') or '—'}"
     )
+    _send_telegram_message(text)
+
+
+def _send_telegram_message(text: str) -> None:
     url = f"https://api.telegram.org/bot{TELEGRAM_BOT_TOKEN}/sendMessage"
     try:
         requests.post(
@@ -287,45 +213,20 @@ def _notify_telegram_brief(payload: dict[str, str]) -> None:
         pass
 
 
-# Routes
-@app.get("/")
-def index():
-    return render_template("index.html", **_index_context())
-
-
-@app.get("/success")
-def success():
-    return render_template("success.html", brand=BRAND)
-
-
-@app.post("/lead")
-def lead_form_post():
-    if not _rate_limit_ok():
-        return render_template("index.html", error="Слишком часто. Попробуйте чуть позже.", **_index_context()), 429
-
-    payload = {
+def _lead_payload_from_form() -> dict[str, str]:
+    return {
         "name": (request.form.get("name") or "").strip(),
         "phone": (request.form.get("phone") or "").strip(),
         "email": (request.form.get("email") or "").strip(),
         "telegram": (request.form.get("telegram") or "").strip(),
         "message": (request.form.get("message") or "").strip(),
-        # anti-spam fields
         "website": (request.form.get("website") or "").strip(),
         "form_ts": (request.form.get("form_ts") or "").strip(),
     }
-    ok, err = _validate_lead(payload)
-    if not ok:
-        return render_template("index.html", error=err, **_index_context()), 400
-    _notify_telegram(payload)
-    return redirect(url_for("success"))
 
 
-@app.post("/brief")
-def brief_form_post():
-    if not _rate_limit_ok():
-        return render_template("index.html", error="Слишком часто. Попробуйте чуть позже.", **_index_context()), 429
-
-    payload = {
+def _brief_payload_from_form() -> dict[str, str]:
+    return {
         "goal": (request.form.get("goal") or "").strip(),
         "audience": (request.form.get("audience") or "").strip(),
         "format": (request.form.get("format") or "").strip(),
@@ -338,45 +239,27 @@ def brief_form_post():
         "revisions": (request.form.get("revisions") or "").strip(),
         "budget": (request.form.get("budget") or "").strip(),
         "contact": (request.form.get("contact") or "").strip(),
-        # anti-spam fields
         "website": (request.form.get("website") or "").strip(),
         "form_ts": (request.form.get("form_ts") or "").strip(),
     }
-    ok, err = _validate_brief(payload)
-    if not ok:
-        return render_template("index.html", error=err, **_index_context()), 400
-    _notify_telegram_brief(payload)
-    return redirect(url_for("success"))
 
 
-@app.post("/api/lead")
-def api_lead():
-    if not _rate_limit_ok():
-        return jsonify({"ok": False, "error": "Слишком часто. Попробуйте чуть позже."}), 429
+def _lead_payload_from_json() -> dict[str, str]:
     data: dict[str, Any] = request.get_json(silent=True) or {}
-    payload = {
+    return {
         "name": str(data.get("name") or "").strip(),
         "phone": str(data.get("phone") or "").strip(),
         "email": str(data.get("email") or "").strip(),
         "telegram": str(data.get("telegram") or "").strip(),
         "message": str(data.get("message") or "").strip(),
-        # anti-spam fields
         "website": str(data.get("website") or "").strip(),
         "form_ts": str(data.get("form_ts") or "").strip(),
     }
-    ok, err = _validate_lead(payload)
-    if not ok:
-        return jsonify({"ok": False, "error": err}), 400
-    _notify_telegram(payload)
-    return jsonify({"ok": True})
 
 
-@app.post("/api/brief")
-def api_brief():
-    if not _rate_limit_ok():
-        return jsonify({"ok": False, "error": "Слишком часто. Попробуйте чуть позже."}), 429
+def _brief_payload_from_json() -> dict[str, str]:
     data: dict[str, Any] = request.get_json(silent=True) or {}
-    payload = {
+    return {
         "goal": str(data.get("goal") or "").strip(),
         "audience": str(data.get("audience") or "").strip(),
         "format": str(data.get("format") or "").strip(),
@@ -389,20 +272,80 @@ def api_brief():
         "revisions": str(data.get("revisions") or "").strip(),
         "budget": str(data.get("budget") or "").strip(),
         "contact": str(data.get("contact") or "").strip(),
-        # anti-spam fields
         "website": str(data.get("website") or "").strip(),
         "form_ts": str(data.get("form_ts") or "").strip(),
     }
-    ok, err = _validate_brief(payload)
+
+
+@app.get("/")
+def index():
+    return _serve_page("index.html")
+
+
+@app.get("/success")
+def success():
+    return _serve_page("success.html")
+
+
+@app.post("/lead")
+def lead_form_post():
+    if not _rate_limit_ok():
+        return _serve_page("index.html"), 429
+
+    payload = _lead_payload_from_form()
+    ok, _error = _validate_lead(payload)
     if not ok:
-        return jsonify({"ok": False, "error": err}), 400
+        return _serve_page("index.html"), 400
+
+    _notify_telegram(payload)
+    return redirect("/success")
+
+
+@app.post("/brief")
+def brief_form_post():
+    if not _rate_limit_ok():
+        return _serve_page("index.html"), 429
+
+    payload = _brief_payload_from_form()
+    ok, _error = _validate_brief(payload)
+    if not ok:
+        return _serve_page("index.html"), 400
+
+    _notify_telegram_brief(payload)
+    return redirect("/success")
+
+
+@app.post("/api/lead")
+def api_lead():
+    if not _rate_limit_ok():
+        return jsonify({"ok": False, "error": "Слишком часто. Попробуйте чуть позже."}), 429
+
+    payload = _lead_payload_from_json()
+    ok, error = _validate_lead(payload)
+    if not ok:
+        return jsonify({"ok": False, "error": error}), 400
+
+    _notify_telegram(payload)
+    return jsonify({"ok": True})
+
+
+@app.post("/api/brief")
+def api_brief():
+    if not _rate_limit_ok():
+        return jsonify({"ok": False, "error": "Слишком часто. Попробуйте чуть позже."}), 429
+
+    payload = _brief_payload_from_json()
+    ok, error = _validate_brief(payload)
+    if not ok:
+        return jsonify({"ok": False, "error": error}), 400
+
     _notify_telegram_brief(payload)
     return jsonify({"ok": True})
 
 
 @app.errorhandler(404)
-def page_not_found(e):
-    return render_template("404.html"), 404
+def page_not_found(_error):
+    return _serve_page("404.html"), 404
 
 
 if __name__ == "__main__":
