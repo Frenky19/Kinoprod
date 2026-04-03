@@ -166,9 +166,7 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
       trigger.getAttribute('data-work-video-mp4') ||
       trigger.getAttribute('data-work-video') ||
       '';
-    const posterAttr = trigger.getAttribute('data-work-poster') || '';
-    const poster =
-      posterAttr && !posterAttr.endsWith('placeholder.svg') ? posterAttr : '';
+    const poster = trigger.getAttribute('data-work-poster') || '';
 
     const titleEl = modal.querySelector('#workTitle');
     const noteEl = modal.querySelector('[data-work-note]');
@@ -405,36 +403,6 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
   });
 })();
 
-// Video previews use a real frame from the file, but only near the viewport.
-(function initFirstFrameVideos() {
-  const videos = Array.from(
-    document.querySelectorAll('video[data-first-frame-video="1"], video[data-preview-video="1"]')
-  );
-  if (!videos.length) return;
-
-  if (!('IntersectionObserver' in window)) {
-    videos.forEach((video) => primeVideoPreviewFrame(video));
-    return;
-  }
-
-  const io = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        primeVideoPreviewFrame(entry.target);
-        io.unobserve(entry.target);
-      });
-    },
-    {
-      root: null,
-      threshold: 0.01,
-      rootMargin: '300px 0px 300px 0px',
-    }
-  );
-
-  videos.forEach((video) => io.observe(video));
-})();
-
 // Work filter tabs
 (function initWorkFilters() {
   const tabs = Array.from(document.querySelectorAll('.tab[data-filter]'));
@@ -505,6 +473,7 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
     try {
       if (!video.paused) video.pause();
     } catch (e) {}
+    setVideoPreviewState(video, true);
   };
 
   const isMostlyVisible = (el) => {
@@ -575,9 +544,13 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
     video.muted = true;
     video.playsInline = true;
     ensureLoad(video);
+    setVideoPreviewState(video, false);
+    setVideoPreviewReady(video, true);
     const promise = video.play();
     if (promise && typeof promise.catch === 'function') {
-      promise.catch(() => {});
+      promise.catch(() => {
+        setVideoPreviewState(video, true);
+      });
     }
   };
 
@@ -586,9 +559,13 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
       video.pause();
       video.currentTime = getVideoPreviewTime(video);
     } catch (e) {}
+    setVideoPreviewState(video, true);
+    setVideoPreviewReady(video, true);
   };
 
   previews.forEach((video) => {
+    setVideoPreviewReady(video, true);
+    setVideoPreviewState(video, true);
     const card = video.closest('.previewCard') || video;
     card.addEventListener('mouseenter', () => playPreview(video));
     card.addEventListener('mouseleave', () => stopPreview(video));

@@ -80,10 +80,10 @@
 
   <main id="top">
     <section class="heroReel" aria-label="Showreel">
-      <video class="heroReel__video"
-        autoplay muted loop playsinline preload="metadata" data-play-when-visible="1"
-        data-preview-video="1" data-preview-time="3" data-preview-blur="1" data-preview-reset-on-play="1">
-        <source src="static/assets/showreel_720p.mp4" type="video/mp4">
+      <video class="heroReel__video is-preview-frame"
+        autoplay muted loop playsinline preload="metadata" poster="static/assets/showreel_poster.webp"
+        data-play-when-visible="1" data-preview-blur="1">
+        <source src="static/assets/showreel_hero.mp4" type="video/mp4">
       </video>
       <div class="heroReel__overlay" aria-hidden="true"></div>
       <div class="heroReel__grain" aria-hidden="true"></div>
@@ -130,9 +130,10 @@
               data-work-title="Aftermovie конференции"
               data-work-note="Репортажная съёмка и монтаж с живой динамикой, акцентами на атмосферу и детали события."
               data-work-video-mp4="static/assets/showreel_720p.mp4"
+              data-work-poster="static/assets/showreel_poster.webp"
               aria-label="Открыть кейс Aftermovie конференции">
-              <video class="previewCard__video" muted loop playsinline preload="none" data-hover-preview="1" data-preview-video="1" data-preview-time="3" data-preview-blur="1">
-                <source src="static/assets/showreel_720p.mp4" type="video/mp4">
+              <video class="previewCard__video is-preview-frame is-preview-ready" muted loop playsinline preload="none" poster="static/assets/showreel_poster.webp" data-hover-preview="1" data-preview-blur="1" data-preview-time="9">
+                <source src="static/assets/showreel_preview.mp4" type="video/mp4">
               </video>
             </button>
 
@@ -141,9 +142,10 @@
               data-work-title="Видео для бизнеса"
               data-work-note="Аккуратная визуальная подача, ритм и монтаж, которые делают сообщение бренда ясным и запоминающимся."
               data-work-video-mp4="static/assets/showreel_720p.mp4"
+              data-work-poster="static/assets/showreel_poster.webp"
               aria-label="Открыть кейс Видео для бизнеса">
-              <video class="previewCard__video previewCard__video--alt" muted loop playsinline preload="none" data-hover-preview="1" data-preview-video="1" data-preview-time="3" data-preview-blur="1">
-                <source src="static/assets/showreel_720p.mp4" type="video/mp4">
+              <video class="previewCard__video previewCard__video--alt is-preview-frame is-preview-ready" muted loop playsinline preload="none" poster="static/assets/showreel_poster.webp" data-hover-preview="1" data-preview-blur="1" data-preview-time="9">
+                <source src="static/assets/showreel_preview.mp4" type="video/mp4">
               </video>
             </button>
           </div>
@@ -173,10 +175,11 @@
             data-work-dur="1:20"
             data-work-note="репортаж + динамичный монтаж"
             data-work-video-mp4="static/assets/showreel_720p.mp4"
+            data-work-poster="static/assets/showreel_poster.webp"
             aria-label="Aftermovie конференции — 1:20">
             <div class="workCard__thumb" aria-hidden="true">
-              <video class="workCard__video" muted playsinline preload="none" data-first-frame-video="1">
-                <source src="static/assets/showreel_720p.mp4" type="video/mp4">
+              <video class="workCard__video" muted playsinline preload="none" poster="static/assets/showreel_poster.webp">
+                <source src="static/assets/showreel_preview.mp4" type="video/mp4">
               </video>
               <div class="workCard__play">▶</div>
               <div class="frameTag">Aftermovie</div>
@@ -197,10 +200,11 @@
             data-work-dur="3:10"
             data-work-note="эмоции + детали"
             data-work-video-mp4="static/assets/showreel_720p.mp4"
+            data-work-poster="static/assets/showreel_poster.webp"
             aria-label="Свадебный клип — 3:10">
             <div class="workCard__thumb" aria-hidden="true">
-              <video class="workCard__video" muted playsinline preload="none" data-first-frame-video="1">
-                <source src="static/assets/showreel_720p.mp4" type="video/mp4">
+              <video class="workCard__video" muted playsinline preload="none" poster="static/assets/showreel_poster.webp">
+                <source src="static/assets/showreel_preview.mp4" type="video/mp4">
               </video>
               <div class="workCard__play">▶</div>
               <div class="frameTag">Wedding</div>
@@ -221,10 +225,11 @@
             data-work-dur="0:30"
             data-work-note="акцент на УТП"
             data-work-video-mp4="static/assets/showreel_720p.mp4"
+            data-work-poster="static/assets/showreel_poster.webp"
             aria-label="Рекламный ролик продукта — 0:30">
             <div class="workCard__thumb" aria-hidden="true">
-              <video class="workCard__video" muted playsinline preload="none" data-first-frame-video="1">
-                <source src="static/assets/showreel_720p.mp4" type="video/mp4">
+              <video class="workCard__video" muted playsinline preload="none" poster="static/assets/showreel_poster.webp">
+                <source src="static/assets/showreel_preview.mp4" type="video/mp4">
               </video>
               <div class="workCard__play">▶</div>
               <div class="frameTag">Product</div>
@@ -245,10 +250,11 @@
             data-work-dur="1:05"
             data-work-note="структура + графика"
             data-work-video-mp4="static/assets/showreel_720p.mp4"
+            data-work-poster="static/assets/showreel_poster.webp"
             aria-label="Презентация сервиса — 1:05">
             <div class="workCard__thumb" aria-hidden="true">
-              <video class="workCard__video" muted playsinline preload="none" data-first-frame-video="1">
-                <source src="static/assets/showreel_720p.mp4" type="video/mp4">
+              <video class="workCard__video" muted playsinline preload="none" poster="static/assets/showreel_poster.webp">
+                <source src="static/assets/showreel_preview.mp4" type="video/mp4">
               </video>
               <div class="workCard__play">▶</div>
               <div class="frameTag">Brand</div>
@@ -269,10 +275,11 @@
             data-work-dur="45:00"
             data-work-note="чистый звук + титры"
             data-work-video-mp4="static/assets/showreel_720p.mp4"
+            data-work-poster="static/assets/showreel_poster.webp"
             aria-label="Запись лекции — 45:00">
             <div class="workCard__thumb" aria-hidden="true">
-              <video class="workCard__video" muted playsinline preload="none" data-first-frame-video="1">
-                <source src="static/assets/showreel_720p.mp4" type="video/mp4">
+              <video class="workCard__video" muted playsinline preload="none" poster="static/assets/showreel_poster.webp">
+                <source src="static/assets/showreel_preview.mp4" type="video/mp4">
               </video>
               <div class="workCard__play">▶</div>
               <div class="frameTag">Education</div>
@@ -293,10 +300,11 @@
             data-work-dur="12:00"
             data-work-note="экран + камера"
             data-work-video-mp4="static/assets/showreel_720p.mp4"
+            data-work-poster="static/assets/showreel_poster.webp"
             aria-label="Онлайн‑курс (урок) — 12:00">
             <div class="workCard__thumb" aria-hidden="true">
-              <video class="workCard__video" muted playsinline preload="none" data-first-frame-video="1">
-                <source src="static/assets/showreel_720p.mp4" type="video/mp4">
+              <video class="workCard__video" muted playsinline preload="none" poster="static/assets/showreel_poster.webp">
+                <source src="static/assets/showreel_preview.mp4" type="video/mp4">
               </video>
               <div class="workCard__play">▶</div>
               <div class="frameTag">Course</div>
@@ -784,7 +792,7 @@
 
       <div class="workModal__body">
         <div class="workModal__media">
-          <video class="workModal__video" controls preload="metadata" playsinline data-first-frame-video="1" aria-label="Видеоплеер">
+          <video class="workModal__video" controls preload="metadata" playsinline aria-label="Видеоплеер">
             <source data-work-source="webm" type="video/webm">
             <source data-work-source="mp4" type="video/mp4">
           </video>
