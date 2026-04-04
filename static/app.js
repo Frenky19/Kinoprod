@@ -432,27 +432,76 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
 
 // Work filter tabs
 (function initWorkFilters() {
-  const tabs = Array.from(document.querySelectorAll('.tab[data-filter]'));
-  const cards = Array.from(document.querySelectorAll('.workCard[data-cat]'));
-  if (!tabs.length || !cards.length) return;
+  const sections = Array.from(document.querySelectorAll('[data-work-section]'));
+  if (!sections.length) return;
 
-  function setActive(tab) {
-    tabs.forEach((t) => t.classList.toggle('is-active', t === tab));
-  }
+  sections.forEach((section) => {
+    const tabs = Array.from(section.querySelectorAll('.tab[data-filter]'));
+    const cards = Array.from(section.querySelectorAll('.workCard[data-cat]'));
+    const moreWrap = section.querySelector('[data-work-more-wrap]');
+    const moreBtn = section.querySelector('[data-work-more]');
+    const batch = Number(section.dataset.workBatch || 6);
+    const isCatalog = section.dataset.workSection === 'catalog';
 
-  function applyFilter(key) {
-    cards.forEach((card) => {
-      const show = key === 'all' || card.dataset.cat === key;
-      card.style.display = show ? '' : 'none';
+    if (!tabs.length || !cards.length) return;
+
+    let activeKey =
+      tabs.find((tab) => tab.classList.contains('is-active'))?.dataset.filter || 'all';
+    let visibleLimit = batch;
+
+    function matches(card, key) {
+      if (key === 'all') return true;
+      if (key === 'featured') return card.dataset.featured === '1';
+      return card.dataset.cat === key;
+    }
+
+    function pauseCardVideo(card) {
+      const video = card.querySelector('.workCard__video');
+      if (!video) return;
+      try {
+        video.pause();
+        video.currentTime = 0;
+      } catch (err) {}
+    }
+
+    function setActive(tab) {
+      tabs.forEach((item) => item.classList.toggle('is-active', item === tab));
+    }
+
+    function render() {
+      const filteredCards = cards.filter((card) => matches(card, activeKey));
+      const limit = isCatalog ? visibleLimit : batch;
+
+      cards.forEach((card) => {
+        card.hidden = true;
+        pauseCardVideo(card);
+      });
+
+      filteredCards.forEach((card, index) => {
+        card.hidden = index >= limit;
+      });
+
+      if (!moreWrap || !moreBtn) return;
+      moreWrap.hidden = !isCatalog || filteredCards.length <= visibleLimit;
+    }
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        activeKey = tab.dataset.filter || 'all';
+        visibleLimit = batch;
+        setActive(tab);
+        render();
+      });
     });
-  }
 
-  tabs.forEach((tab) => {
-    tab.addEventListener('click', () => {
-      const key = tab.dataset.filter || 'all';
-      setActive(tab);
-      applyFilter(key);
-    });
+    if (moreBtn) {
+      moreBtn.addEventListener('click', () => {
+        visibleLimit += batch;
+        render();
+      });
+    }
+
+    render();
   });
 })();
 

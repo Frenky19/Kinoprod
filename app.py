@@ -282,6 +282,11 @@ def index():
     return _serve_page("index.html")
 
 
+@app.get("/works")
+def works():
+    return _serve_page("works.html")
+
+
 @app.get("/success")
 def success():
     return _serve_page("success.html")
