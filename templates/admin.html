@@ -1,0 +1,399 @@
+﻿<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Админка сайта</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}" />
+</head>
+<body class="adminBody">
+  <header class="adminTopbar">
+    <div>
+      <p class="adminKicker">{{ admin_route }}</p>
+      <h1 class="adminTitle">Редактор текстов сайта</h1>
+      <p class="adminLead">Меняются тексты главной, страницы работ, модалок, карточек кейсов и служебных экранов. Видео и постеры пока трогаются вручную.</p>
+    </div>
+    <form method="post" action="{{ admin_route }}/logout">
+      <button class="adminBtn adminBtn--ghost" type="submit">Выйти</button>
+    </form>
+  </header>
+
+  <main class="adminLayout">
+    {% if saved %}
+      <div class="adminAlert adminAlert--success">Изменения сохранены.</div>
+    {% endif %}
+
+    <form method="post" action="{{ admin_route }}/save" class="adminForm">
+      <details class="adminSection" open>
+        <summary>SEO и системные заголовки</summary>
+        <div class="adminSection__body adminGrid adminGrid--2">
+          <label class="adminField">
+            <span>Title главной</span>
+            <input type="text" name="seo_index_title" value="{{ content['seo']['index_title'] }}" />
+          </label>
+          <label class="adminField">
+            <span>Title страницы работ</span>
+            <input type="text" name="seo_works_title" value="{{ content['seo']['works_title'] }}" />
+          </label>
+          <label class="adminField adminField--full">
+            <span>Description главной</span>
+            <textarea name="seo_index_description" rows="3">{{ content['seo']['index_description'] }}</textarea>
+          </label>
+          <label class="adminField adminField--full">
+            <span>Description страницы работ</span>
+            <textarea name="seo_works_description" rows="3">{{ content['seo']['works_description'] }}</textarea>
+          </label>
+          <label class="adminField">
+            <span>Title success-страницы</span>
+            <input type="text" name="seo_success_title" value="{{ content['seo']['success_title'] }}" />
+          </label>
+        </div>
+      </details>
+
+      <details class="adminSection" open>
+        <summary>Шапка и навигация</summary>
+        <div class="adminSection__body adminGrid adminGrid--3">
+          <label class="adminField">
+            <span>Главная</span>
+            <input type="text" name="nav_home" value="{{ content['nav']['home'] }}" />
+          </label>
+          <label class="adminField">
+            <span>Работы</span>
+            <input type="text" name="nav_works" value="{{ content['nav']['works'] }}" />
+          </label>
+          <label class="adminField">
+            <span>Процесс</span>
+            <input type="text" name="nav_process" value="{{ content['nav']['process'] }}" />
+          </label>
+          <label class="adminField">
+            <span>Контакты</span>
+            <input type="text" name="nav_contact" value="{{ content['nav']['contact'] }}" />
+          </label>
+          <label class="adminField">
+            <span>Кнопка «Обсудить проект»</span>
+            <input type="text" name="nav_discuss_project" value="{{ content['nav']['discuss_project'] }}" />
+          </label>
+          <label class="adminField">
+            <span>Кнопка «Заполнить бриф»</span>
+            <input type="text" name="nav_fill_brief" value="{{ content['nav']['fill_brief'] }}" />
+          </label>
+        </div>
+      </details>
+
+      <details class="adminSection" open>
+        <summary>Hero</summary>
+        <div class="adminSection__body adminGrid adminGrid--2">
+          <label class="adminField">
+            <span>Основной бренд</span>
+            <input type="text" name="hero_brand_main" value="{{ content['hero']['brand_main'] }}" />
+          </label>
+          <label class="adminField">
+            <span>Акцентное слово</span>
+            <input type="text" name="hero_brand_accent" value="{{ content['hero']['brand_accent'] }}" />
+          </label>
+          <label class="adminField adminField--full">
+            <span>Префикс печатающейся строки</span>
+            <input type="text" name="hero_typed_prefix" value="{{ content['hero']['typed_prefix'] }}" />
+          </label>
+          {% for item in content['hero']['typed_items'] %}
+            <label class="adminField">
+              <span>Печатающаяся фраза {{ loop.index }}</span>
+              <input type="text" name="hero_typed_item_{{ loop.index0 }}" value="{{ item }}" />
+            </label>
+          {% endfor %}
+          <label class="adminField adminField--full">
+            <span>Заголовок клиентов</span>
+            <input type="text" name="hero_clients_label" value="{{ content['hero']['clients_label'] }}" />
+          </label>
+          {% for item in content['hero']['clients'] %}
+            <label class="adminField">
+              <span>Клиент {{ loop.index }}</span>
+              <input type="text" name="hero_client_{{ loop.index0 }}" value="{{ item }}" />
+            </label>
+          {% endfor %}
+        </div>
+      </details>
+
+      <details class="adminSection" open>
+        <summary>Форматы и кейсы / Все работы</summary>
+        <div class="adminSection__body adminGrid adminGrid--2">
+          <label class="adminField">
+            <span>Заголовок на главной</span>
+            <input type="text" name="works_index_heading" value="{{ content['works']['index_heading'] }}" />
+          </label>
+          <label class="adminField">
+            <span>Заголовок на /works</span>
+            <input type="text" name="works_works_heading" value="{{ content['works']['works_heading'] }}" />
+          </label>
+          <label class="adminField">
+            <span>Ссылка «Смотреть все»</span>
+            <input type="text" name="works_cta" value="{{ content['works']['cta'] }}" />
+          </label>
+          <label class="adminField">
+            <span>Кнопка «Показать ещё»</span>
+            <input type="text" name="works_load_more" value="{{ content['works']['load_more'] }}" />
+          </label>
+        </div>
+
+        <div class="adminSection__body">
+          <div class="adminSubhead">Табы главной</div>
+          <div class="adminGrid adminGrid--4">
+            <label class="adminField"><span>Избранное</span><input type="text" name="works_tabs_main_featured" value="{{ content['works']['tabs_main']['featured'] }}" /></label>
+            <label class="adminField"><span>Ивенты</span><input type="text" name="works_tabs_main_event" value="{{ content['works']['tabs_main']['event'] }}" /></label>
+            <label class="adminField"><span>Бизнес</span><input type="text" name="works_tabs_main_business" value="{{ content['works']['tabs_main']['business'] }}" /></label>
+            <label class="adminField"><span>Обучение</span><input type="text" name="works_tabs_main_edu" value="{{ content['works']['tabs_main']['edu'] }}" /></label>
+          </div>
+        </div>
+
+        <div class="adminSection__body">
+          <div class="adminSubhead">Табы страницы работ</div>
+          <div class="adminGrid adminGrid--4">
+            <label class="adminField"><span>Все</span><input type="text" name="works_tabs_works_all" value="{{ content['works']['tabs_works']['all'] }}" /></label>
+            <label class="adminField"><span>Ивенты</span><input type="text" name="works_tabs_works_event" value="{{ content['works']['tabs_works']['event'] }}" /></label>
+            <label class="adminField"><span>Бизнес</span><input type="text" name="works_tabs_works_business" value="{{ content['works']['tabs_works']['business'] }}" /></label>
+            <label class="adminField"><span>Обучение</span><input type="text" name="works_tabs_works_edu" value="{{ content['works']['tabs_works']['edu'] }}" /></label>
+          </div>
+        </div>
+
+        <div class="adminSection__body">
+          <div class="adminSubhead">Карточки кейсов</div>
+          <div class="adminCardsGrid">
+            {% for card in content['works']['cards'] %}
+              <section class="adminMiniCard">
+                <div class="adminMiniCard__head">
+                  <strong>Карточка {{ loop.index }}</strong>
+                  <label class="adminCheckbox">
+                    <input type="checkbox" name="works_card_{{ loop.index0 }}_featured" {% if card['featured'] %}checked{% endif %} />
+                    <span>Избранное</span>
+                  </label>
+                </div>
+                <div class="adminGrid adminGrid--2">
+                  <label class="adminField adminField--full">
+                    <span>Заголовок</span>
+                    <input type="text" name="works_card_{{ loop.index0 }}_title" value="{{ card['title'] }}" />
+                  </label>
+                  <label class="adminField">
+                    <span>Тег</span>
+                    <input type="text" name="works_card_{{ loop.index0 }}_tag" value="{{ card['tag'] }}" />
+                  </label>
+                  <label class="adminField">
+                    <span>Длительность</span>
+                    <input type="text" name="works_card_{{ loop.index0 }}_duration" value="{{ card['duration'] }}" />
+                  </label>
+                  <label class="adminField">
+                    <span>Категория</span>
+                    <select name="works_card_{{ loop.index0 }}_category">
+                      <option value="event" {% if card['category'] == 'event' %}selected{% endif %}>Ивенты</option>
+                      <option value="business" {% if card['category'] == 'business' %}selected{% endif %}>Бизнес</option>
+                      <option value="edu" {% if card['category'] == 'edu' %}selected{% endif %}>Обучение</option>
+                    </select>
+                  </label>
+                  <label class="adminField adminField--full">
+                    <span>Подзаголовок</span>
+                    <textarea name="works_card_{{ loop.index0 }}_note" rows="3">{{ card['note'] }}</textarea>
+                  </label>
+                </div>
+              </section>
+            {% endfor %}
+          </div>
+        </div>
+      </details>
+
+      <details class="adminSection">
+        <summary>Блок «Мы делаем видеопродакшн»</summary>
+        <div class="adminSection__body adminGrid adminGrid--1">
+          <label class="adminField">
+            <span>Заголовок</span>
+            <textarea name="suite_heading" rows="3">{{ content['suite']['heading'] }}</textarea>
+          </label>
+          {% for paragraph in content['suite']['paragraphs'] %}
+            <label class="adminField">
+              <span>Абзац {{ loop.index }}</span>
+              <textarea name="suite_paragraph_{{ loop.index0 }}" rows="4">{{ paragraph }}</textarea>
+            </label>
+          {% endfor %}
+        </div>
+      </details>
+
+      <details class="adminSection">
+        <summary>Блок «Как собирается проект»</summary>
+        <div class="adminSection__body adminGrid adminGrid--1">
+          <label class="adminField">
+            <span>Заголовок</span>
+            <input type="text" name="process_heading" value="{{ content['process']['heading'] }}" />
+          </label>
+          <div class="adminCardsGrid adminCardsGrid--narrow">
+            {% for item in content['process']['items'] %}
+              <section class="adminMiniCard">
+                <div class="adminGrid adminGrid--1">
+                  <label class="adminField">
+                    <span>Шаг {{ loop.index }}</span>
+                    <input type="text" name="process_item_{{ loop.index0 }}_step" value="{{ item['step'] }}" />
+                  </label>
+                  <label class="adminField">
+                    <span>Описание</span>
+                    <textarea name="process_item_{{ loop.index0 }}_text" rows="4">{{ item['text'] }}</textarea>
+                  </label>
+                </div>
+              </section>
+            {% endfor %}
+          </div>
+        </div>
+      </details>
+
+      <details class="adminSection">
+        <summary>Блок «Бриф»</summary>
+        <div class="adminSection__body adminGrid adminGrid--2">
+          <label class="adminField adminField--full">
+            <span>Заголовок</span>
+            <input type="text" name="brief_heading" value="{{ content['brief']['heading'] }}" />
+          </label>
+          <label class="adminField adminField--full">
+            <span>Лид</span>
+            <textarea name="brief_lead" rows="5">{{ content['brief']['lead'] }}</textarea>
+          </label>
+          <label class="adminField">
+            <span>Кнопка</span>
+            <input type="text" name="brief_cta" value="{{ content['brief']['cta'] }}" />
+          </label>
+          <label class="adminField">
+            <span>Заголовок панели</span>
+            <input type="text" name="brief_panel_title" value="{{ content['brief']['panel_title'] }}" />
+          </label>
+          <label class="adminField">
+            <span>Заголовок блока «Что будет после»</span>
+            <input type="text" name="brief_results_title" value="{{ content['brief']['results_title'] }}" />
+          </label>
+        </div>
+
+        <div class="adminSection__body">
+          <div class="adminSubhead">Статистика</div>
+          <div class="adminCardsGrid adminCardsGrid--narrow">
+            {% for item in content['brief']['stats'] %}
+              <section class="adminMiniCard">
+                <label class="adminField"><span>Значение</span><input type="text" name="brief_stat_{{ loop.index0 }}_value" value="{{ item['value'] }}" /></label>
+                <label class="adminField"><span>Текст</span><textarea name="brief_stat_{{ loop.index0 }}_text" rows="3">{{ item['text'] }}</textarea></label>
+              </section>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="adminSection__body">
+          <div class="adminSubhead">Пункты брифа</div>
+          <div class="adminCardsGrid adminCardsGrid--narrow">
+            {% for item in content['brief']['items'] %}
+              <section class="adminMiniCard">
+                <label class="adminField"><span>Заголовок</span><input type="text" name="brief_item_{{ loop.index0 }}_title" value="{{ item['title'] }}" /></label>
+                <label class="adminField"><span>Текст</span><textarea name="brief_item_{{ loop.index0 }}_text" rows="4">{{ item['text'] }}</textarea></label>
+              </section>
+            {% endfor %}
+          </div>
+        </div>
+
+        <div class="adminSection__body">
+          <div class="adminSubhead">Что будет после</div>
+          <div class="adminGrid adminGrid--1">
+            {% for item in content['brief']['results_items'] %}
+              <label class="adminField">
+                <span>Пункт {{ loop.index }}</span>
+                <input type="text" name="brief_result_item_{{ loop.index0 }}" value="{{ item }}" />
+              </label>
+            {% endfor %}
+          </div>
+        </div>
+      </details>
+
+      <details class="adminSection">
+        <summary>FAQ</summary>
+        <div class="adminSection__body adminGrid adminGrid--1">
+          <label class="adminField">
+            <span>Заголовок</span>
+            <input type="text" name="faq_heading" value="{{ content['faq']['heading'] }}" />
+          </label>
+          <label class="adminField">
+            <span>Описание</span>
+            <textarea name="faq_description" rows="5">{{ content['faq']['description'] }}</textarea>
+          </label>
+          <div class="adminCardsGrid adminCardsGrid--narrow">
+            {% for item in content['faq']['items'] %}
+              <section class="adminMiniCard">
+                <label class="adminField"><span>Вопрос</span><input type="text" name="faq_item_{{ loop.index0 }}_question" value="{{ item['question'] }}" /></label>
+                <label class="adminField"><span>Ответ</span><textarea name="faq_item_{{ loop.index0 }}_answer" rows="4">{{ item['answer'] }}</textarea></label>
+              </section>
+            {% endfor %}
+          </div>
+        </div>
+      </details>
+
+      <details class="adminSection">
+        <summary>Контакты и футер</summary>
+        <div class="adminSection__body adminGrid adminGrid--3">
+          <label class="adminField"><span>Заголовок блока контактов</span><input type="text" name="contact_heading" value="{{ content['contact']['heading'] }}" /></label>
+          <label class="adminField"><span>Телефон — лейбл</span><input type="text" name="contact_phone_label" value="{{ content['contact']['phone_label'] }}" /></label>
+          <label class="adminField"><span>Телефон — значение</span><input type="text" name="contact_phone_value" value="{{ content['contact']['phone_value'] }}" /></label>
+          <label class="adminField"><span>Email — лейбл</span><input type="text" name="contact_email_label" value="{{ content['contact']['email_label'] }}" /></label>
+          <label class="adminField"><span>Email — значение</span><input type="text" name="contact_email_value" value="{{ content['contact']['email_value'] }}" /></label>
+          <label class="adminField"><span>Telegram — лейбл</span><input type="text" name="contact_telegram_label" value="{{ content['contact']['telegram_label'] }}" /></label>
+          <label class="adminField"><span>Telegram — значение</span><input type="text" name="contact_telegram_value" value="{{ content['contact']['telegram_value'] }}" /></label>
+          <label class="adminField"><span>Заявка — лейбл</span><input type="text" name="contact_lead_label" value="{{ content['contact']['lead_label'] }}" /></label>
+          <label class="adminField"><span>Кнопка в карточке</span><input type="text" name="contact_lead_button" value="{{ content['contact']['lead_button'] }}" /></label>
+          <label class="adminField"><span>Бренд в футере</span><input type="text" name="footer_brand" value="{{ content['footer']['brand'] }}" /></label>
+          <label class="adminField"><span>Копирайт</span><input type="text" name="footer_copyright" value="{{ content['footer']['copyright'] }}" /></label>
+          <label class="adminField"><span>Ссылка Telegram в футере</span><input type="text" name="footer_telegram_label" value="{{ content['footer']['telegram_label'] }}" /></label>
+          <label class="adminField"><span>Ссылка «Наверх»</span><input type="text" name="footer_back_to_top" value="{{ content['footer']['back_to_top'] }}" /></label>
+        </div>
+      </details>
+
+      <details class="adminSection">
+        <summary>Модалки и success-страница</summary>
+        <div class="adminSection__body adminGrid adminGrid--2">
+          <label class="adminField"><span>Заявка — kicker</span><input type="text" name="lead_modal_kicker" value="{{ content['lead_modal']['kicker'] }}" /></label>
+          <label class="adminField"><span>Заявка — заголовок</span><input type="text" name="lead_modal_title" value="{{ content['lead_modal']['title'] }}" /></label>
+          <label class="adminField"><span>Заявка — кнопка</span><input type="text" name="lead_modal_submit" value="{{ content['lead_modal']['submit'] }}" /></label>
+          <label class="adminField"><span>Бриф — kicker</span><input type="text" name="brief_modal_kicker" value="{{ content['brief_modal']['kicker'] }}" /></label>
+          <label class="adminField"><span>Бриф — заголовок</span><input type="text" name="brief_modal_title" value="{{ content['brief_modal']['title'] }}" /></label>
+          <label class="adminField"><span>Бриф — кнопка</span><input type="text" name="brief_modal_submit" value="{{ content['brief_modal']['submit'] }}" /></label>
+          <label class="adminField adminField--full"><span>Бриф — подсказка</span><textarea name="brief_modal_hint" rows="3">{{ content['brief_modal']['hint'] }}</textarea></label>
+          <label class="adminField"><span>Модал кейса — заголовок по умолчанию</span><input type="text" name="work_modal_title" value="{{ content['work_modal']['title'] }}" /></label>
+          <label class="adminField"><span>Модал кейса — placeholder</span><input type="text" name="work_modal_placeholder" value="{{ content['work_modal']['placeholder'] }}" /></label>
+          <label class="adminField"><span>Модал кейса — CTA</span><input type="text" name="work_modal_discuss_button" value="{{ content['work_modal']['discuss_button'] }}" /></label>
+          <label class="adminField"><span>Модал кейса — закрыть</span><input type="text" name="work_modal_close_button" value="{{ content['work_modal']['close_button'] }}" /></label>
+          <label class="adminField"><span>Success — kicker</span><input type="text" name="success_kicker" value="{{ content['success']['kicker'] }}" /></label>
+          <label class="adminField"><span>Success — заголовок</span><input type="text" name="success_title" value="{{ content['success']['title'] }}" /></label>
+          <label class="adminField adminField--full"><span>Success — текст</span><textarea name="success_text" rows="4">{{ content['success']['text'] }}</textarea></label>
+          <label class="adminField"><span>Success — кнопка</span><input type="text" name="success_button" value="{{ content['success']['button'] }}" /></label>
+        </div>
+
+        <div class="adminSection__body">
+          <div class="adminSubhead">Поля формы заявки</div>
+          <div class="adminCardsGrid adminCardsGrid--narrow">
+            {% for item in content['lead_modal']['fields'] %}
+              <section class="adminMiniCard">
+                <label class="adminField"><span>Лейбл</span><input type="text" name="lead_modal_field_{{ loop.index0 }}_label" value="{{ item['label'] }}" /></label>
+                <label class="adminField"><span>Placeholder</span><input type="text" name="lead_modal_field_{{ loop.index0 }}_placeholder" value="{{ item['placeholder'] }}" /></label>
+              </section>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="adminSection__body">
+          <div class="adminSubhead">Поля формы брифа</div>
+          <div class="adminCardsGrid adminCardsGrid--narrow">
+            {% for item in content['brief_modal']['fields'] %}
+              <section class="adminMiniCard">
+                <label class="adminField"><span>Лейбл</span><input type="text" name="brief_modal_field_{{ loop.index0 }}_label" value="{{ item['label'] }}" /></label>
+                <label class="adminField"><span>Placeholder</span><input type="text" name="brief_modal_field_{{ loop.index0 }}_placeholder" value="{{ item['placeholder'] }}" /></label>
+              </section>
+            {% endfor %}
+          </div>
+        </div>
+      </details>
+
+      <div class="adminSubmitBar">
+        <button class="adminBtn adminBtn--primary" type="submit">Сохранить изменения</button>
+      </div>
+    </form>
+  </main>
+</body>
+</html>

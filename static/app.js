@@ -125,6 +125,75 @@ function stampFormTimestamp(form) {
   tsInput.value = String(Math.floor(Date.now() / 1000));
 }
 
+function renderTurnstileWidget(container) {
+  if (!container || container.dataset.turnstileRendered === '1') return true;
+  if (!window.turnstile || typeof window.turnstile.render !== 'function') return false;
+
+  const form = container.closest('form');
+  if (!form) return false;
+
+  const sitekey = container.dataset.sitekey;
+  if (!sitekey) return false;
+
+  let tokenInput = form.querySelector('input[name="cf-turnstile-response"]');
+  if (!tokenInput) {
+    tokenInput = document.createElement('input');
+    tokenInput.type = 'hidden';
+    tokenInput.name = 'cf-turnstile-response';
+    form.appendChild(tokenInput);
+  }
+
+  let widgetId = null;
+  widgetId = window.turnstile.render(container, {
+    sitekey,
+    action: container.dataset.action || undefined,
+    theme: container.dataset.theme || 'dark',
+    callback(token) {
+      tokenInput.value = token || '';
+    },
+    'expired-callback'() {
+      tokenInput.value = '';
+    },
+    'error-callback'() {
+      tokenInput.value = '';
+    },
+  });
+
+  container.dataset.turnstileRendered = '1';
+  container.dataset.turnstileWidgetId = String(widgetId);
+  return true;
+}
+
+function ensureTurnstileWidgets(root = document, attempt = 0) {
+  const containers = Array.from(root.querySelectorAll('[data-turnstile-widget="1"]'));
+  if (!containers.length) return;
+
+  if (!window.turnstile || typeof window.turnstile.render !== 'function') {
+    if (attempt >= 40) return;
+    window.setTimeout(() => ensureTurnstileWidgets(root, attempt + 1), 150);
+    return;
+  }
+
+  containers.forEach((container) => renderTurnstileWidget(container));
+}
+
+function resetTurnstileForForm(form) {
+  if (!form || !window.turnstile || typeof window.turnstile.reset !== 'function') return;
+
+  const container = form.querySelector('[data-turnstile-widget="1"]');
+  if (!container || container.dataset.turnstileRendered !== '1') return;
+
+  const tokenInput = form.querySelector('input[name="cf-turnstile-response"]');
+  if (tokenInput) tokenInput.value = '';
+
+  const widgetId = container.dataset.turnstileWidgetId;
+  if (!widgetId) return;
+
+  try {
+    window.turnstile.reset(widgetId);
+  } catch (err) {}
+}
+
 if (navToggle && navLinks) {
   navToggle.addEventListener('click', () => {
     const isOpen = navLinks.classList.toggle('is-open');
@@ -280,6 +349,7 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
     modal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
     activeModal = modal;
+    ensureTurnstileWidgets(modal);
     focusFirst(modal);
   }
 
@@ -383,6 +453,14 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
       e.preventDefault();
       setStatus(statusEl, '', '');
 
+      const tokenInput = form.querySelector('input[name="cf-turnstile-response"]');
+      const hasTurnstile = Boolean(form.querySelector('[data-turnstile-widget="1"]'));
+      if (hasTurnstile && !(tokenInput && tokenInput.value)) {
+        ensureTurnstileWidgets(form);
+        setStatus(statusEl, 'error', 'Подтвердите, что форму отправляет человек.');
+        return;
+      }
+
       const payload = Object.fromEntries(new FormData(form).entries());
       const initialLabel = submitBtn ? submitBtn.textContent : '';
 
@@ -409,6 +487,7 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
         setStatus(statusEl, 'success', successMessage);
         form.reset();
         stampFormTimestamp(form);
+        resetTurnstileForForm(form);
 
         const closeBtn = form.closest('.modal')?.querySelector('.iconBtn[data-close-modal]');
         if (closeBtn) {
@@ -420,6 +499,7 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
             ? error.message
             : 'Не удалось отправить форму. Попробуйте ещё раз.';
         setStatus(statusEl, 'error', message);
+        resetTurnstileForForm(form);
       } finally {
         if (submitBtn) {
           submitBtn.disabled = false;

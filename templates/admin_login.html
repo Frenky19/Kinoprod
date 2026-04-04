@@ -1,0 +1,34 @@
+﻿<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Вход в админку</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='admin.css') }}" />
+</head>
+<body class="adminBody adminBody--login">
+  <main class="adminLogin">
+    <section class="adminCard adminCard--login">
+      <p class="adminKicker">Закрытый маршрут</p>
+      <h1 class="adminTitle">Админка сайта</h1>
+      <p class="adminLead">Здесь меняется весь текст сайта. Видео пока управляются вручную через файловую систему.</p>
+
+      <form class="adminLogin__form" method="post" action="{{ admin_route }}" autocomplete="off">
+        <label class="adminField">
+          <span>{{ question }}</span>
+          <input type="text" name="answer" placeholder="Введите ответ" required autofocus />
+        </label>
+
+        {% if error %}
+          <div class="adminAlert adminAlert--error">{{ error }}</div>
+        {% endif %}
+
+        <button class="adminBtn adminBtn--primary" type="submit">Открыть админку</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>

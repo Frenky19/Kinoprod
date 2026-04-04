@@ -1160,6 +1160,8 @@ input:focus, textarea:focus{
   box-shadow: 0 0 0 3px rgba(38,214,181,.22);
 }
 .form__actions{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
+.form__captcha{flex:1 0 100%; display:flex; justify-content:flex-start}
+.turnstileWidget{min-height:65px}
 .form__hint{color:var(--muted); font-size:12px; max-width:52ch}
 .form__status{color:rgba(233,240,246,.78); font-size:13px}
 .form__status[data-state="success"]{color:rgba(161,233,210,.96)}
