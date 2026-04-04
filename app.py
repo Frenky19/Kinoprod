@@ -23,6 +23,7 @@ SUBMISSIONS_PATH = DATA_DIR / 'submissions.jsonl'
 ADMIN_ROUTE = '/control-room'
 ADMIN_QUESTION = 'Лалка или гей?'
 ADMIN_SECRET_ANSWER = os.getenv('ADMIN_SECRET_ANSWER', '').strip()
+SITE_URL = os.getenv('SITE_URL', '').strip().rstrip('/')
 TURNSTILE_SITE_KEY = os.getenv('TURNSTILE_SITE_KEY', '').strip()
 TURNSTILE_SECRET_KEY = os.getenv('TURNSTILE_SECRET_KEY', '').strip()
 TURNSTILE_VERIFY_URL = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
@@ -120,12 +121,38 @@ def _set_text(node: Any, text: str) -> None:
 
 def _set_meta_name(soup: BeautifulSoup, name: str, value: str) -> None:
     tag = soup.find('meta', attrs={'name': name})
+    if tag is None and soup.head is not None:
+        tag = soup.new_tag('meta', attrs={'name': name})
+        soup.head.append(tag)
     if tag is not None:
         tag['content'] = value
 
 
 def _set_meta_property(soup: BeautifulSoup, prop: str, value: str) -> None:
     tag = soup.find('meta', attrs={'property': prop})
+    if tag is None and soup.head is not None:
+        tag = soup.new_tag('meta', attrs={'property': prop})
+        soup.head.append(tag)
+    if tag is not None:
+        tag['content'] = value
+
+
+def _set_link_rel(soup: BeautifulSoup, rel: str, href: str, **attrs: str) -> None:
+    tag = soup.find('link', attrs={'rel': rel})
+    if tag is None and soup.head is not None:
+        tag = soup.new_tag('link', rel=rel)
+        soup.head.append(tag)
+    if tag is not None:
+        tag['href'] = href
+        for key, value in attrs.items():
+            tag[key.replace('_', '-')] = value
+
+
+def _set_meta_http_equiv(soup: BeautifulSoup, key: str, value: str) -> None:
+    tag = soup.find('meta', attrs={'http-equiv': key})
+    if tag is None and soup.head is not None:
+        tag = soup.new_tag('meta', attrs={'http-equiv': key})
+        soup.head.append(tag)
     if tag is not None:
         tag['content'] = value
 
@@ -147,6 +174,32 @@ def _telegram_href(telegram_value: str) -> str:
     if value.startswith('http://') or value.startswith('https://'):
         return value
     return f"https://t.me/{value.lstrip('@')}"
+
+
+def _site_origin() -> str:
+    if SITE_URL:
+        return SITE_URL
+    return request.url_root.rstrip('/')
+
+
+def _absolute_url(path: str) -> str:
+    if path.startswith('http://') or path.startswith('https://'):
+        return path
+    if path == '/':
+        return f'{_site_origin()}/'
+    return f"{_site_origin()}/{path.lstrip('/')}"
+
+
+def _normalize_duration_to_iso(value: str) -> str | None:
+    match = re.fullmatch(r'(\d+):(\d{1,2})', value.strip())
+    if not match:
+        return None
+    minutes = int(match.group(1))
+    seconds = int(match.group(2))
+    if minutes >= 60:
+        hours, minutes = divmod(minutes, 60)
+        return f'PT{hours}H{minutes}M{seconds}S'
+    return f'PT{minutes}M{seconds}S'
 
 
 def _ensure_turnstile_script(soup: BeautifulSoup) -> None:
@@ -205,23 +258,137 @@ def _ensure_turnstile_widget(soup: BeautifulSoup, form_id: str, action: str) -> 
         form.append(wrapper)
 
 
-def _apply_jsonld(soup: BeautifulSoup, content: dict[str, Any]) -> None:
-    script = soup.find('script', attrs={'type': 'application/ld+json'})
-    if script is None or not script.string:
-        return
-
-    try:
-        payload = json.loads(script.string)
-    except json.JSONDecodeError:
-        return
-
+def _build_structured_data(content: dict[str, Any], page: str) -> list[dict[str, Any]]:
     footer = content['footer']
     contact = content['contact']
-    payload['name'] = footer['brand']
-    payload['email'] = contact['email_value']
-    payload['telephone'] = contact['phone_value']
-    payload['sameAs'] = [_telegram_href(contact['telegram_value'])]
-    script.string = json.dumps(payload, ensure_ascii=False, indent=2)
+    origin = _site_origin()
+    works = content['works']
+
+    organization = {
+        '@context': 'https://schema.org',
+        '@type': 'Organization',
+        'name': footer['brand'],
+        'url': f'{origin}/',
+        'logo': _absolute_url('static/assets/logo-header.png'),
+        'email': contact['email_value'],
+        'telephone': contact['phone_value'],
+        'sameAs': [_telegram_href(contact['telegram_value'])],
+        'contactPoint': [
+            {
+                '@type': 'ContactPoint',
+                'contactType': 'sales',
+                'telephone': contact['phone_value'],
+                'email': contact['email_value'],
+                'availableLanguage': ['ru'],
+            }
+        ],
+    }
+
+    professional_service = {
+        '@context': 'https://schema.org',
+        '@type': 'ProfessionalService',
+        'name': footer['brand'],
+        'url': f'{origin}/',
+        'image': _absolute_url('static/assets/og-cover.svg'),
+        'logo': _absolute_url('static/assets/logo-header.png'),
+        'telephone': contact['phone_value'],
+        'email': contact['email_value'],
+        'sameAs': [_telegram_href(contact['telegram_value'])],
+        'serviceType': [
+            'Видеопродакшн',
+            'Монтаж и постпродакшн',
+            'Aftermovie',
+            'Бизнес-видео',
+            'Обучающие ролики',
+        ],
+        'areaServed': {
+            '@type': 'Country',
+            'name': 'Россия',
+        },
+    }
+
+    if page == 'index':
+        website = {
+            '@context': 'https://schema.org',
+            '@type': 'WebSite',
+            'name': footer['brand'],
+            'url': f'{origin}/',
+            'inLanguage': 'ru-RU',
+        }
+        return [organization, professional_service, website]
+
+    if page == 'works':
+        item_list_elements = []
+        for idx, card in enumerate(works['cards'], start=1):
+            item = {
+                '@type': 'CreativeWork',
+                'name': card['title'],
+                'description': card['note'],
+                'genre': card['tag'],
+                'image': _absolute_url('static/assets/showreel_poster.webp'),
+                'url': _absolute_url('/works'),
+            }
+            duration = _normalize_duration_to_iso(card['duration'])
+            if duration:
+                item['duration'] = duration
+            item_list_elements.append(
+                {
+                    '@type': 'ListItem',
+                    'position': idx,
+                    'item': item,
+                }
+            )
+
+        collection_page = {
+            '@context': 'https://schema.org',
+            '@type': 'CollectionPage',
+            'name': works['works_heading'],
+            'url': _absolute_url('/works'),
+            'inLanguage': 'ru-RU',
+            'isPartOf': {
+                '@type': 'WebSite',
+                'name': footer['brand'],
+                'url': f'{origin}/',
+            },
+            'mainEntity': {
+                '@type': 'ItemList',
+                'itemListElement': item_list_elements,
+            },
+        }
+        breadcrumb = {
+            '@context': 'https://schema.org',
+            '@type': 'BreadcrumbList',
+            'itemListElement': [
+                {
+                    '@type': 'ListItem',
+                    'position': 1,
+                    'name': content['nav']['home'],
+                    'item': f'{origin}/',
+                },
+                {
+                    '@type': 'ListItem',
+                    'position': 2,
+                    'name': works['works_heading'],
+                    'item': _absolute_url('/works'),
+                },
+            ],
+        }
+        return [organization, professional_service, collection_page, breadcrumb]
+
+    return []
+
+
+def _apply_jsonld(soup: BeautifulSoup, content: dict[str, Any], page: str) -> None:
+    for script in soup.find_all('script', attrs={'type': 'application/ld+json'}):
+        script.decompose()
+
+    if soup.head is None:
+        return
+
+    for payload in _build_structured_data(content, page):
+        script = soup.new_tag('script', attrs={'type': 'application/ld+json'})
+        script.string = json.dumps(payload, ensure_ascii=False, indent=2)
+        soup.head.append(script)
 
 
 def _apply_seo(soup: BeautifulSoup, content: dict[str, Any], page: str) -> None:
@@ -229,12 +396,22 @@ def _apply_seo(soup: BeautifulSoup, content: dict[str, Any], page: str) -> None:
     if page == 'index':
         title = seo['index_title']
         description = seo['index_description']
+        canonical = _absolute_url('/')
+        robots = 'index,follow,max-image-preview:large'
     elif page == 'works':
         title = seo['works_title']
         description = seo['works_description']
+        canonical = _absolute_url('/works')
+        robots = 'index,follow,max-image-preview:large'
     else:
         title = seo['success_title']
         description = ''
+        canonical = _absolute_url('/success')
+        robots = 'noindex,follow'
+
+    site_name = content['footer']['brand']
+    og_image = _absolute_url('static/assets/og-cover.svg')
+    logo_png = _absolute_url('static/assets/logo-header.png')
 
     if soup.title is not None:
         soup.title.string = title
@@ -243,9 +420,26 @@ def _apply_seo(soup: BeautifulSoup, content: dict[str, Any], page: str) -> None:
         _set_meta_name(soup, 'description', description)
         _set_meta_property(soup, 'og:description', description)
     _set_meta_property(soup, 'og:title', title)
+    _set_meta_property(soup, 'og:url', canonical)
+    _set_meta_property(soup, 'og:site_name', site_name)
+    _set_meta_property(soup, 'og:image', og_image)
+    _set_meta_property(soup, 'og:image:alt', f'{site_name} — видеопродакшн')
+    _set_meta_name(soup, 'twitter:title', title)
+    _set_meta_name(soup, 'twitter:description', description)
+    _set_meta_name(soup, 'twitter:image', og_image)
+    _set_meta_name(soup, 'twitter:image:alt', f'{site_name} — видеопродакшн')
+    _set_meta_name(soup, 'robots', robots)
+    _set_meta_name(soup, 'application-name', site_name)
+    _set_meta_name(soup, 'apple-mobile-web-app-title', site_name)
+    _set_meta_name(soup, 'format-detection', 'telephone=no')
+    _set_meta_http_equiv(soup, 'content-language', 'ru')
+    _set_link_rel(soup, 'canonical', canonical)
+    _set_link_rel(soup, 'manifest', _absolute_url('/site.webmanifest'))
+    _set_link_rel(soup, 'apple-touch-icon', logo_png)
+    _set_link_rel(soup, 'icon', _absolute_url('static/assets/favicon.ico'), type='image/x-icon')
 
     if page != 'success':
-        _apply_jsonld(soup, content)
+        _apply_jsonld(soup, content, page)
 
 
 def _apply_navigation(soup: BeautifulSoup, content: dict[str, Any], page: str) -> None:
@@ -921,6 +1115,51 @@ def _update_admin_content(content: dict[str, Any], form_data: Any) -> None:
     content['success']['button'] = _field(form_data, 'success_button', 120)
 
 
+def _build_robots_txt() -> str:
+    lines = [
+        'User-agent: *',
+        'Allow: /',
+        'Disallow: /control-room',
+        'Disallow: /success',
+        'Disallow: /api/',
+        'Disallow: /lead',
+        'Disallow: /brief',
+        '',
+        f'Sitemap: {_absolute_url("/sitemap.xml")}',
+    ]
+    return '\n'.join(lines)
+
+
+def _build_sitemap_xml() -> str:
+    entries = [
+        ('/', BASE_DIR / 'index.html', 'daily', '1.0'),
+        ('/works', BASE_DIR / 'works.html', 'weekly', '0.8'),
+    ]
+    urls = []
+    for path, file_path, changefreq, priority in entries:
+        lastmod = time.strftime('%Y-%m-%d', time.localtime(file_path.stat().st_mtime))
+        urls.append(
+            '\n'.join(
+                [
+                    '  <url>',
+                    f'    <loc>{_absolute_url(path)}</loc>',
+                    f'    <lastmod>{lastmod}</lastmod>',
+                    f'    <changefreq>{changefreq}</changefreq>',
+                    f'    <priority>{priority}</priority>',
+                    '  </url>',
+                ]
+            )
+        )
+    return '\n'.join(
+        [
+            '<?xml version="1.0" encoding="UTF-8"?>',
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+            *urls,
+            '</urlset>',
+        ]
+    )
+
+
 @app.get('/')
 def home() -> Response:
     return _render_public_page('index.html')
@@ -933,7 +1172,46 @@ def works_page() -> Response:
 
 @app.get('/success')
 def success_page() -> Response:
-    return _render_public_page('success.html')
+    response = _render_public_page('success.html')
+    response.headers['X-Robots-Tag'] = 'noindex, follow'
+    return response
+
+
+@app.get('/robots.txt')
+def robots_txt() -> Response:
+    return Response(_build_robots_txt(), mimetype='text/plain; charset=utf-8')
+
+
+@app.get('/sitemap.xml')
+def sitemap_xml() -> Response:
+    return Response(_build_sitemap_xml(), mimetype='application/xml; charset=utf-8')
+
+
+@app.get('/site.webmanifest')
+def site_webmanifest() -> Response:
+    content = _load_site_content()
+    footer = content['footer']
+    payload = {
+        'name': footer['brand'],
+        'short_name': footer['brand'],
+        'start_url': '/',
+        'scope': '/',
+        'display': 'standalone',
+        'background_color': '#0b0f14',
+        'theme_color': '#0b0f14',
+        'lang': 'ru',
+        'icons': [
+            {
+                'src': _absolute_url('static/assets/favicon.ico'),
+                'sizes': 'any',
+                'type': 'image/x-icon',
+            }
+        ],
+    }
+    return Response(
+        json.dumps(payload, ensure_ascii=False, indent=2),
+        mimetype='application/manifest+json; charset=utf-8',
+    )
 
 
 @app.route(ADMIN_ROUTE, methods=['GET', 'POST'])
@@ -1020,7 +1298,9 @@ def brief_form() -> Response:
 
 @app.errorhandler(404)
 def not_found(_: Any) -> Response:
-    return _render_html_file('404.html', status=404)
+    response = _render_html_file('404.html', status=404)
+    response.headers['X-Robots-Tag'] = 'noindex, nofollow'
+    return response
 
 
 if __name__ == '__main__':
