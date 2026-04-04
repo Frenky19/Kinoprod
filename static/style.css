@@ -30,6 +30,9 @@ html{
 }
 body{
   margin:0;
+  min-height:100svh;
+  display:flex;
+  flex-direction:column;
   font-family:var(--font-body);
   color:var(--text);
   line-height:1.6;
@@ -165,7 +168,10 @@ textarea:focus-visible{outline: none}
   padding:12px 0;
   gap:14px;
 }
-main{padding-top: var(--header-h);}
+main{
+  flex:1;
+  padding-top: var(--header-h);
+}
 .logo{
   display:flex;
   align-items:center;
