@@ -553,10 +553,12 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
   videos.forEach((v) => io.observe(v));
 })();
 
-// Preview cards load and play only on hover/focus.
+// Preview cards play on hover for desktop and on tap for touch devices.
 (function initHoverPreviews() {
   const previews = Array.from(document.querySelectorAll('video[data-hover-preview="1"]'));
   if (!previews.length) return;
+  const isTouchPreviewMode = () =>
+    window.matchMedia('(hover: none), (pointer: coarse)').matches;
 
   const ensureLoad = (video) => {
     if (video.dataset.previewLoaded === '1') return;
@@ -590,14 +592,37 @@ document.querySelectorAll('a[href^="#"]').forEach((a) => {
     setVideoPreviewReady(video, true);
   };
 
+  const stopOtherPreviews = (current) => {
+    previews.forEach((video) => {
+      if (video !== current) stopPreview(video);
+    });
+  };
+
   previews.forEach((video) => {
     setVideoPreviewReady(video, true);
     setVideoPreviewState(video, true);
     const card = video.closest('.previewCard') || video;
-    card.addEventListener('mouseenter', () => playPreview(video));
-    card.addEventListener('mouseleave', () => stopPreview(video));
+    card.addEventListener('mouseenter', () => {
+      if (isTouchPreviewMode()) return;
+      playPreview(video);
+    });
+    card.addEventListener('mouseleave', () => {
+      if (isTouchPreviewMode()) return;
+      stopPreview(video);
+    });
     card.addEventListener('focusin', () => playPreview(video));
     card.addEventListener('focusout', () => stopPreview(video));
+    card.addEventListener('click', (e) => {
+      if (!isTouchPreviewMode()) return;
+      e.preventDefault();
+      e.stopPropagation();
+      if (!video.paused) {
+        stopPreview(video);
+        return;
+      }
+      stopOtherPreviews(video);
+      playPreview(video);
+    });
   });
 
   document.addEventListener('visibilitychange', () => {
